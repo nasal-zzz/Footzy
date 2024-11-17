@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Footzy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+        }
+
+        .navbar-brand {
+            color: var(--primary-orange) !important;
+            font-weight: bold;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 107, 0, 0.05);
+        }
+
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .profile-nav .nav-link {
+            color: #333;
+            padding: 1rem 1.5rem;
+        }
+
+        .profile-nav .nav-link.active {
+            color: var(--primary-orange);
+            border-bottom: 2px solid var(--primary-orange);
+        }
+
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background-color: #e65c00;
+            color: white;
+        }
+
+        .table > :not(caption) > * > * {
+            padding: 1rem 0.5rem;
+        }
+
+        .status-delivered {
+            color: #198754;
+            background-color: #19875420;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-processing {
+            color: #0d6efd;
+            background-color: #0d6efd20;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-shipped {
+            color: #ffc107;
+            background-color: #ffc10720;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .table-responsive {
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .order-actions .btn {
+            margin: 0 0.2rem;
+        }
+
+        .search-section {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand logo_h" href="index.html">
+            <img src="img/logo.png" alt="">
+        </a>
+        <div class="d-flex">
+            <a href="index.html" class="btn btn-outline-danger me-2">Home</a>
+            <a href="profile.html" class="btn btn-outline-danger me-2">  
+                <i class="fas fa-user"></i>
+            </a>
+            <a href="cart.html" class="btn btn-outline-danger">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Profile Navigation -->
+<div class="profile-nav mt-5 pt-4">
+    <div class="container">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Wishlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Wallet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-danger me-2" href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <!-- Orders Section -->
+    <div class="container my-5">
+        <!-- Search and Filter Section -->
+        <div class="search-section">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h3 class="mb-md-0">My Orders</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-3">
+                        <select class="form-select">
+                            <option>All Orders</option>
+                            <option>Processing</option>
+                            <option>Shipped</option>
+                            <option>Delivered</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="Search orders...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product</th>
+                        <th>Order Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Order 1 -->
+                    <tr>
+                        <td>#12345</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
+                                <div>
+                                    <h6 class="mb-0">Nike Air Max - Blue</h6>
+                                    <small class="text-muted">Size: US 10 | Qty: 1</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>10 Nov 2024</div>
+                            <small class="text-muted">09:30 AM</small>
+                        </td>
+                        <td>$199.99</td>
+                        <td>
+                            <span class="status-delivered">Delivered</span>
+                        </td>
+                        <td class="order-actions">
+                            <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                        </td>
+                    </tr>
+
+                    <!-- Order 2 -->
+                    <tr>
+                        <td>#12344</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
+                                <div>
+                                    <h6 class="mb-0">Nike Zoom - Black</h6>
+                                    <small class="text-muted">Size: US 9.5 | Qty: 1</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>8 Nov 2024</div>
+                            <small class="text-muted">10:20 AM</small>
+                        </td>
+                        <td>$159.99</td>
+                        <td>
+                            <span class="status-shipped">Shipped</span>
+                        </td>
+                        <td class="order-actions">
+                            <button class="btn btn-sm btn-outline-secondary">Track Order</button>
+                        </td>
+                    </tr>
+
+                    <!-- Order 3 -->
+                    <tr>
+                        <td>#12343</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
+                                <div>
+                                    <h6 class="mb-0">Nike Revolution - White</h6>
+                                    <small class="text-muted">Size: US 8 | Qty: 1</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>7 Nov 2024</div>
+                            <small class="text-muted">02:15 PM</small>
+                        </td>
+                        <td>$129.99</td>
+                        <td>
+                            <span class="status-processing">Processing</span>
+                        </td>
+                        <td class="order-actions">
+                            <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

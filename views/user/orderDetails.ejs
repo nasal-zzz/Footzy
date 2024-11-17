@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Footzy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #FF6B00;
+            --secondary-color: #333333;
+        }
+        
+        body {
+            padding-top: 70px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            background-color: white !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .profile-nav .nav-link {
+            color: #333;
+            padding: 1rem 1.5rem;
+        }
+
+        .profile-nav .nav-link.active {
+            color: var(--primary-orange);
+            border-bottom: 2px solid var(--primary-orange);
+        }
+        
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #e65c00;
+            border-color: #e65c00;
+        }
+        
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .status-delivered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-returned {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .product-img {
+            max-width: 100px;
+            height: auto;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: #dee2e6;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Static Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand logo_h" href="index.html">
+                <img src="img/logo.png" alt="">
+            </a>
+            <div class="d-flex">
+                <a href="index.html" class="btn btn-outline-danger me-2">Home</a>
+                <a href="profile.html" class="btn btn-outline-danger me-2">  
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="cart.html" class="btn btn-outline-danger">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Navigation -->
+    <div class="profile-nav mt-5 pt-4">
+        <div class="container">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Wallet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-danger me-2" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Order Header -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2>Order #ORD123456</h2>
+                <p class="text-muted">Placed on 15 Nov, 2024</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <span class="order-status status-delivered">Delivered</span>
+            </div>
+        </div>
+
+        <!-- Order Details Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="img/product/p8.jpg" alt="Nike Shoes" class="product-img">
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Nike Air Zoom Basketball Shoes</h5>
+                        <p class="text-muted mb-1">Size: US 10</p>
+                        <p class="text-muted mb-1">Color: Navy Blue/Gold</p>
+                        <p class="text-muted mb-1">Quantity: 1</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <h5>$149.99</h5>
+                        <button class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#returnModal">
+                            Return Item
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping and Payment Info -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Shipping Address</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1">John Doe</p>
+                        <p class="mb-1">123 Main Street</p>
+                        <p class="mb-1">Apt 4B</p>
+                        <p class="mb-1">New York, NY 10001</p>
+                        <p class="mb-0">United States</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Payment Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-1">Payment Method: Credit Card</p>
+                        <p class="mb-1">Card: **** **** **** 1234</p>
+                        <p class="mb-3">Amount Paid: $149.99</p>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>Subtotal:</span>
+                            <span>$149.99</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Shipping:</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Tax:</span>
+                            <span>$12.00</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Total:</span>
+                            <span>$161.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Timeline -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Order Timeline</h5>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <p class="mb-0 fw-bold">Delivered</p>
+                        <p class="text-muted small">15 Nov, 2024 - 2:30 PM</p>
+                        <p>Your order has been delivered</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="mb-0 fw-bold">Out for Delivery</p>
+                        <p class="text-muted small">15 Nov, 2024 - 9:00 AM</p>
+                        <p>Package is out for delivery</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="mb-0 fw-bold">Order Shipped</p>
+                        <p class="text-muted small">14 Nov, 2024 - 3:45 PM</p>
+                        <p>Your order has been shipped</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="mb-0 fw-bold">Order Confirmed</p>
+                        <p class="text-muted small">13 Nov, 2024 - 10:15 AM</p>
+                        <p>Your order has been confirmed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Modal -->
+    <div class="modal fade" id="returnModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Return Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Return Reason</label>
+                            <select class="form-select">
+                                <option>Wrong size</option>
+                                <option>Damaged product</option>
+                                <option>Not as described</option>
+                                <option>Changed mind</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Additional Comments</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Submit Return Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
