@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const session = require('express-session');
 
 const path = require('path');
 
@@ -11,6 +12,22 @@ db();
 const userRouts = require('./routs/userRouts')
 const adminRouts = require('./routs/adminRouts')
 
+// session 
+app.use(session({
+    secret:process.env.SESSION_SECRET,
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        secure:false,
+        httpOnly:true,
+        maxAge:72*60*60*1000
+    }
+}));
+
+app.use((req,res,next)=>{
+    res.set('cache-control','no-store')
+    next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
