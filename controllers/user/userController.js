@@ -1,6 +1,7 @@
 const userSchema = require('../../models/userSchema') // requiring user schema
 const bcrypt = require('bcrypt')
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+// const User = require('../../models/userSchema');
 const env = require("dotenv").config();
 
 //  lod error page 
@@ -84,6 +85,7 @@ async function sendVerificationEmail(email,otp) {
 }
 
 
+
 //post signup 
 const SignUp = async (req, res) => {
 
@@ -103,34 +105,15 @@ const SignUp = async (req, res) => {
         if(!sentEmail){
             return res.json("email-error")
         }
+        
 
         req.session.userOtp = otp    
-        req.session.userData = {email,password}
+        req.session.userData = {email,password,username,phone,dob}
 
-        res.render("otp")
+        res.render("otp",{eemail:email})
         console.log("otp send",otp);
-        
-
-
-
-//         // hash the password for security
-// const hashPassword = await bcrypt.hash(password,10)
-
-// // creating a new user instance
-// const newUser = new userSchema({
-//     username,
-//     email,
-//     password : hashPassword,
-//     phone,
-//     dob
-// })
-
-// // Save the new user to the database
-// await newUser.save();
-
-//     res.render('home')
-        
-
+        console.log("to ",email);
+   
     }catch(error){
         console.log('server error', error);
         res.redirect('*')
@@ -140,6 +123,67 @@ const SignUp = async (req, res) => {
 };
 
 
+const securePassword = async(password)=>{
+    try {
+        
+        const hashPassword = await bcrypt.hash(password,10)
+        return hashPassword;
+    } catch (error) {
+        
+    }
+}
+
+
+
+const verifyOTP = async (req, res) => {
+    try {
+      const { otp1 } = req.body;
+      console.log(req.body);
+      console.log('Received OTP:', otp1);
+      console.log('Session OTP:', req.session.userOtp);
+  
+      // Compare OTPs as strings to avoid type issues
+      if (String(otp1) === String(req.session.userOtp)) {
+        const user = req.session.userData;
+        const hashPassword = await securePassword(user.password);
+        console.log('Hashed password:', hashPassword);
+  
+        const saveUserData = new userSchema({
+          username: user.username,
+          email: user.email,
+          phone: user.phone,
+          password: hashPassword,
+          dob: user.dob,
+        });
+  
+        // Save the new user to the database
+        await saveUserData.save();
+  
+        req.session.user = saveUserData._id;
+        res.status(200).json({ success: true, redirectUrl: "/" });
+      } else {
+        console.log('OTP verification failed.');
+        // Send a JSON response indicating failure
+        res.status(400).json({ success: false, message: "Invalid OTP" });
+      }
+    } catch (error) {
+      console.error("Error Verifying OTP:", error);
+      res.status(500).json({ success: false, message: "An error occurred while verifying the OTP" });
+    }
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = {
-    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp
+    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP
 }
