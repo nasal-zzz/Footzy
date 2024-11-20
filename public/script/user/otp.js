@@ -17,100 +17,55 @@ document.querySelectorAll('.otp-input').forEach((input, index, inputs) => {
   // Total countdown time in seconds
   let timeLeft = 60;
 
+  let isTimerActive = true; // Flag to check if the timer is still active
+
   // Function to start the countdown
   function startTimer() {
-      const timerElement = document.getElementById('timer');
 
-      const countdown = setInterval(() => {
-          // Calculate minutes and seconds
-          let minutes = Math.floor(timeLeft / 60);
-          let seconds = timeLeft % 60;
+    isTimerActive = true
+    const timerElement = document.getElementById('timer');
+    countdown = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
 
-          // Format time as MM:SS
-          seconds = seconds < 10 ? '0' + seconds : seconds;
-          minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
 
-          // Display updated time
-          timerElement.textContent = `${minutes}:${seconds}`;
+        timerElement.textContent = `${minutes}:${seconds}`;
 
-          // Stop the timer when it reaches zero
-          if (timeLeft <= 0) {
-              clearInterval(countdown);
-              timerElement.textContent = '00:00'; // Ensure it shows 00:00 at the end
-              Swal.fire({
-                icon:"error",
-                title:"OTP  has expired..!",
-                text : "Please request a new one"
-            })          
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            isTimerActive = false;
+            timerElement.textContent = '00:00';
+            Swal.fire({
+                icon: "error",
+                title: "OTP has expired..!",
+                text: "Please request a new one",
+            });
         }
 
-          timeLeft--;
-      }, 1000);
-  }
+        timeLeft--; // Decrement the time
+    }, 1000);
+}
 
   // Start the timer when the page is rendered
   window.onload = startTimer;
 
-
-// // validate the otp form 
-// function validateOTPForm(e){
-//     e.preventDefault()
-// const otpInput = document.getElementById("otp").value;
-// console.log('hiiii');
-// console.log(otpInput);
-
-
-// // $.ajax({
-// //     type: "POST",
-// //     url: "verify-otp",
-// //     data: { otp: otpInput },
-// //   });
-// //   return false;  
-// // 
-
-// $.ajax({
-//     type: "POST",
-//     url: "verify-otp",
-//     data: JSON.stringify({ otp: otpInput }), // Sending as JSON
-//     contentType: "application/json",
-//     success: function(response) {
-//       if (response.success) {
-//         Swal.fire({
-//           icon: "success",
-//           title: "OTP Verified Successfully",
-//           showConfirmButton: false,
-//           timer: 1500,
-//         }).then(() => {
-//           window.location.href = response.redirectUrl;
-//         });
-//       } else {
-//         // Handle the failure response
-//         Swal.fire({
-//           icon: "error",
-//           title: "Error",
-//           text: response.message,
-//           showConfirmButton: false,
-//           timer: 1500,
-//         });
-//       }
-//     },
-//     error: function(xhr, status, error) {
-//       Swal.fire({
-//         icon: "error",
-//         title: "Invalid OTP",
-//         text: "Please try again",
-//         showConfirmButton: false,
-//         timer: 1500,
-//       });
-//     }
-//   });
-  
-
-// }
-  
-
 // validate the otp form 
 function validateOTPForm() {
+
+  if (!isTimerActive) {
+    Swal.fire({
+        icon: 'error',
+        title: 'OTP Expired',
+        text: 'Please request a new OTP.',
+        showConfirmButton: true
+    });
+    return false; // Prevent form submission if the timer has ended
+}else{
+
+
+
     const otpInput = document.getElementById('otp').value;
 
     // Check if OTP is provided and is a 6-digit number
@@ -134,7 +89,7 @@ function validateOTPForm() {
         });
         return false; // Prevent form submission if OTP is invalid
     }
-
+  }
     return true; // If validation passes, allow form submission
 }
 
@@ -144,6 +99,17 @@ function validateOTPForm() {
 document.getElementById('otpForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Prevents the default form submission
   
+     if (!isTimerActive) {
+    Swal.fire({
+        icon: 'error',
+        title: 'OTP Expired',
+        text: 'Please request a new OTP.',
+        showConfirmButton: true
+    });
+    return false; // Prevent form submission if the timer has ended
+}else{
+
+
     const otpInput = document.getElementById('otp').value;
   
     $.ajax({
@@ -180,7 +146,47 @@ document.getElementById('otpForm').addEventListener('submit', function (e) {
           timer: 1500,
         });
       }
+    
     });
+  
     return ;
+  }
   });
   
+
+  // resend otp 
+  function resendOTP() {
+    clearInterval(countdown); // Stop any ongoing timer
+    isTimerActive = false;
+    timeLeft = 60; // Reset the timer duration to 60 seconds
+    document.getElementById("otp").disabled = false;
+     // Restart the timer
+
+    $.ajax({
+        type: "POST",
+        url: "/resend-otp",
+        contentType: "application/json",
+        success: function (response) {
+          console.log(response); // Add this to inspect the response
+          if (!response.success) {
+            Swal.fire({
+              icon: "success",
+              title: "OTP Resended Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            startTimer();
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: response.message || "An error occurred",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        },
+     
+    });
+    return false; // Prevent form submission
+}

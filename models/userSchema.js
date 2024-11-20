@@ -5,7 +5,7 @@ const userSchema = new Schema({
 
 username :{
     type: String ,
-    required : true
+    required : false
 },
 email:{
     type:String,
@@ -14,7 +14,9 @@ email:{
 },
 phone:{
     type:String,
-    required:true
+    required:false,
+    sparse: true,
+    default:null
 },
 googleId: {
     type: String,
@@ -23,7 +25,7 @@ googleId: {
 },
 password:{
     type:String,
-    required:true
+    required:false
 },
 dob:{
     type:Date,

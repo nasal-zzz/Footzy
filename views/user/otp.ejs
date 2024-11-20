@@ -96,7 +96,7 @@
                     <!-- OTP Input Group -->
 <form id="otpForm" onsubmit="return validateOTPForm()">
     <div class="d-flex justify-content-center gap-2 mb-4">
-        <input  name="otp1" class="otp-input" id="otp" maxlength="6" pattern="\d*" autofocus required>
+        <input  name="otp1" class="otp-input" id="otp" maxlength="6"  autofocus >
     </div>
 
     <!-- Timer -->
@@ -108,14 +108,15 @@
     <div class="d-grid gap-2 mb-3">
         <button type="submit" class="btn btn-primary verify-btn">Verify</button>
     </div>
-</form>
-
-                    
+      
                     <!-- Resend -->
                     <p class="text-center mb-0">
                         Didn't receive the code? 
-                        <a href="#" class="resend-link">Resend</a>
+                        <button type="button"  class="resend-link" onclick="resendOTP()">Resend</button>
                     </p>
+</form>
+
+                  
                 </div>
             </div>
         </div>
