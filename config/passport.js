@@ -14,17 +14,21 @@ passport.use(new googleStrategy({
 
 async (accessTocken,refreshToken,profile,done)=>{
     try {
-        console.log('prof',profile)
+        console.log('prof',profile.displayName)
         let user = await UserSchema.findOne({googleId:profile.id});
         if(user){
+            console.log('exist...!',profile.emails[0]);
+            
             return done(null,user)
         }else{
-            user = new UserSchema({
-                neme : profile.displayName,
+         const user = new UserSchema({
+                username : profile.displayName,
                 email : profile.emails[0].value,
                 googleId : profile.id
             });
+
             await user.save();
+
             return done(null,user);
         }
 

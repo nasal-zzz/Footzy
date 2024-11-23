@@ -1,5 +1,26 @@
 <%-include("../../views/partials/user/header")%>
+<style>
+	#dis {
+  display: none; /* Hide by default */
+}
 
+@media (max-width: 992px) {
+  .login_box_img {
+    display: none;
+  }
+  #dis {
+    display: block; /* Display as an inline element (or block depending on your layout) */
+  }
+}
+
+/* Adjust container spacing for small screens */
+@media (max-width: 576px) {
+  .login_form_inner {
+    padding: 20px;
+  }
+}
+
+	  </style>
 
 <body>
 
@@ -28,8 +49,8 @@
 					<div class="login_box_img">
 						<img class="img-fluid" src="img/login.png" alt="">
 						<div class="hover">
-							<h4>Already have an account? </h4>
-							<a class="primary-btn" href="registration.html">Log in</a>
+							<h4 >Already have an account? </h4>
+							<a class="primary-btn" href="/login">Log in</a>
 						</div>
 					</div>
 				</div>
@@ -80,6 +101,9 @@
 												Sign up with Google
 											</a>
 										</div>
+										<div id="dis" class=" mt-4 ml-4">
+											 <a class="text-success h4" href="/login" >Already have an account? <b>Login</b> </a>
+										</div>
 									</div>
 								</div>
 							</form>
@@ -92,4 +116,21 @@
 	<!--================End Login Box Area =================-->
 	<script src="/script/user/signup.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<%-include("../../views/partials/user/footer") %>
+	<script src="js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	 crossorigin="anonymous"></script>
+	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="js/jquery.ajaxchimp.min.js"></script>
+	<script src="js/jquery.nice-select.min.js"></script>
+	<script src="js/jquery.sticky.js"></script>
+	<script src="js/nouislider.min.js"></script>
+	<script src="js/countdown.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<!--gmaps Js-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+	<script src="js/gmaps.min.js"></script>
+	<script src="js/main.js"></script>
+	</body>
+	
+	</html>

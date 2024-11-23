@@ -32,7 +32,7 @@ document.getElementById('signupForm').addEventListener('submit',(e)=>{
         document.getElementById('errmsg').innerText = "Email should be correctly entered..!"
         return; 
     }else
-    if(!phone.match(/^\d{10,}$/) || !phone.length >= 10 ){
+    if(!phone.match(/^\d{10,}$/) ){
         e.preventDefault();
         document.getElementById('errmsg').innerText = "Enter a correct PhoneNumber..!"
         return; 

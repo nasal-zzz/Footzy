@@ -14,30 +14,30 @@ const erroPage = async(req,res)=>{
     }
 }
 
-// lodd home page
-const loaduserHome = async(req,res)=>{
-    try{
 
-return res.render('home',{title:'Home'})
-
-    }catch(error){
-
-console.log('not found');
-res.status(500).send('server error')
-
+const loadUserLogin = async (req, res) => {
+    console.log('Passport User:', req.user); // Logs user from Passport
+    console.log('Session User:', req.session.user); // Logs custom session user
+    
+    try {
+        // If either req.user (Passport) or req.session.user (custom session) exists
+        if (req.user || req.session.user) {
+            console.log('User found, redirecting to home page.');
+            res.redirect('/'); // Redirect to home page
+        } else {
+            console.log('No user found, rendering login page.');
+            res.render('login', { title: 'Login' }); // Render login page
+        }
+    } catch (error) {
+        console.error('Error loading login page:', error.message);
+        res.status(500).send('Server error'); // Send server error response
     }
-}
+};
 
 
-// load login page
-const loadUserLogin = async(req,res)=>{
-    try{
-        res.render('login',{title:'Login'})
-    }catch(error){
-        console.log('home page not loading');
-        res.status(500).send('server error')
-    }
-}
+
+
+
 
 // load signup pagev
 const userSignUp = async(req,res)=>{
@@ -201,8 +201,49 @@ const resendOtp = async(req,res)=>{
     }
 }
 
+const userLogin = async(req,res)=>{
+    try {
+        const {email,password} = req.body;
+        console.log(req.body)
+
+        const findUser = await userSchema.findOne({isAdmin:0,email:email});
+        if(!findUser){
+            return res.render('login',{message:"User not found"})
+        }else
+        if(findUser.isBlocked){
+           return res.render('login',{message:"User is Blocked"}) 
+        }
+
+        const passwordMatch = await bcrypt.compare(password,findUser.password);
+            console.log('match',passwordMatch)
+        if(!passwordMatch){
+            return res.render('login',{message:'Incorrect Password'})
+        }
+
+        req.session.user = findUser._id;
+        res.render('home');
+
+    } catch (error) {
+        console.error('login error');
+        res.render('login',{message:'Login failed , Please try again'})
+    }
+
+}
 
 
+
+// lodd home page
+const loaduserHome = async(req,res)=>{
+    try{
+
+            return res.render('home');
+    }catch(error){
+
+console.log('not found');
+res.status(500).send('server error')
+
+    }
+}
 
 
 
@@ -212,5 +253,5 @@ const resendOtp = async(req,res)=>{
 
 
 module.exports = {
-    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP,resendOtp
+    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP,resendOtp,userLogin
 }

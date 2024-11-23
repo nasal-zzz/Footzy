@@ -7,6 +7,7 @@ const passport = require('passport');
 
 router.get('/',userController.loaduserHome)
 router.get('/login',userController.loadUserLogin)
+router.post('/login',userController.userLogin)
 router.get('/signup',userController.userSignUp)
 router.post('/signup',userController.SignUp)
 router.post('/verify-otp',userController.verifyOTP)
@@ -15,6 +16,7 @@ router.post('/resend-otp',userController.resendOtp);
 // google authenticatiom
 router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
 router.get('/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{
+    req.session.user = req.user._id;
     res.redirect('/')
 });
 

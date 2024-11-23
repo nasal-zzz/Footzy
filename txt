@@ -1,0 +1,15 @@
+ header dropdown.
+ 
+ <% if (typeof user !== 'undefined') { %>
+
+                            <div class="dropdown mt-3">
+                                <li class="nav-item"><a href="" class="sign-in-link nav-link"><%=user%></a></li>
+                                <div class="dropdown-content">
+                                    <a href="/userProfile" class="my-account"><span class="ti-user"></span>Profile</a>
+                                    <a href="/logout">Logout</a>
+                                </div>
+                            </div>
+
+                            <% }else{%>
+                        <li class="nav-item"><a class="nav-link" href="/login">LOGIN</a></li>
+                                <% } %>
