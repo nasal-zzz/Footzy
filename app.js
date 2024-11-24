@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express();
 const session = require('express-session');
+const nocache = require('nocache')
+
 
 const passport = require("./config/passport")
 
@@ -26,6 +28,9 @@ app.use(session({
     }
 }));
 
+// nocache setting
+app.use(nocache());
+
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -47,6 +52,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 // routs setting
 app.use('/',userRouts)
+app.use('/admin',adminRouts)
 
 app.listen(process.env.PORT,'0.0.0.0', ()=>{
     console.log('http://localhost:5000');

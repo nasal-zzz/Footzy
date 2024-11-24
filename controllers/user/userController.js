@@ -10,7 +10,7 @@ const erroPage = async(req,res)=>{
         res.render('404')
 
     } catch (error) {
-        res.redirect('*')
+        res.redirect('/notFound')
     }
 }
 
@@ -23,7 +23,7 @@ const loadUserLogin = async (req, res) => {
         // If either req.user (Passport) or req.session.user (custom session) exists
         if (req.user || req.session.user) {
             console.log('User found, redirecting to home page.');
-            res.redirect('/'); // Redirect to home page
+            res.render('home'); // Redirect to home page
         } else {
             console.log('No user found, rendering login page.');
             res.render('login', { title: 'Login' }); // Render login page
@@ -116,7 +116,7 @@ const SignUp = async (req, res) => {
    
     }catch(error){
         console.log('server error', error);
-        res.redirect('*')
+        res.redirect('/notFound')
     }
 
 
@@ -221,7 +221,7 @@ const userLogin = async(req,res)=>{
         }
 
         req.session.user = findUser._id;
-        res.render('home');
+        res.render('home',{suser:req.session.user});
 
     } catch (error) {
         console.error('login error');
@@ -232,16 +232,56 @@ const userLogin = async(req,res)=>{
 
 
 
-// lodd home page
-const loaduserHome = async(req,res)=>{
-    try{
 
-            return res.render('home');
-    }catch(error){
+const loaduserHome = async (req, res) => {
+    try {
+        console.log('Passport User:', req.user); // Logs user from Passport
+        console.log('Session User:', req.session.user); // Logs custom session user
+        const userId = req.user ? req.user._id : req.session.user;
 
-console.log('not found');
-res.status(500).send('server error')
+        if(userId){
+         return   res.render('home',{user:userId});
 
+        }else if(req.session.user){
+            return   res.render('home',{suser:req.session.user});
+
+        }else{
+            return res.render('home')
+        }
+
+    } catch (error) {
+        console.error('Error loading home page:', error.message);
+        res.status(500).send('Server error');
+    }
+};
+
+// user profile
+const userProfile = async(req,res)=>{
+    try {
+
+        res.render('profile')
+        
+    } catch (error) {
+        console.error('Error loading home page:', error.message);
+        res.status(500).send('Server error');
+        
+    }
+}
+
+// logout
+const logout = async(req,res)=>{
+    try {
+        req.session.destroy((err)=>{
+            if(err){
+                console.log('session destroy error',err.message);
+                return res.redirect('*');
+                
+            }
+            return res.redirect('/login')
+        })
+    } catch (error) {
+        console.log('logout error',error);
+        res.redirect('/notFound')        
     }
 }
 
@@ -250,8 +290,6 @@ res.status(500).send('server error')
 
 
 
-
-
 module.exports = {
-    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP,resendOtp,userLogin
+    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP,resendOtp,userLogin,userProfile,logout
 }
