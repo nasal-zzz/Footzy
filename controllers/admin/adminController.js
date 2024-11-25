@@ -3,16 +3,20 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
 
+const pageError = async (req,res) => {
+    res.render('admin-404')
+}
+
 
 const loadLogin = async (req,res) => {
         
-        if(req.session.admin){
+        if(req.session.user){
             return res.redirect("/admin/dashboard")
-        }
+        }else{
         res.render('adminLogin')
         console.log('hiiiiiiiii');
         
-
+        }
    
 } 
 
@@ -62,6 +66,28 @@ const loadDashboard = async (req,res) => {
 }
 
 
+const logout = async(req,res)=>{
+
+        try {
+            
+            req.session.destroy(err =>{
+                if(err){
+                    console.log("error destroying session..!",err);
+                    return res.redirect('/notFound');
+                    
+                }else{
+                console.log("heyy..!");
+                
+                res.redirect('/admin/login')
+                }
+            })  
+
+        } catch (error) {
+            console.log("unexpected error on logout...!");
+            res.redirect('/notFound');
+            
+        }
+}
 
 
 
@@ -73,4 +99,8 @@ const loadDashboard = async (req,res) => {
 
 
 
-module.exports = {loadLogin,adminLogin,loadDashboard}
+
+
+
+
+module.exports = {loadLogin,adminLogin,loadDashboard,pageError,logout}

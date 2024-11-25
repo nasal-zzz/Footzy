@@ -19,7 +19,7 @@ const brandSchema = new Schema ({
         type:Date,
         default:Date.now
     }
-})
+},{versionKey:false})
 
 const Brand = mongoose.model("Brand",brandSchema);
 module.exports = Brand;
