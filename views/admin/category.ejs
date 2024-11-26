@@ -23,91 +23,72 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Category Name</th>
-                                            <th>Products</th>
+                                            <th>Description</th>
+                                            <!-- <th>Products</th> -->
                                             <th>Status</th>
                                             <th class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <% if (category.length === 0) { %>
+                                            <tr>
+                                              <td colspan="5" class="text-center">There are no users on this page</td>
+                                            </tr>
+                                          <% } else { %>
+                                        <% category.forEach((category,index)=>{%>
                                         <tr>
+                                            <td> <%=(currentPage - 1) * limit + index+1%> </td>
                                             <td>
-                                                <div class="d-flex align-items-center">
+                                                <!-- <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <img src="images/child-1.jpg" class="img-sm img-thumbnail" alt="Category">
-                                                    </div>
+                                                    </div> -->
                                                     <div class="flex-grow-1 ms-3">
-                                                        <h6 class="mb-0">T-shirt</h6>
-                                                        <span class="text-muted small">Created: 23 Jul 2024</span>
+                                                        <h6 class="mb-0">  <%= category.name %> </h6>
+                                                        <span class="text-muted small">    createdAt: <%= moment(category.createdAt).format('MMM DD, YYYY') %>
+
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>485</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                        <i class="material-icons md-more_horiz"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="images/p8.png" class="img-sm img-thumbnail" alt="Category">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h6 class="mb-0">Nike shoe</h6>
-                                                        <span class="text-muted small">Created: 25 Jul 2024</span>
-                                                    </div>
-                                                </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <%= category.description%>
+                                                <!-- <span class="text-muted small">Created: 23 Jul 2024</span> -->
+                                            </div>
+                                        </div>
+                                    </td>
+                                            <!-- <td>485</td> -->
+                                             <td>
+                                             <% if(category.isListed === true){ %>
+                                            <span class="badge bg-success">Active</span>
+                                            <% }else{ %>
+                                                <span class="badge bg-warning">Inactive</span>
+                                                <% } %>
                                             </td>
-                                            <td>167</td>
-                                            <td><span class="badge bg-success">Active</span></td>
                                             <td class="text-end">
                                                 <div class="dropdown">
                                                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                         <i class="material-icons md-more_horiz"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        <a class="dropdown-item" href="/admin/editCategory?id=<%=category._id %>">Edit</a>
+                                                        <% if(category.isListed === false){%>
+                                                        <a class="dropdown-item text-danger"href="/admin/listCategory?id=<%=category._id %>">List</a>
+                                                        <% }else{%>
+                                                            <a class="dropdown-item text-danger" href="/admin/unlistCategory?id=<%=category._id %>">Unlist</a>
+                                                            <% } %>
+
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="images/r4.jpg" class="img-sm img-thumbnail" alt="Category">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h6 class="mb-0">Shirt</h6>
-                                                        <span class="text-muted small">Created: 27 Jul 2024</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>258</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                        <i class="material-icons md-more_horiz"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+
+                                        <% })  %>
+                                        <% } %>
+
                                     </tbody>
                                 </table>
                             </div> <!-- table-responsive end -->
@@ -115,22 +96,29 @@
                             <div class="pagination-area">
                                 <nav aria-label="Page navigation example">
                                   <ul class="pagination justify-content-center">
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                      <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                    </li>
+                                    <% for(let i=1;i<=totalPages;i++){%>
+                                    <li class="page-item  <%= (i===currentPage) ? 'active' : ''  %>"><a class="page-link" href="?page=<%= i %> ">
+                                      <%= i %>
+                                    </a></li>
+                                   <% } %>
+                                   <li class="page-item <%= (currentPage === totalPages) ? 'disabled' : '' %>">
+                                    <a 
+                                      class="page-link" 
+                                      href="<%= (currentPage < totalPages) ? `?page=${currentPage + 1}` : '#' %>" 
+                                      aria-label="Next" 
+                                      <%= (currentPage === totalPages) ? 'aria-disabled="true" tabindex="-1"' : '' %>>
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                                  
+                  
                                   </ul>
                                 </nav>
                               </div>
-                        </div>
                         <!-- Categories List End -->
 
                         <!-- Quick Stats and Search -->
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <form>
@@ -150,8 +138,8 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- Quick Stats -->
-                            <div class="card">
+                             Quick Stats -->
+                            <!-- <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Category Statistics</h5>
                                     <div class="list-group list-group-flush">
@@ -174,7 +162,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>  -->
                         <!-- Quick Stats and Search End -->
                     </div>
                 </div>

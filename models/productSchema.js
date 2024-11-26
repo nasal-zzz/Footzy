@@ -19,7 +19,7 @@ const produtSchema = new Schema({
         ref:"Category",
         required:true
     },
-    regilarPrice:{
+    regularPrice:{
         type:Number,
         required:true
     },
@@ -33,7 +33,7 @@ const produtSchema = new Schema({
     },
     quantity:{
         type:Number,
-        default:ttrue
+        default:true
     },
     productImage:{
         type:[String],
@@ -41,7 +41,7 @@ const produtSchema = new Schema({
     },
     status:{
         type:String,
-        enum:["Available","out of stock","Discountinued"],
+        enum:["Available","out of stock"],
         required:true,
         default:"Available"
     },
