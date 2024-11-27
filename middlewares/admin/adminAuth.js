@@ -4,9 +4,14 @@ const userSchema = require('../../models/userSchema');
 const adminAuth = (req,res,next)=>{
     userSchema.findOne({isAdmin:true})
     .then(data=>{
+        // console.log("ddZ total",data);
+        
         if(data){
+
             next()
+           
         }else{
+            
             res.redirect('/admin/login')
         }
     }).catch(error=>{
@@ -15,11 +20,22 @@ const adminAuth = (req,res,next)=>{
     })
 }
 
+
+
+
+
+
+
+
+
 const isLogin = (req,res,next)=>{
     if(req.session.admin){
-        res.redirect('/admin/dashboard')
-    }else{
+        console.log("log admin auth",req.session.admin);
         next();
+
+    }else{
+        res.redirect('/admin/dashboard')
+
     }
 }
 
@@ -33,7 +49,7 @@ const checkSession = (req,res,next)=>{
 
 
 
-module.exports = {adminAuth,isLogin,checkSession}
+module.exports = {adminAuth,isLogin,}
 
 
 

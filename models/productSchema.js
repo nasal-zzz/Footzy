@@ -10,10 +10,10 @@ const produtSchema = new Schema({
         type:String,
         required:true
     },
-    brand:{
-        type:String,
-        required:true
-    },
+    // brand:{
+    //     type:String,
+    //     required:false
+    // },
     category:{
         type:Schema.Types.ObjectId,
         ref:"Category",
@@ -31,20 +31,32 @@ const produtSchema = new Schema({
         type:Number,
         default:0
     },
-    quantity:{
+    stock:{
         type:Number,
-        default:true
+        required:true
     },
+    // sizes:{
+    //     type:Object,
+    //     require:true
+    // },
+    // quantity:{
+    //     type:Number,
+    //     default:true
+    // },
     productImage:{
         type:[String],
         required:true
     },
     status:{
         type:String,
-        enum:["Available","out of stock"],
+        enum:["Available","Sold Out"],
         required:true,
         default:"Available"
     },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    }
 },{timestamp:true},{versionKey:false})
 
 const Product = mongoose.model("Product",produtSchema);

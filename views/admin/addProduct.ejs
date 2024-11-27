@@ -1,206 +1,104 @@
 <%-include("../../views/partials/admin/header")%>
+
 <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css" rel="stylesheet">
 
-        <section class="content-main">
-            <div class="row">
-                <!-- <div class="col-9">
-                    <div class="content-header">
-                        <h2 class="content-title">Add New Product</h2>
-                        <div>
-                            <button class="btn btn-md rounded font-sm hover-up" type="submit">Publish</button>
-                        </div>
+<section class="content-main">
+    <div class="row align-items-start">
+        <form method="post" action="/admin/addProduct" enctype="multipart/form-data" id="addProductForm">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Add New Product</h2>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button type="button" class="btn btn-light">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Publish</button>
                     </div>
-                </div> -->
-                <div class="col-lg-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h4>Basic</h4>
-                        </div>
-                        <div class="card-body">
-                            <form method="post" action="/admin/addProduct" enctype="multipart/form-data" id="addProductForm">
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Product Name</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="productName">
-                                    <div id="name-error" class="error-message text-danger"></div>
-
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Product Description</label>
-                                    <textarea placeholder="Type here" class="form-control" rows="4" id="productDescription"></textarea>
-                                    <div id="description-error" class="error-message text-danger"></div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Regular price</label>
-                                            <div class="row gx-2">
-                                                <input placeholder="₹" type="text" id="regularPrice" class="form-control">
-                                                <div id="regularPrice-error" class="error-message text-danger"></div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Sale price</label>
-                                            <input placeholder="₹" type="text" id="salePrice" class="form-control">
-                                            <div id="salePrice-error" class="error-message text-danger"></div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Stock</label>
-                                            <input placeholder="0" type="text" id="stock" class="form-control">
-                                            <div id="stock-error" class="error-message text-danger"></div>
-
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label">Status</label>
-                                        <select class="form-select" name="status" id="status">
-                                            <option value="true">Available</option>
-                                            <option value="false">Sold Out</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- <div class="col-lg-4">
-                                        <label class="form-label">Currency</label>
-                                        <select class="form-select">
-                                            <option>USD</option>
-                                            <option>EUR</option>
-                                            <option>RUBL</option>
-                                        </select>
-                                    </div> -->
-                                </div>
-                                <!-- <div class="mb-4">
-                                    <label class="form-label">Tax rate</label>
-                                    <input type="text" placeholder="%" class="form-control" id="product_name">
-                                </div> -->
-                                <!-- <label class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" value="">
-                                    <span class="form-check-label"> Make a template </span>
-                                </label> -->
-                            <!-- </form> -->
-                        </div>
-                    </div>
-                    <!-- card end// -->
-                    <!-- <div class="card mb-4">
-                        <div class="card-header">
-                            <h4>Shipping</h4>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-4">
-                                            <label for="product_name" class="form-label">Width</label>
-                                            <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-4">
-                                            <label for="product_name" class="form-label">Height</label>
-                                            <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Weight</label>
-                                    <input type="text" placeholder="gam" class="form-control" id="product_name">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Shipping fees</label>
-                                    <input type="text" placeholder="$" class="form-control" id="product_name">
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
-                    <!-- card end// -->
                 </div>
-                <div class="col-lg-3">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h4>Media</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-upload">
-                                <img src="images/upload.svg" alt="image-1">
-                                <input class="form-control" type="file" id="img1">
-                                <div id="img1-error" class="error-message text-danger"></div>
-
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-upload">
-                                <img src="images/upload.svg" alt="image-2">
-                                <input class="form-control" type="file" id="img2">
-                                <div id="img2-error" class="error-message text-danger"></div>
-
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-upload">
-                                <img src="images/upload.svg" alt="image-3">
-                                <input class="form-control" type="file" id="img3">
-                                <div id="img3-error" class="error-message text-danger"></div>
-
-                            </div>
-                        </div>
-
-                        <div>
-                            <button class="btn btn-md rounded font-sm hover-up" type="submit">save</button>
-                        </div>
-                    </div>
-                   
-
-                    <!-- card end// -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                        </div>
-                        <div class="card-body">
-                            <div class="row gx-2">
-                                <div class="col-sm-13 mb-3">
-                                    <label class="form-label">Category</label>
-                                    <select class="form-select" name="category" id="category">
-                                        <% for(let i=0;i<category.length;i++){%>
-                                            <option value=""><%= category[i].name%></option>
-                                            <% } %>
-                                    </select>
-                                </div>
-                                
-
-                                <div class="col-sm-6 mb-3">
-                                    <!-- <label class="form-label">Sub-category</label>
-                                    <select class="form-select">
-                                        <option>Nissan</option>
-                                        <option>Honda</option>
-                                        <option>Mercedes</option>
-                                        <option>Chevrolet</option>
-                                    </select>
-                                </div> -->
-                                <!-- <div class="mb-4">
-                                    <label for="product_name" class="form-label">Tags</label>
-                                    <input type="text" class="form-control">
-                                </div> -->
-                            </div>
-                            
-
-                            <!-- row.// -->
-                        </div>
-                    </div>
-                    <!-- card end// -->
-                </div>
-                <div class="d-flex justify-content-end gap-3">
-                    <button type="button" class="btn btn-light">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Publish</button>
-                </div>
-            </form>
             </div>
-        </section>
-        <!-- content-main end// -->
-         <script src="/admin/scripts/addProduct.js"></script>
+            <div class="col-lg-12">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <h4>Basic</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Product Name</label>
+                            <input type="text" name="productName" placeholder="Type here" class="form-control" id="productName">
+                            <div id="name-error" class="error-message text-danger"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Product Description</label>
+                            <textarea placeholder="Type here" class="form-control" rows="4" name="productDescription" id="productDescription"></textarea>
+                            <div id="description-error" class="error-message text-danger"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Regular price</label>
+                                    <input placeholder="₹" type="text" id="regularPrice" name="regularPrice" class="form-control">
+                                    <div id="regularPrice-error" class="error-message text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Sale price</label>
+                                    <input placeholder="₹" type="text" id="salePrice" name="salePrice" class="form-control">
+                                    <div id="salePrice-error" class="error-message text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Stock</label>
+                                    <input placeholder="0" type="text" id="stock" name="stock" class="form-control">
+                                    <div id="stock-error" class="error-message text-danger"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Sold Out">Sold Out</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" name="category" id="category">
+                                <% for(let i=0;i<category.length;i++){ %>
+                                <option value="<%=category[i].name%>"><%=category[i].name%></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Media</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Image upload and cropper -->
+                        <% for (let i = 1; i <= 3; i++) { %>
+                        <div class="mb-4">
+                            <div class="input-upload">
+                                <img src="" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <input class="form-control" type="file" name="images" id="input<%= i %>"
+                                    accept="image/png, image/jpeg" onchange="viewImage(event, <%= i %>)">
+                            </div>
+                            <div class="image-cropper d-flex align-items-center" style="display:none; margin-top: 10px;">
+                                <img src="" id="croppedImg<%= i %>" alt="Cropped Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <button type="button" id="saveButton<%= i %>" class="btn-sm btn-primary">Save</button>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
-                <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
-        <%-include("../../views/partials/admin/footer")%>
+<script src="/admin/scripts/addProduct.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+
+<%-include("../../views/partials/admin/footer")%>

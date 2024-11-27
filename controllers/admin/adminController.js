@@ -10,7 +10,7 @@ const pageError = async (req,res) => {
 
 const loadLogin = async (req,res) => {
         
-        if(req.session.user){
+        if(req.session.admin){
             return res.redirect("/admin/dashboard")
         }else{
         res.render('adminLogin')
@@ -21,6 +21,7 @@ const loadLogin = async (req,res) => {
 } 
 
 const adminLogin = async(req,res)=>{
+    
     try {
         const {email,password} = req.body;
         console.log("bd",req.body);
@@ -33,7 +34,8 @@ const adminLogin = async(req,res)=>{
             return res.render('adminLogin',{message:'Invalid credentials'}) // admin not exist then rendering the same page with error message
 
         }
-
+     console.log('admin extst');
+     
         const passwordMatch = await bcrypt.compare(password,admin.password);
         console.log("pp",passwordMatch);
         
@@ -41,8 +43,12 @@ const adminLogin = async(req,res)=>{
             return res.render('adminLogin', {message:'Incorrect password'})
 
         }
+        console.log('password match');
+        
 
-       req.session.admin = true;
+       req.session.admin = admin;
+       console.log(req.session.admin ,'aDMIN................!!!')
+
        res.redirect('/admin/dashboard')
 
     } catch (error) {

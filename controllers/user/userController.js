@@ -221,7 +221,9 @@ const userLogin = async(req,res)=>{
         }
 
         req.session.user = findUser._id;
-        res.render('home',{suser:req.session.user});
+        res.render('home',{
+            suser:req.session.user,
+        user:req.user});
 
     } catch (error) {
         console.error('login error');

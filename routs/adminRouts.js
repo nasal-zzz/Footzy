@@ -5,7 +5,7 @@ const adminAuth = require('../middlewares/admin/adminAuth')
 const usersController = require('../controllers/admin/usersController')
 const categoryController = require('../controllers/admin/categoryController')
 const productController = require('../controllers/admin/productController')
-
+const uploads = require('../config/multer')
 
 
 
@@ -44,7 +44,7 @@ router.patch('/editCategory/:id',adminAuth.adminAuth,categoryController.editCate
 router.get('/products',adminAuth.adminAuth,productController.loadProducts)
 
 router.get('/addProducts',adminAuth.adminAuth,productController.loadAddProduct)
-
+router.post('/addProduct',adminAuth.adminAuth,uploads.array("images",3),productController.addProduct)
 
 
 
