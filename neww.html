@@ -1,146 +1,10 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-
-
-  <div class="card mb-2">
-    <div class="card-header">
-        <h4>Choose images</h4>
-    </div>
-    <div class="border row">
-        <div id="addedImagesContainer" class="thumbnails-container"></div>
-    </div>
-    <div class="row">
-        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-            <img src="" alt="" id="imgView1">
-                                        <input class="form-control" type="file" name="images" id="input1"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onchange="viewImage1(event), viewImage(event, 1)">
-                                            <div id="images-error" class="error-message"></div>
-                                    </div>
-                                    <div class="image-cropper d-flex align-items-center"
-                                        style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                        <img src="" id="croppedImg1" alt="">
-                                        <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
-                                    </div>
-                                </div>
-                               
-                                <div class="row">
-                                    <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                        <img src="" alt="" id="imgView2">
-
-
-                                        <input class="form-control" type="file" name="images" id="input2"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onchange="viewImage2(event),viewImage(event, 2)">
-                                    </div>
-                                    <div class="image-cropper d-flex align-items-center"
-                                        style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                        <img src="" id="croppedImg2" alt="">
-                                        <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
-                                    </div>
-                                </div>
-                               
-                                <div class="row">
-                                    <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                        <img src="" alt="" id="imgView3">
-
-
-                                        <input class="form-control" type="file" name="images" id="input3"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                            onchange="viewImage3(event),viewImage(event, 3)">
-                                    </div>
-                                    <div class="image-cropper d-flex align-items-center"
-                                        style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                        <img src="" id="croppedImg3" alt="">
-                                        <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
-                                    </div>
-                                </div>
-
-  
-</body>
-</html> -->
-
-
-
-
-
- <!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <form action="/admin/add-product" method="POST">
-        <input type="text" name="name" placeholder="Product Name" required>
-        <input type="text" name="description" placeholder="Description">
-        <input type="number" name="price" placeholder="Price" required>
-        
-        <div id="size-container">
-          <div>
-            <label>Size:</label>
-            <input type="text" name="sizes[0][size]" placeholder="Size (e.g., 6)">
-            <label>Stock:</label>
-            <input type="number" name="sizes[0][stock]" placeholder="Stock for this size">
-            <button type="button" class="remove-size" style="display:none;">Remove Size</button>
-
-          </div>
-        </div>
-        <button type="button" id="add-size">Add Another Size</button>
-        
-        <button type="submit">Add Product</button>
-      </form>
-      
-      <script>
-        let sizeIndex = 1;
-        document.getElementById('add-size').addEventListener('click', () => {
-          const container = document.getElementById('size-container');
-          const sizeInput = `
-            <div>
-              <label>Size:</label>
-              <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size (e.g., 6)">
-              <label>Stock:</label>
-              <input type="number" name="sizes[${sizeIndex}][stock]" placeholder="Stock for this size">
-             <button type="button" class="remove-size" style="display: inline-block;">Remove Size</button>
-            </div>
-          `;
-          container.insertAdjacentHTML('beforeend', sizeInput);
-          sizeIndex++;
-        });
-
-        document.getElementById('size-container').addEventListener('click', (event) => {
-  if (event.target.classList.contains('remove-size')) {
-    // Check if there's more than one size input before removing
-    const sizeInputs = document.querySelectorAll('#size-container > div');
-    if (sizeInputs.length > 1) {
-      event.target.closest('div').remove();
-    } else {
-      alert('You must have at least one size input');
-    }
-  }
-});
-
-      </script>
-      
-
-</body>
-</html>  -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
-    <!-- <style>
+    <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
@@ -249,8 +113,8 @@
                 width: 100%;
             }
         }
-    </style> -->
-<style>
+    </style>
+<!-- <style>
     /* General form styling */
 form {
   font-family: Arial, sans-serif;
@@ -352,7 +216,7 @@ div:last-child {
     width: 100%;
   }
 }
-</style>
+</style> -->
 
 </head>
 <body>

@@ -169,10 +169,10 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
     const description = document.getElementById('productDescription').value.trim();
     const regularPrice = document.getElementById('regularPrice').value;
     const salePrice = document.getElementById('salePrice').value;
-    const stock = document.getElementById('stock').value;
     const status = document.getElementById('status').value;
     const category = document.getElementById('category').value;
-
+    const sizeInputs = document.querySelectorAll('#size-container div');
+   
     if (name.trim() === "") {
         e.preventDefault()
         document.getElementById('name-error').innerText = "Please enter a product name...!"
@@ -236,8 +236,11 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
             document.getElementById('salePrice-error').style.display = 'none';
         }, 5000);
 
+}else if( sizeInputs.forEach((input, index) => {
+    const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
+    const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
 
-    }else if(!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0){
+    if(!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0){
         e.preventDefault()
 
         document.getElementById('stock-error').innerText = "Please enter a valid non-negative stock...!"
@@ -246,8 +249,45 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
             document.getElementById('stock-error').style.display = 'none';
         }, 3000);
 
+    }else if(!/^(?:[0-9]|1[0-2])$/.test(size) || parseFloat(size) < 0){
+        e.preventDefault()
+    
+        document.getElementById('size-error').innerText = "Please enter a valid  size between 0 to 12...!"
+    
+        setTimeout(function() {
+            document.getElementById('size-error').style.display = 'none';
+        }, 3000);
     }
+  })
+)
+
     return;
 })
 
+let sizeIndex = 1;
+      
+document.getElementById('add-size').addEventListener('click', () => {
+  const container = document.getElementById('size-container');
+  const sizeInput = `
+    <div>
+      <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size (e.g., 6)"><br><br>
+        <div id="size-error" class="error-message text-danger"></div>
+      <input type="number" name="sizes[${sizeIndex}][stock]" placeholder="Stock for this size"><br><br>
+      <div id="stock-error" class="error-message text-danger"></div>
+      <button type="button" class="remove-size" style="display: inline-block;">Remove Size</button>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', sizeInput);
+  sizeIndex++;
+});
 
+document.getElementById('size-container').addEventListener('click', (event) => {
+  if (event.target.classList.contains('remove-size')) {
+    const sizeInputs = document.querySelectorAll('#size-container > div');
+    if (sizeInputs.length > 1) {
+      event.target.closest('div').remove();
+    } else {
+      alert('You must have at least one size input');
+    }
+  }
+});

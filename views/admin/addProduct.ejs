@@ -1,5 +1,134 @@
 <%-include("../../views/partials/admin/header")%>
 
+<!-- <style>
+    .error-message{
+        color: red;
+    }
+ 
+ 
+        .thumbnails-container {
+            display: flex;
+            overflow-x: auto;
+        }
+ 
+ 
+        .thumbnail {
+            margin-right: 10px;
+ 
+ 
+        }
+ </style> -->
+     <style>
+     
+
+        /* form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        } */
+
+        input, #add-size {
+            width: 15%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        #size-container > div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        #size-container input {
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+
+        .remove-size {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            width: auto;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-size:hover {
+            background-color: #ff3333;
+        }
+
+        #add-size {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #add-size:hover {
+            background-color: #357abd;
+        }
+
+        button[type="submit"] {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+                width: 90%;
+            }
+
+            #size-container > div {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            #size-container input, .remove-size {
+                width: 100%;
+            }
+        }
+        #saveButton{
+            width: 35px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ebcfcf;
+            border-radius: 4px;
+            box-sizing: border-box;
+            
+        }
+    </style>
+ 
+
 <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css" rel="stylesheet">
 
 <section class="content-main">
@@ -31,44 +160,63 @@
                             <div id="description-error" class="error-message text-danger"></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="mb-4">
                                     <label class="form-label">Regular price</label>
-                                    <input placeholder="₹" type="text" id="regularPrice" name="regularPrice" class="form-control">
+                                    <input placeholder="₹" type="number" id="regularPrice" name="regularPrice" class="form-control">
                                     <div id="regularPrice-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="mb-4">
                                     <label class="form-label">Sale price</label>
-                                    <input placeholder="₹" type="text" id="salePrice" name="salePrice" class="form-control">
+                                    <input placeholder="₹" type="number" id="salePrice" name="salePrice" class="form-control">
                                     <div id="salePrice-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="mb-4">
-                                    <label class="form-label">Stock</label>
-                                    <input placeholder="0" type="text" id="stock" name="stock" class="form-control">
-                                    <div id="stock-error" class="error-message text-danger"></div>
+                            <label class="form-label">Status</label>
+                                <select class="form-select" name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Sold Out">Sold Out</option></select>   
+                                  <div id="status-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" id="status">
-                                <option value="Available">Available</option>
-                                <option value="Sold Out">Sold Out</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Category</label>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Category</label>
                             <select class="form-select" name="category" id="category">
                                 <% for(let i=0;i<category.length;i++){ %>
                                 <option value="<%=category[i].name%>"><%=category[i].name%></option>
                                 <% } %>
                             </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <!-- <div class="mb-4">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Sold Out">Sold Out</option>
+                            </select>
+                        </div> -->
+                      
+                        <div id="size-container">
+                            <label>Size & Stock</label>
+                            <div>
+                              <input type="text" name="sizes[0][size]" placeholder="Size (e.g., 6)"><br><br>
+                              <div id="size-error" class="error-message text-danger"></div>
+
+                              <input type="number" name="sizes[0][stock]" placeholder="Stock for this size"><br><br>
+                              <div id="stock-error" class="error-message text-danger"></div>
+
+                              <button type="button" class="remove-size" style="display: none;">Remove Size</button>
+                            </div>
+                          </div>
+                        
+                          <button type="button" id="add-size">Add Another Size</button>
+                        </div>
                 </div>
             </div>
             <div class="col-lg-12">
@@ -81,7 +229,7 @@
                         <% for (let i = 1; i <= 3; i++) { %>
                         <div class="mb-4">
                             <div class="input-upload">
-                                <img src="" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <img src="" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto; display: none;">
                                 <input class="form-control" type="file" name="images" id="input<%= i %>"
                                     accept="image/png, image/jpeg" onchange="viewImage(event, <%= i %>)">
                             </div>
