@@ -1,0 +1,57 @@
+.sidebar {
+    background-color: #fff;
+    border-right: 1px solid #e9ecef;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.nav-link {
+    color: #6c757d;
+    padding: 10px 20px;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-link.active {
+    color: #0d6efd;
+    background-color: #f8f9fa;
+}
+
+.form-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    color: #495057;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.media-upload {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.btn-publish {
+    background-color: #40c057;
+    border-color: #40c057;
+}
+
+.btn-draft {
+    background-color: #fff;
+    border-color: #dee2e6;
+    color: #495057;
+}

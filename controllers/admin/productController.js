@@ -12,17 +12,56 @@ const { Console } = require('console');
 
 const loadProducts = async (req,res) => {
     try {
-     const productData = await productSchema.find({})
+
+const search = req.query.search || "";
+const page =  req.query.page || 1;
+const limit = 3;
+
+const productData = await productSchema.find({
+
+    $or:[
+        {productName:{$regex: new RegExp(".*"+search+".*","i")}},
+        // {category:{$regex:new RegExp(".*"+search+".*","i")}}
+    ],
+}).populate('category').sort({createdAt:-1}).limit(limit).skip((page-1)*limit)
+
+const count = await productSchema.find({
+    $or:[
+        {productName:{$regex:new RegExp(".*"+search+".*","i")}},
+        // {category:{$regex:new RegExp(".*"+search+".*","i")}}
+    ],
+})
+
+// Calculate total stock by iterating through the productData array
+const totalStock = productData.reduce((sum, product) => {
+    if (product.sizes) {
+        // Sum stock for each size within the product
+        return sum + product.sizes.reduce((innerSum, sizeObj) => innerSum + sizeObj.stock, 0);
+    }
+    return sum;
+}, 0);
 
 
-console.log("prooo..",productData);
+
+const Category = await categorySchema.find({isListed:true});
+const totalPages = Math.ceil(count / limit);
+
 
         res.render('products',{
-            product:productData,
-        })
+           
+            Category,
+            totalStock :totalStock,
+           product:productData,
+           currentPage: page,
+           totalPages: totalPages,
+           limit: limit,
+
+    })
+        
     } catch (error) {
         console.log(error);
-        
+        res.redirect("/notFound");
+
     }
 }
 
@@ -74,7 +113,8 @@ const addProduct = async (req, res) => {
             sizes: product.sizes.map(size => ({
                 size: size.size,
                 stock: size.stock
-            })),            status: product.status,
+            })),          
+              status: product.status,
             productImage: images,
         });
 
@@ -90,7 +130,27 @@ const addProduct = async (req, res) => {
 };
 
 
+const getEditProduct = async (req,res) => {
 
+    try {
+        let id = req.query.id
+        console.log("iddd..",id);
+        
+        
+    const productData = await productSchema.findOne({_id:id}).populate('category')
+    const Categories = await categorySchema.find({isListed:true})
+console.log('heyy', productData);
+
+        res.render('editProduct',{
+            Categories : Categories,
+            product : productData
+        })
+    } catch (error) {
+        console.log(error);
+        res.redirect('/admin/notFound')
+        
+    }
+}
 
 
 
@@ -106,5 +166,6 @@ const addProduct = async (req, res) => {
 module.exports = {
     loadAddProduct,
     loadProducts,
-    addProduct
+    addProduct,
+    getEditProduct
 }

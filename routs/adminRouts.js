@@ -46,7 +46,8 @@ router.get('/products',adminAuth.adminAuth,productController.loadProducts)
 router.get('/addProducts',adminAuth.adminAuth,productController.loadAddProduct)
 router.post('/addProduct',adminAuth.adminAuth,uploads.array("images",3),productController.addProduct)
 
-
+// edit product 
+router.get('/editProduct',adminAuth.adminAuth,productController.getEditProduct)
 
 
 

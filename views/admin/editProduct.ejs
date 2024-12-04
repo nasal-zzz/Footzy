@@ -1,427 +1,253 @@
 
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="utf-8">
-    <title>Nest Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.svg">
-    <!-- Template CSS -->
-    <script src="js/color-modes.js"></script>
-    <link href="css/main.css" rel="stylesheet" type="text/css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<%-include("../../views/partials/admin/header")%>
+<link rel="stylesheet" href="/admin/styles/editProduct.css">
 
+<style>
+     
 
-    <style>
-        .sidebar {
-            background-color: #fff;
-            border-right: 1px solid #e9ecef;
-            height: 100vh;
-            position: fixed;
-            width: 250px;
-        }
-        
-        .main-content {
-            margin-left: 250px;
+    /* form {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    } */
+
+    input, #add-size {
+        width: 15%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    #size-container > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+
+    #size-container input {
+        flex-grow: 1;
+        margin-bottom: 0;
+    }
+
+    .remove-size {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        width: auto;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .remove-size:hover {
+        background-color: #ff3333;
+    }
+
+    #add-size {
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #add-size:hover {
+        background-color: #357abd;
+    }
+
+    button[type="submit"] {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #27ae60;
+    }
+
+    @media (max-width: 600px) {
+        form {
             padding: 20px;
+            width: 90%;
         }
-        
-        .nav-link {
-            color: #6c757d;
-            padding: 10px 20px;
-        }
-        
-        .nav-link:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .nav-link.active {
-            color: #0d6efd;
-            background-color: #f8f9fa;
-        }
-        
-        .form-section {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            color: #495057;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        
-        .media-upload {
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .btn-publish {
-            background-color: #40c057;
-            border-color: #40c057;
-        }
-        
-        .btn-draft {
-            background-color: #fff;
-            border-color: #dee2e6;
-            color: #495057;
-        }
-    </style>
 
-</head>
+        #size-container > div {
+            flex-direction: column;
+            gap: 10px;
+        }
 
-<body>
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-            <a href="index.html" class="brand-wrap">
-                <img src="images/logo.png" class="logo" alt="Nest Dashboard">
-            </a>
-            <div>
-                <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
-            </div>
-        </div>
-        <nav>
-            <ul class="menu-aside">
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin-dashboard/index.html">
-                        <i class="icon material-icons md-home"></i>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin-products/products.html">
-                        <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/products-catagories/product_catagories.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M80-140v-320h320v320H80Zm80-80h160v-160H160v160Zm60-340 220-360 220 360H220Zm142-80h156l-78-126-78 126ZM863-42 757-148q-21 14-45.5 21t-51.5 7q-75 0-127.5-52.5T480-300q0-75 52.5-127.5T660-480q75 0 127.5 52.5T840-300q0 26-7 50.5T813-204L919-98l-56 56ZM660-200q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29ZM320-380Zm120-260Z"/></svg>
-                        <span class="text" style="margin-left: 7px;">Categories</span>
-                    </a>
-                </li>
-                <!-- <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-products-list.html">
-                        <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Products</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin-products/products.html">Products</a>
-                        <a href="/products-catagories/product_catagories.html">Categories</a>
-                    </div>
-                </li> -->
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-orders-1.html">
-                        <i class="icon material-icons md-shopping_cart"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin-orders/orders.html">Orders List</a>
-                        <a href="/order-details/order_details.html">Order Details</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-sellers-cards.html">
-                        <i class="icon material-icons md-store"></i>
-                        <span class="text">Sellers</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin-sellers/sellers_list.html">Sellers List</a>
-                        <a href="/sellers-profile/sellers_profile.html">Sellers Profile</a>
-                    </div>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-form-product-1.html">
-                        <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add Product</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin-addProduct/add_products.html">Add Products</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin-transactions/transactions.html">
-                        <i class="icon material-icons md-monetization_on"></i>
-                        <span class="text">Transactions</span>
-                    </a>
-                </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="#">
-                        <i class="icon material-icons md-person"></i>
-                        <span class="text">Account</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="/admin-login/admin_login.html">User Login</a>
-                        <a href="/admin-register/admin_register.html">User Registration</a>
-                        <a href="/admin-404/error.html">Error 404</a>
-                    </div>
-                </li>
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin-reviews/reviews.html">
-                        <i class="icon material-icons md-comment"></i>
-                        <span class="text">Reviews</span>
-                    </a>
-                </li>
-            </ul>
-            <hr>
-            <ul class="menu-aside">
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin-settings/admin_settings.html">
-                        <i class="icon material-icons md-settings"></i>
-                        <span class="text">Settings</span>
-                    </a>
-                </li>
-            </ul>
-            <br>
-            <br>
-        </nav>
-    </aside>
-    <main class="main-wrap">
-        <header class="main-header navbar">
-            <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                        <option value="Products"></option>
-                        <option value="New orders"></option>
-                        <option value="Apple iphone"></option>
-                        <option value="Ahmed Hassan"></option>
-                    </datalist>
-                </form>
-            </div>
-            <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                            <a class="dropdown-item text-brand" href="#"><img src="images/flag-us.png" alt="English">English</a>
-                            <a class="dropdown-item" href="#"><img src="images/flag-fr.png" alt="Français">Français</a>
-                            <a class="dropdown-item" href="#"><img src="images/flag-jp.png" alt="Français">日本語</a>
-                            <a class="dropdown-item" href="#"><img src="images/flag-cn.png" alt="Français">中国人</a>
-                        </div>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="images/avatar-2.png" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </header>
-        <section class="content-main">
-             <!-- Main Content -->
-    <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3">Edit Product</h1>
-            <div>
-                <button class="btn btn-outline-secondary me-2 btn-draft">Save to draft</button>
-                <button class="btn btn-publish text-white">Update</button>
-            </div>
-        </div>
+        #size-container input, .remove-size {
+            width: 100%;
+        }
+    }
+    #saveButton{
+        width: 35px;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ebcfcf;
+        border-radius: 4px;
+        box-sizing: border-box;
+        
+    }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css" rel="stylesheet">
 
-        <div class="row">
-            <div class="col-md-8">
-                <!-- Basic Information -->
-                <div class="form-section">
-                    <h2 class="section-title">Basic</h2>
-                    <div class="mb-3">
-                        <label class="form-label">Product title</label>
-                        <input type="text" class="form-control" value="Example Product Title">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Full description</label>
-                        <textarea class="form-control" rows="4">Example product description...</textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label">Regular price</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" value="99.99">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Promotional price</label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="text" class="form-control" value="79.99">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Currency</label>
-                            <select class="form-select">
-                                <option selected>USD</option>
-                                <option>EUR</option>
-                                <option>GBP</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3 mt-3">
-                        <label class="form-label">Tax rate</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" value="10">
-                            <span class="input-group-text">%</span>
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" checked>
-                        <label class="form-check-label">Make a template</label>
+
+
+
+<section class="content-main">
+    <div class="row align-items-start">
+        <form method="post" action="/admin/addProduct" enctype="multipart/form-data" id="addProductForm">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Edit Product</h2>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button type="button" class="btn btn-light">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Publish</button>
                     </div>
                 </div>
-
-               <!-- Media Section -->
-            <h5 class="mt-4">Media</h5>
-            <div class="media-box">
-                <!-- Existing Image 1 -->
-                <div class="image-card">
-                    <img src="images/child-1.jpg" alt="Product Image 1" class="img-thumbnail">
-                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2">Edit</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm mt-1">Delete</button>
-                </div>
-
-                <!-- Existing Image 2 -->
-                <div class="image-card">
-                    <img src="images/p8.png" alt="Product Image 2" class="img-thumbnail">
-                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2">Edit</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm mt-1">Delete</button>
-                </div>
-
-                <!-- Placeholder for Uploading a New Image -->
-                <label class="upload-new">
-                    <img src="images/upload.jpg" alt="">
-                    <span>Upload new Image</span>
-                    <input type="file" class="d-none" accept="image/*">
-                </label>
             </div>
-            </div>
-
-            <div class="col-md-4">
-                <!-- Media Upload -->
-                <!-- <div class="form-section">
-                    <h2 class="section-title">Media</h2>
-                    <div class="media-upload">
-                        <img src="placeholder.jpg" alt="Product" class="img-fluid mb-3">
-                        <div>
-                            <button class="btn btn-outline-primary">Choose File</button>
-                            <div class="text-muted mt-2">No file chosen</div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Organization -->
-                <div class="form-section">
-                    <h2 class="section-title">Organization</h2>
-                    <div class="mb-3">
-                        <label class="form-label">Category</label>
-                        <select class="form-select">
-                            <option selected>Automobile</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Sub-category</label>
-                        <select class="form-select">
-                            <option selected>Nissan</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Tags</label>
-                        <input type="text" class="form-control" placeholder="Add tags...">
-                    </div>
-                </div>
-
-                <div class="card mb-4">
+            <div class="col-lg-12">
+                <div class="card mb-2">
                     <div class="card-header">
-                        <h4>Shipping</h4>
+                        <h4>Basic</h4>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Width</label>
-                                        <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                    </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Product Name</label>
+                            <input type="text" name="productName" placeholder="Type here" class="form-control" id="productName" value="<%=product.productName %>">
+                            <div id="name-error" class="error-message text-danger"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Product Description</label>
+                            <input class="form-control" rows="4" name="productDescription" id="productDescription" value="<%=product.description %>"></input>
+                            <div id="description-error" class="error-message text-danger"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Regular price</label>
+                                    <input placeholder="₹" type="number" id="regularPrice" name="regularPrice" class="form-control"  value="<%=product.regularPrice %>">
+                                    <div id="regularPrice-error" class="error-message text-danger"></div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Height</label>
-                                        <input type="text" placeholder="inch" class="form-control" id="product_name">
-                                    </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Sale price</label>
+                                    <input placeholder="₹" type="number" id="salePrice" name="salePrice" class="form-control"  value="<%=product.salePrice %>">
+                                    <div id="salePrice-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <label for="product_name" class="form-label">Weight</label>
-                                <input type="text" placeholder="gam" class="form-control" id="product_name">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                            <label class="form-label">Status</label>
+                                <select class="form-select" name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Sold Out">Sold Out</option></select>   
+                                  <div id="status-error" class="error-message text-danger"></div>
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label for="product_name" class="form-label">Shipping fees</label>
-                                <input type="text" placeholder="$" class="form-control" id="product_name">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Category</label>
+                            <select class="form-select" name="category" id="category">
+                                <option value=""><%=product.category.name%></option>
+                                <% for(let i=0;i<Categories.length;i++){ %>
+                                    <option><%=Categories[i].name%></option>
+                                    <% } %>
+                            </select>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                        <!-- <div class="mb-4">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status" id="status">
+                                <option value="Available">Available</option>
+                                <option value="Sold Out">Sold Out</option>
+                            </select>
+                        </div> -->
+                      
+                        <div id="size-container">
+                            <label>Size & Stock</label>
+                            <% if (product.sizes && product.sizes.length > 0) { %>
+
+                            <% product.sizes.forEach((sizeObj, index) => { %>
+
+
+                            <div>
+
+                              <input type="text" name="sizes[<%= index %>][size]" value="<%=sizeObj.size%>"><br><br>
+                              <div id="size-error" class="error-message text-danger"></div>
+
+                              <input type="number" name="sizes[<%= index %>][stock]" placeholder="Stock for this size" value="<%=sizeObj.stock%>"><br><br>
+                              <div id="stock-error" class="error-message text-danger"></div>
+
+                              <button type="button" class="remove-size" style="">Remove Size</button>
+                            </div>
+                            <% }) %>
+                            <% } else { %>
+                            <input type="text" value="No sizes or stock available here...!">                       
+                         <% } %>
+
+                          </div>
+
+                        
+                          <button type="button" id="add-size">Add Another Size</button>
+                        </div>
+
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Media</h4>
                     </div>
-
+                    <div class="card-body">
+                        <!-- Image upload and cropper -->
+                        <% for (let i = 1; i <= 3; i++) { %>
+                        <div class="mb-4">
+                            <div class="input-upload">
+                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <input class="form-control" type="file" name="images" id="input<%= i %>"
+                                    accept="image/png, image/jpeg" onchange="viewImage(event, <%= i %>)" >
+                            </div>
+                            <div class="image-cropper d-flex align-items-center" style=" margin-top: 10px;">
+                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="croppedImg<%= i %>" alt="Cropped Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <button type="button" id="saveButton<%= i %>" class="btn-sm btn-primary">Save</button>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-    
-        </section>
+</section>
+
+
+<script src="/admin/scripts/addProduct.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+
         <!-- content-main end// -->
-        <footer class="main-footer font-xs">
-            <div class="row pb-30 pt-15">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script>
-                    © Footzy Footwear Limited
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end">All rights reserved</div>
-                </div>
-            </div>
-        </footer>
-    </main>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="js/perfect-scrollbar.js"></script>
-    <script src="js/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="js/main.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
-</body></html>
+        <%-include("../../views/partials/admin/footer")%>

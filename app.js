@@ -29,34 +29,27 @@ app.use(session({
 }));
 
 // nocache setting
-// app.use(nocache());
+app.use(nocache());
 
 app.use(passport.initialize())
 app.use(passport.session())
 
-// app.use((req,res,next)=>{
-//     res.set('cache-control','no-store')
-//     next();
-// });
 
-app.use('/signup', (req, res, next) => {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
- next();
-});
-app.use('/login', (req, res, next) => {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
-    next();
-});
-// app.use('/', (req, res, next) => {
+
+// app.use('/signup', (req, res, next) => {
+//     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+//     res.set('Pragma', 'no-cache');
+//     res.set('Expires', '0');
+//  next();
+// });
+// app.use('/login', (req, res, next) => {
 //     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 //     res.set('Pragma', 'no-cache');
 //     res.set('Expires', '0');
 //     next();
 // });
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

@@ -1,0 +1,165 @@
+
+<%-include("../../views/partials/admin/header")%>
+<link rel="stylesheet" href="/admin/styles/editProduct.css">
+
+
+
+        <section class="content-main">
+             <!-- Main Content -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">Edit Product</h1>
+            <div>
+                <button class="btn btn-outline-secondary me-2 btn-draft">Save to draft</button>
+                <button class="btn btn-publish text-white">Update</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h2 class="section-title">Basic</h2>
+                    <div class="mb-3">
+                        <label class="form-label">Product title</label>
+                        <input type="text" class="form-control" value="Example Product Title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Full description</label>
+                        <textarea class="form-control" rows="4">Example product description...</textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Regular price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" value="99.99">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Promotional price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" value="79.99">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Currency</label>
+                            <select class="form-select">
+                                <option selected>USD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Tax rate</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="10">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" checked>
+                        <label class="form-check-label">Make a template</label>
+                    </div>
+                </div>
+
+               <!-- Media Section -->
+            <h5 class="mt-4">Media</h5>
+            <div class="media-box">
+                <!-- Existing Image 1 -->
+                <div class="image-card">
+                    <img src="images/child-1.jpg" alt="Product Image 1" class="img-thumbnail">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2">Edit</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm mt-1">Delete</button>
+                </div>
+
+                <!-- Existing Image 2 -->
+                <div class="image-card">
+                    <img src="images/p8.png" alt="Product Image 2" class="img-thumbnail">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2">Edit</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm mt-1">Delete</button>
+                </div>
+
+                <!-- Placeholder for Uploading a New Image -->
+                <label class="upload-new">
+                    <img src="images/upload.jpg" alt="">
+                    <span>Upload new Image</span>
+                    <input type="file" class="d-none" accept="image/*">
+                </label>
+            </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Media Upload -->
+                <!-- <div class="form-section">
+                    <h2 class="section-title">Media</h2>
+                    <div class="media-upload">
+                        <img src="placeholder.jpg" alt="Product" class="img-fluid mb-3">
+                        <div>
+                            <button class="btn btn-outline-primary">Choose File</button>
+                            <div class="text-muted mt-2">No file chosen</div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Organization -->
+                <div class="form-section">
+                    <h2 class="section-title">Organization</h2>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select">
+                            <option selected>Automobile</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sub-category</label>
+                        <select class="form-select">
+                            <option selected>Nissan</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tags</label>
+                        <input type="text" class="form-control" placeholder="Add tags...">
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Shipping</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Width</label>
+                                        <input type="text" placeholder="inch" class="form-control" id="product_name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Height</label>
+                                        <input type="text" placeholder="inch" class="form-control" id="product_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Weight</label>
+                                <input type="text" placeholder="gam" class="form-control" id="product_name">
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Shipping fees</label>
+                                <input type="text" placeholder="$" class="form-control" id="product_name">
+                            </div>
+                        </form>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    
+        </section>
+        <!-- content-main end// -->
+        <%-include("../../views/partials/admin/footer")%>

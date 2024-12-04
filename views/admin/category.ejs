@@ -101,9 +101,8 @@
                                       <%= i %>
                                     </a></li>
                                    <% } %>
-                                   <li class="page-item <%= (currentPage === totalPages) ? 'disabled' : '' %>">
-                                    <a 
-                                      class="page-link" 
+                                   <li class="page-item <%= (currentPage !== totalPages) ? 'disabled' : '' %> ">
+                                    <a class="page-link" 
                                       href="<%= (currentPage < totalPages) ? `?page=${currentPage + 1}` : '#' %>" 
                                       aria-label="Next" 
                                       <%= (currentPage === totalPages) ? 'aria-disabled="true" tabindex="-1"' : '' %>>

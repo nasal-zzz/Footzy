@@ -6,7 +6,7 @@ const categoryInfo = async (req,res) => {
     try {
 const moment = require('moment');
 const page = parseInt(req.query.page) || 1;
-const limit = 5;
+const limit = 2;
 const skip = (page-1)*limit;
 
 const categoryData = await categorySchema.find({})
