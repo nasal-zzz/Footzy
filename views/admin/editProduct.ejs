@@ -223,22 +223,36 @@
                     <div class="card-header">
                         <h4>Media</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="card-body">
+
                         <!-- Image upload and cropper -->
-                        <% for (let i = 1; i <= 3; i++) { %>
-                        <div class="mb-4">
+                        <% for (let i = 0; i <product.productImage.length ; i++) { %>
+                        <div class="mb-4" id="img-container">
                             <div class="input-upload">
-                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto;">
+                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto; display: none;">
                                 <input class="form-control" type="file" name="images" id="input<%= i %>"
                                     accept="image/png, image/jpeg" onchange="viewImage(event, <%= i %>)" >
                             </div>
                             <div class="image-cropper d-flex align-items-center" style=" margin-top: 10px;">
                                 <img src="/uploads/product-images/<%=product.productImage[i]%>" id="croppedImg<%= i %>" alt="Cropped Image <%= i %>" style="max-width: 100%; height: auto;">
-                                <button type="button" id="saveButton<%= i %>" class="btn-sm btn-primary">Save</button>
+
+                                <button type="button" id="saveButton<%= i %>" class="btn-sm btn-primary" style="margin: 10px;">Save</button>
+                                <br><br>
+                                <button type="button" class="remove-img " style="margin: 40px;">Remove Image</button>
+
                             </div>
                         </div>
                         <% } %>
                     </div>
+
+                    <!-- <label class="upload-new" id="add-image">
+                        <img src="/admin/images/upload.jpg" alt="">
+                        <span>Upload new Image</span>
+                        <input type="file" class="d-none" accept="image/*">
+                    </label> -->
+
+                    <button type="button" id="add-image">Add Another Image</button>
+
                 </div>
             </div>
         </form>

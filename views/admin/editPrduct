@@ -84,7 +84,7 @@
 
                 <!-- Placeholder for Uploading a New Image -->
                 <label class="upload-new">
-                    <img src="images/upload.jpg" alt="">
+                    <img src="/public/images/upload.jpg" alt="">
                     <span>Upload new Image</span>
                     <input type="file" class="d-none" accept="image/*">
                 </label>

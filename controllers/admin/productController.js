@@ -153,7 +153,9 @@ console.log('heyy', productData);
 }
 
 
-
+const editProduct = async (req,res) => {
+    
+}
 
 
 
@@ -167,5 +169,6 @@ module.exports = {
     loadAddProduct,
     loadProducts,
     addProduct,
-    getEditProduct
+    getEditProduct,
+    editProduct
 }
