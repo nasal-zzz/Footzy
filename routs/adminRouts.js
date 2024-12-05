@@ -50,6 +50,10 @@ router.post('/addProduct',adminAuth.adminAuth,uploads.array("images",3),productC
 router.get('/editProduct',adminAuth.adminAuth,productController.getEditProduct)
 router.patch('/editProduct/:id',adminAuth.adminAuth,uploads.array("images",Infinity),productController.editProduct)
 
+// list/unlist product
+router.get('/listProduct',adminAuth.adminAuth,productController.listProduct)
+router.get('/unlistProduct',adminAuth.adminAuth,productController.unlistProduct)
+
 
 
 

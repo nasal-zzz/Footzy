@@ -163,6 +163,48 @@ console.log('heyy', productData);
 }
 
 
+// list Product
+const listProduct = async (req,res) => {
+    try {
+        let id = req.query.id;
+        console.log("id list..........",id);
+        
+        await productSchema.updateOne({_id:id},{$set:{status:'Available'}})
+        res.redirect('/admin/products');
+    } catch (error) {
+        console.log('product listing failed',error);
+        res.redirect('/admin/notFound')
+        
+    }
+}
+
+
+// unlist Product
+const unlistProduct = async (req,res) => {
+    try {
+        let id = req.query.id    
+        await productSchema.updateOne({_id:id},{$set:{status:'Sold Out'}})
+        res.redirect('/admin/products');
+
+        
+    } catch (error) {
+        console.log('product unlisting failed',error);
+        res.redirect('/admin/notFound')
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const editProduct = async (req,res) => {
 
 //     const {id} = req.params;
@@ -303,5 +345,7 @@ module.exports = {
     loadProducts,
     addProduct,
     getEditProduct,
-    editProduct
+    editProduct,
+    listProduct,
+    unlistProduct
 }

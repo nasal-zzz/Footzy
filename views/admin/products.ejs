@@ -10,7 +10,7 @@
                 <div>
                     <!-- <a href="#" class="btn btn-light rounded font-md">Export</a>
                     <a href="#" class="btn btn-light rounded font-md">Import</a> -->
-                    <a href="/admin/addProducts" class="btn btn-primary btn-sm rounded">Create new</a>
+                    <button type="button" class="btn btn-primary"><i  class="material-icons md-plus"></i><a href="/admin/addProducts" class="text-white">Create New Product</a></button>
                 </div>
             </div>
             <div class="card mb-4">
@@ -49,6 +49,7 @@
                             <th>Sale Price</th>
                             <th>Category</th>
                             <th>Stock</th>
+                            <th>Status</th>
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
@@ -66,14 +67,37 @@
                             <td><%=item.regularPrice%></td>
                             <td><%=item.salePrice%></td>
                             <td><%=item.category.name%></td>
-                            <td><%=totalStock%></td>
+                           
+                            <% 
+                            const totalstocks = item.sizes 
+                                ? item.sizes.reduce((sum, sizeObj) => sum + sizeObj.stock, 0)
+                                : 0;
+                        %>
+                        <td><%= totalstocks %></td>
+                        
+                        <td>
+                            <% if(item.status === 'Available'){ %>
+                           <span class="badge bg-success">Available</span>
+                           <% }else{ %>
+                               <span class="badge bg-warning">Sold Out</span>
+                               <% } %>
+                           </td>
+
                             <td class="text-end">
-                                <a href="/admin/editProduct?id=<%=item._id %>" class="btn btn-sm font-sm rounded btn-brand">
-                                    <i class="material-icons md-edit"></i> Edit
-                                </a>
-                                <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                                    <i class="material-icons md-delete_forever"></i> Delete
-                                </a>
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="material-icons md-more_horiz"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/admin/editProduct?id=<%=item._id %>">Edit</a>
+                                        <% if(item.status === 'Available'){%>
+                                        <a class="dropdown-item text-danger"href="/admin/unlistProduct?id=<%=item._id %>">Unlist</a>
+                                        <% }else{%>
+                                            <a class="dropdown-item text-danger" href="/admin/listProduct?id=<%=item._id %>">List</a>
+                                            <% } %>
+
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <!-- <tr>
