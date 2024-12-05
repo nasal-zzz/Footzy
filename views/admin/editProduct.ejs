@@ -118,7 +118,7 @@
 
 <section class="content-main">
     <div class="row align-items-start">
-        <form method="post" action="/admin/addProduct" enctype="multipart/form-data" id="addProductForm">
+        <form   enctype="multipart/form-data" id="addProductForm">
             <div class="col-9">
                 <div class="content-header">
                     <h2 class="content-title">Edit Product</h2>
@@ -133,10 +133,14 @@
                     <div class="card-header">
                         <h4>Basic</h4>
                     </div>
+                    
                     <div class="card-body">
+                        <input type="" name="productId" value="<%= product._id %>">
+
                         <div class="mb-4">
+
                             <label for="product_name" class="form-label">Product Name</label>
-                            <input type="text" name="productName" placeholder="Type here" class="form-control" id="productName" value="<%=product.productName %>">
+                            <input type="text" name="productName" class="form-control" id="productName" value="<%=product.productName %>">
                             <div id="name-error" class="error-message text-danger"></div>
                         </div>
                         <div class="mb-4">
@@ -172,9 +176,10 @@
                                 <div class="mb-4">
                                     <label class="form-label">Category</label>
                             <select class="form-select" name="category" id="category">
-                                <option value=""><%=product.category.name%></option>
                                 <% for(let i=0;i<Categories.length;i++){ %>
-                                    <option><%=Categories[i].name%></option>
+
+                                <option value="<%=Categories[i].name%>"><%=product.category.name%></option>
+                                    <option value="<%=Categories[i].name%>"><%=Categories[i].name%></option>
                                     <% } %>
                             </select>
                                 </div>
@@ -229,12 +234,12 @@
                         <% for (let i = 0; i <product.productImage.length ; i++) { %>
                         <div class="mb-4" id="img-container">
                             <div class="input-upload">
-                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 100%; height: auto; display: none;">
-                                <input class="form-control" type="file" name="images" id="input<%= i %>"
+                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="imgView<%= i %>" alt="Preview Image <%= i %>" style="max-width: 50px; height: 60px;; display: none;">
+                                <input class="form-control" type="file" name="images" id="input<%= i %> "
                                     accept="image/png, image/jpeg" onchange="viewImage(event, <%= i %>)" >
                             </div>
-                            <div class="image-cropper d-flex align-items-center" style=" margin-top: 10px;">
-                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="croppedImg<%= i %>" alt="Cropped Image <%= i %>" style="max-width: 100%; height: auto;">
+                            <div class="image-cropper d-flex align-items-center" style=" margin-top: 10px; max-width: 50px; height: 60px;">
+                                <img src="/uploads/product-images/<%=product.productImage[i]%>" id="croppedImg<%= i %>" alt="Cropped Image <%= i %>" style="max-width: 50px; height: 60px;">
 
                                 <button type="button" id="saveButton<%= i %>" class="btn-sm btn-primary" style="margin: 10px;">Save</button>
                                 <br><br>
@@ -260,7 +265,7 @@
 </section>
 
 
-<script src="/admin/scripts/addProduct.js"></script>
+<script src="/admin/scripts/editPrroduct.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
 
         <!-- content-main end// -->

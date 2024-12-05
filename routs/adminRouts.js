@@ -48,7 +48,7 @@ router.post('/addProduct',adminAuth.adminAuth,uploads.array("images",3),productC
 
 // edit product 
 router.get('/editProduct',adminAuth.adminAuth,productController.getEditProduct)
-router.patch('/editProduct/:id',adminAuth.adminAuth,productController.editProduct)
+router.patch('/editProduct/:id',adminAuth.adminAuth,uploads.array("images",Infinity),productController.editProduct)
 
 
 

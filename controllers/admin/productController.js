@@ -7,10 +7,16 @@ const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path');
 const { Console } = require('console');
+const { render } = require('ejs');
 
 
 
 const loadProducts = async (req,res) => {
+
+if(req.session.admin){
+
+
+
     try {
 
 const search = req.query.search || "";
@@ -63,6 +69,10 @@ const totalPages = Math.ceil(count / limit);
         res.redirect("/notFound");
 
     }
+
+}else{
+    render('adminLogin')
+}
 }
 
 
@@ -153,9 +163,132 @@ console.log('heyy', productData);
 }
 
 
-const editProduct = async (req,res) => {
+// const editProduct = async (req,res) => {
+
+//     const {id} = req.params;
+//     // const {productName,productDescription,regularPrice,salePrice,status,category,images} = req.body;
+//     const product = req.body;
     
-}
+
+// try {
+    
+// // const product = await productSchema.findByIdAndUpdate(id,{
+
+// // })
+
+
+// console.log('Request Body:', req.body);
+
+
+
+
+// const validStatuses = ["Available", "Sold Out"];
+// if (!validStatuses.includes(product.status)) {
+//     return res.status(400).send("Invalid status value.");
+// }
+
+// const categoryId = await categorySchema.findOne({ name: product.category });
+// if (!categoryId) {
+//     return res.status(400).send("Invalid category name.");
+// }
+
+// const images = req.files?.map((file) => file.filename) || [];
+
+// const updatedproduct = await productSchema.findByIdAndUpdate(id,{
+//     productName: product.productName,
+//     description: product.productDescription,
+//     category: categoryId._id,
+//     regularPrice: product.regularPrice,
+//     salePrice: product.salePrice,
+//     sizes: product.sizes.map(size => ({
+//         size: size.size,
+//         stock: size.stock
+//     })),          
+//       status: product.status,
+//     productImage: images,
+// },{new:true});
+
+
+// if(!updatedproduct){
+//     return res.status(404).json({ message: 'product not found' });
+
+// }
+
+// res.json({ message: 'Product updated successfully', updatedproduct });
+
+
+// } catch (error) {
+    
+//     return res.status(404).json({ message: 'Product already exist with this name...!' });
+
+ 
+// }
+
+
+// }
+
+
+const editProduct = async (req, res) => {
+    const { id } = req.params;
+    console.log("iddddddddddd..............",id)
+    const product = req.body;
+
+    console.log('prodd.....',product);
+    
+
+    try {
+        // Validate input data more thoroughly
+        if (!product.productName || !product.description) {
+            return res.status(400).json({ message: 'Product name and description are required' });
+        }
+
+        if (parseFloat(product.regularPrice) <= 0 || parseFloat(product.salePrice) <= 0) {
+            return res.status(400).json({ message: 'Prices must be positive' });
+        }
+
+        const categoryId = await categorySchema.findOne({ name: product.category});
+        if (!categoryId) {
+            return res.status(400).json({ message: 'Invalid category' });
+        }
+        console.log("cattttttttttttt..........",categoryId);
+        
+        const images = req.files?.map((file) => file.filename) || [];
+
+        console.log("img..................",images);
+        
+
+
+        const updatedProduct = await productSchema.findByIdAndUpdate(id, {
+            productName: product.productName,
+            description: product.description,
+            category: categoryId._id,
+            regularPrice: product.regularPrice,
+            salePrice: product.salePrice,
+            sizes: product.sizes.map(size => ({
+                size: size.size,
+                stock: size.stock
+            })),
+            status: product.status,
+            productImage: images
+        }, { new: true, runValidators: true });
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.json({ 
+            message: 'Product updated successfully', 
+            product: updatedProduct 
+        });
+
+    } catch (error) {
+        console.error('Product update error:', error);
+        res.status(500).json({ 
+            message: 'Error updating product', 
+            error: error.message 
+        });
+    }
+};
 
 
 

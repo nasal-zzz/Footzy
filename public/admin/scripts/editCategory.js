@@ -41,7 +41,7 @@ document.getElementById('editCategoryForm').addEventListener('submit', async fun
           
         setTimeout(() => {
             window.location.href = '/admin/categories';
-          }, 2000); 
+          }, 1000); 
         
         } else {
             toastr.error(result.message, 'Error');
