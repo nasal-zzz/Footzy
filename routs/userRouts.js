@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const userAuth = require('../middlewares/user/userAuth')
 const userController = require('../controllers/user/userController');
+const productDetailsController = require('../controllers/user/productDetailsController');
 const passport = require('passport');
 
 
@@ -30,6 +31,13 @@ router.get('/userProfile',userAuth.checkSession,userController.userProfile)
 router.get('/logout',userAuth.checkSession,userController.logout)
 
  router.get('/notFound',userController.erroPage)
+
+//get shop page
+router.get('/shop',userController.loadShopePage)
+
+
+// product details page 
+router.get('/productDetails',userAuth.checkSession,productDetailsController.getDetails)
 
 
 module.exports = router;

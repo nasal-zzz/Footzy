@@ -14,9 +14,9 @@ document.getElementById('addCategoryForm').addEventListener('submit', (e) => {
             confirmButtonColor: '#d33',
             confirmButtonText: 'Ok',
         });
-    }else if(!/^[a-zA-Z\s]+$/.test(name)){
-        e.preventDefault();
-        document.getElementById('name-error').innerText = "Category name should contain only alphabetic charecters..!"
+    // }else if(!/^[a-zA-Z\s]+$/.test(name)){
+    //     e.preventDefault();
+    //     document.getElementById('name-error').innerText = "Category name should contain only alphabetic charecters..!"
 
     }else if(description.length<10){
         e.preventDefault();

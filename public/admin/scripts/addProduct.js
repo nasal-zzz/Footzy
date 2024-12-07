@@ -92,6 +92,10 @@ function viewImage(event, index) {
         const cropper = new Cropper(imgView, {
             aspectRatio: 1,
             viewMode: 1,
+            // guides:true,
+            // background:false,
+            // autoCropArea:1,
+            // zoomable:true
         });
 
         saveButton.onclick = function () {
@@ -181,15 +185,15 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
             document.getElementById('name-error').style.display = 'none';
         }, 5000);
 
-    } else
-    if(!/^[a-zA-Z\s]+$/.test(name)){
-        e.preventDefault()
+    // } else
+    // if(!/^[a-zA-Z\s]+$/.test(name)){
+    //     e.preventDefault()
 
-        document.getElementById('name-error').innerText = "Product name should contain only alphabetic charecters..!"
+    //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic charecters..!"
 
-        setTimeout(function() {
-            document.getElementById('name-error').style.display = 'none';
-        }, 5000);
+    //     setTimeout(function() {
+    //         document.getElementById('name-error').style.display = 'none';
+    //     }, 5000);
 
     }else if(description.trim() === ""){
         e.preventDefault()
@@ -200,16 +204,16 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
             document.getElementById('description-error').style.display = 'none';
         }, 5000);
 
-    }else if(!/^[a-zA-Z\s]{10,}$/.test(description)){
-        e.preventDefault()
+    // }else if(!/^[a-zA-Z\s]{10,}$/.test(description)){
+    //     e.preventDefault()
 
-        document.getElementById('description-error').innerText = "Product description should contain only alphabetic charecters and must 10 charecters length..!"
+    //     document.getElementById('description-error').innerText = "Product description should contain only alphabetic charecters and must 10 charecters length..!"
 
-        setTimeout(function() {
-            document.getElementById('description-error').style.display = 'none';
-        }, 5000);
+    //     setTimeout(function() {
+    //         document.getElementById('description-error').style.display = 'none';
+    //     }, 5000);
    
-    }else if(!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) < 0){
+    }else if(!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0){
         e.preventDefault()
 
         document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price...!"
@@ -218,7 +222,7 @@ document.getElementById("addProductForm").addEventListener('submit',(e)=>{
             document.getElementById('regularPrice-error').style.display = 'none';
         }, 5000);
 
-    }else if(!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) < 0){
+    }else if(!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0){
         e.preventDefault()
 
         document.getElementById('salePrice-error').innerText = "Please enter a valid non-negative sale price...!"
@@ -293,64 +297,70 @@ document.getElementById('size-container').addEventListener('click', (event) => {
 });
 
 
+setTimeout(() => {
+    const alertElement = document.getElementById('alertMessage');
+    if (alertElement) {
+        alertElement.style.display = 'none';
+    }
+}, 3000);
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Use event delegation for remove image buttons
-    document.querySelector('#card-body').addEventListener('click', function(event) {
-        if (event.target.classList.contains('remove-img')) {
-            // Find the parent container of the clicked button
-            const imageContainer = event.target.closest('#img-container');
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Use event delegation for remove image buttons
+//     document.querySelector('#card-body').addEventListener('click', function(event) {
+//         if (event.target.classList.contains('remove-img')) {
+//             // Find the parent container of the clicked button
+//             const imageContainer = event.target.closest('#img-container');
             
-            // Reset the file input
-            const fileInput = imageContainer.querySelector('input[type="file"]');
-            fileInput.value = ''; // Clear the selected file
+//             // Reset the file input
+//             const fileInput = imageContainer.querySelector('input[type="file"]');
+//             fileInput.value = ''; // Clear the selected file
             
-            // Hide the preview and cropped images
-            const imgView = imageContainer.querySelector(`[id^="imgView"]`);
-            const croppedImg = imageContainer.querySelector(`[id^="croppedImg"]`);
+//             // Hide the preview and cropped images
+//             const imgView = imageContainer.querySelector(`[id^="imgView"]`);
+//             const croppedImg = imageContainer.querySelector(`[id^="croppedImg"]`);
             
-            if (imgView) imgView.style.display = 'none';
-            if (croppedImg) croppedImg.src = ''; // Or set to a default placeholder image
+//             if (imgView) imgView.style.display = 'none';
+//             if (croppedImg) croppedImg.src = ''; // Or set to a default placeholder image
             
-            // Optional: You could remove the entire container if needed
-            // imageContainer.remove();
-        }
-    });
-});
+//             // Optional: You could remove the entire container if needed
+//             // imageContainer.remove();
+//         }
+//     });
+// });
 
-// Adding new image containers dynamically
-document.addEventListener('DOMContentLoaded', () => {
-    let imageIndex = document.querySelectorAll('.card-body #img-container').length; // Track the current image index
+// // Adding new image containers dynamically
+// document.addEventListener('DOMContentLoaded', () => {
+//     let imageIndex = document.querySelectorAll('.card-body #img-container').length; // Track the current image index
 
-    // Add event listener to the "Add Another Image" button
-    document.getElementById('add-image').addEventListener('click', function () {
-        const cardBody = document.querySelector('#card-body');
+//     // Add event listener to the "Add Another Image" button
+//     document.getElementById('add-image').addEventListener('click', function () {
+//         const cardBody = document.querySelector('#card-body');
 
-        // Create a new image container dynamically
-        const newImageContainer = document.createElement('div');
-        newImageContainer.className = 'mb-4';
-        newImageContainer.id = 'img-container';
+//         // Create a new image container dynamically
+//         const newImageContainer = document.createElement('div');
+//         newImageContainer.className = 'mb-4';
+//         newImageContainer.id = 'img-container';
 
-        newImageContainer.innerHTML = `
-            <div class="input-upload">
-                <img src="" id="imgView${imageIndex}" alt="Preview Image ${imageIndex}" style="max-width: 100%; height: auto; display: none;">
-                <input class="form-control" type="file" name="images" id="input${imageIndex}"
-                    accept="image/png, image/jpeg" onchange="viewImage(event, ${imageIndex})">
-            </div>
-            <div class="image-cropper d-flex align-items-center" style="margin-top: 10px;">
-                <img src="" id="croppedImg${imageIndex}" alt="Cropped Image ${imageIndex}" style="max-width: 100%; height: auto;">
-                <button type="button" id="saveButton${imageIndex}" class="btn-sm btn-primary" style="margin: 10px;">Save</button>
-                <br><br>
-                <button type="button" class="remove-img" style="margin: 40px;">Remove Image</button>
-            </div>
-        `;
+//         newImageContainer.innerHTML = `
+//             <div class="input-upload">
+//                 <img src="" id="imgView${imageIndex}" alt="Preview Image ${imageIndex}" style="max-width: 100%; height: auto; display: none;">
+//                 <input class="form-control" type="file" name="images" id="input${imageIndex}"
+//                     accept="image/png, image/jpeg" onchange="viewImage(event, ${imageIndex})">
+//             </div>
+//             <div class="image-cropper d-flex align-items-center" style="margin-top: 10px;">
+//                 <img src="" id="croppedImg${imageIndex}" alt="Cropped Image ${imageIndex}" style="max-width: 100%; height: auto;">
+//                 <button type="button" id="saveButton${imageIndex}" class="btn-sm btn-primary" style="margin: 10px;">Save</button>
+//                 <br><br>
+//                 <button type="button" class="remove-img" style="margin: 40px;">Remove Image</button>
+//             </div>
+//         `;
 
-        // Append the new container to the card body
-        cardBody.appendChild(newImageContainer);
+//         // Append the new container to the card body
+//         cardBody.appendChild(newImageContainer);
 
-        // Increment the image index for the next added image
-        imageIndex++;
-    });
-});
+//         // Increment the image index for the next added image
+//         imageIndex++;
+//     });
+// });

@@ -1,4 +1,9 @@
 const userSchema = require('../../models/userSchema') // requiring user schema
+
+const productSchema = require('../../models/productSchema')
+
+const categorySchema =  require('../../models/categorySchema')
+
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
 // const User = require('../../models/userSchema');
@@ -236,19 +241,52 @@ const userLogin = async(req,res)=>{
 
 
 const loaduserHome = async (req, res) => {
+
     try {
         console.log('Passport User:', req.user); // Logs user from Passport
         console.log('Session User:', req.session.user); // Logs custom session user
         const userId = req.user ? req.user._id : req.session.user;
 
+        const caetegories = await categorySchema.find({isListed:true})
+
+
+let  productData = await productSchema.find({
+ isBlocked:false,
+//  status:"Available",
+ category:{$in:caetegories.map(category=>category._id)}
+})
+
+
+productData.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+const productData1 = productData.slice(0,8)
+const productData2 = productData.slice(8,16)
+
+console.log("p1....",productData1);
+console.log("p2....",productData2);
+
+
         if(userId){
-         return   res.render('home',{user:userId});
+         return   res.render('home',{
+            user:userId,
+            products1:productData1,
+            products2:productData2,
+
+         });
 
         }else if(req.session.user){
-            return   res.render('home',{suser:req.session.user});
+            return   res.render('home',{
+                suser:req.session.user,
+                products1:productData1,
+                products2:productData2
+    
+            });
+            
 
         }else{
-            return res.render('home')
+            return res.render('home',{
+                products1:productData1,
+                products2:productData2    
+            })
         }
 
     } catch (error) {
@@ -287,11 +325,50 @@ const logout = async(req,res)=>{
     }
 }
 
+const loadShopePage = async (req,res) => {
+    try {
+
+        const caetegories = await categorySchema.find({isListed:true})
+
+
+        let  productData = await productSchema.find({
+         isBlocked:false,
+        //  status:"Available",
+         category:{$in:caetegories.map(category=>category._id)}
+        }).sort({productName:-1})
+        
+    
+
+        res.render('shop',{
+            product:productData,
+            category:caetegories
+        })
+        
+    } catch (error) {
+        console.log("Error...!",error);
+        res.redirect('/')
+    }
+}
+
+
+
+
+
 
 
 
 
 
 module.exports = {
-    loaduserHome,erroPage,loadUserLogin,userSignUp,SignUp,verifyOTP,resendOtp,userLogin,userProfile,logout
+    loaduserHome,
+    erroPage,
+    loadUserLogin,
+    userSignUp,
+    SignUp,
+    verifyOTP,
+    resendOtp,
+    userLogin,
+    userProfile,
+    logout,
+    loadShopePage
 }

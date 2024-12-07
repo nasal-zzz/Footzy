@@ -38,14 +38,6 @@ const count = await productSchema.find({
     ],
 })
 
-// Calculate total stock by iterating through the productData array
-const totalStock = productData.reduce((sum, product) => {
-    if (product.sizes) {
-        // Sum stock for each size within the product
-        return sum + product.sizes.reduce((innerSum, sizeObj) => innerSum + sizeObj.stock, 0);
-    }
-    return sum;
-}, 0);
 
 
 
@@ -56,7 +48,6 @@ const totalPages = Math.ceil(count / limit);
         res.render('products',{
            
             Category,
-            totalStock :totalStock,
            product:productData,
            currentPage: page,
            totalPages: totalPages,
@@ -79,9 +70,11 @@ const totalPages = Math.ceil(count / limit);
 const loadAddProduct = async (req,res) => {
     try {
         const category = await categorySchema.find({isListed:true});
+        console.log("catgtr....",category);
         
+
         res.render('addProduct',{
-            category:category
+            category:category,
         })
     } catch (error) {
         console.log(error);
@@ -100,7 +93,13 @@ const addProduct = async (req, res) => {
 
         const product = req.body;
 
-       
+        const productExist = await productSchema.find({productName:product.productName})
+        console.log("exist....!",productExist);
+        console.log("exist...length.....!",productExist.length);
+        
+
+       if(productExist.length === 0){
+        
 
         const validStatuses = ["Available", "Sold Out"];
         if (!validStatuses.includes(product.status)) {
@@ -133,9 +132,22 @@ const addProduct = async (req, res) => {
         console.log("Product successfully saved:", newProduct);
 
         return res.redirect('/admin/products');
+
+    }else{
+        console.log("product already exist on this name...!")
+        const category = await categorySchema.find({isListed:true});
+
+          return res.render('addProduct',{
+            error:'product already exist on this name...!', 
+            category:category,
+
+        });
+        }
+
+
     } catch (error) {
         console.error("Error saving product:", error);
-        return res.redirect('/admin/login');
+        return res.redirect('/admin/products');
     }
 };
 
@@ -153,7 +165,8 @@ console.log('heyy', productData);
 
         res.render('editProduct',{
             Categories : Categories,
-            product : productData
+            product : productData,
+            error
         })
     } catch (error) {
         console.log(error);
@@ -169,7 +182,7 @@ const listProduct = async (req,res) => {
         let id = req.query.id;
         console.log("id list..........",id);
         
-        await productSchema.updateOne({_id:id},{$set:{status:'Available'}})
+        await productSchema.updateOne({_id:id},{$set:{isBlocked:false}})
         res.redirect('/admin/products');
     } catch (error) {
         console.log('product listing failed',error);
@@ -183,7 +196,7 @@ const listProduct = async (req,res) => {
 const unlistProduct = async (req,res) => {
     try {
         let id = req.query.id    
-        await productSchema.updateOne({_id:id},{$set:{status:'Sold Out'}})
+        await productSchema.updateOne({_id:id},{$set:{isBlocked:true}})
         res.redirect('/admin/products');
 
         

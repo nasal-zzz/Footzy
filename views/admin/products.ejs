@@ -50,6 +50,7 @@
                             <th>Category</th>
                             <th>Stock</th>
                             <th>Status</th>
+                            <th>Active/Blocked</th>
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
@@ -75,11 +76,19 @@
                         %>
                         <td><%= totalstocks %></td>
                         
+                       
                         <td>
-                            <% if(item.status === 'Available'){ %>
+                            <% if(item.status === 'Available' || totalstocks > 0){ %>
                            <span class="badge bg-success">Available</span>
                            <% }else{ %>
                                <span class="badge bg-warning">Sold Out</span>
+                               <% } %>
+                           </td>
+                           <td>
+                            <% if(item.isBlocked === false){ %>
+                           <span class="badge bg-success">Active</span>
+                           <% }else{ %>
+                               <span class="badge bg-danger">Blocked</span>
                                <% } %>
                            </td>
 
@@ -90,10 +99,10 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="/admin/editProduct?id=<%=item._id %>">Edit</a>
-                                        <% if(item.status === 'Available'){%>
-                                        <a class="dropdown-item text-danger"href="/admin/unlistProduct?id=<%=item._id %>">Unlist</a>
+                                        <% if(item.isBlocked === false){%>
+                                        <a class="dropdown-item text-danger"href="/admin/unlistProduct?id=<%=item._id %>">Block</a>
                                         <% }else{%>
-                                            <a class="dropdown-item text-danger" href="/admin/listProduct?id=<%=item._id %>">List</a>
+                                            <a class="dropdown-item text-danger" href="/admin/listProduct?id=<%=item._id %>">Unblock</a>
                                             <% } %>
 
                                     </div>

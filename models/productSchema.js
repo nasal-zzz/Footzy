@@ -37,18 +37,10 @@ const produtSchema = new Schema({
           stock: { type: Number, required: true }, 
         },
       ],
-    // stock:{
-    //     type:Number,
-    //     required:true
-    // },
-    // sizes:{
-    //     type:Object,
-    //     require:true
-    // },
-    // quantity:{
-    //     type:Number,
-    //     default:true
-    // },
+    isBlocked:{
+        type:Boolean,
+        default:false
+    },
     productImage:{
         type:[String],
         required:true
