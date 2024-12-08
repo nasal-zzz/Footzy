@@ -18,12 +18,20 @@ const getDetails = async (req, res) => {
         console.log("id........", id);
 
         // Query the database
-        const product = await productSchema.findOne({ _id: id });
+        const product = await productSchema.findOne({ _id: id }).populate('category')
+        const related = await productSchema.find({
+            category: product.category._id, // Use category._id if populated
+            _id: { $ne: product._id }, // Exclude the current product
+        });
+        
+        console.log('rele................',related);
+        
 
         console.log("proo.....", product);
         if (product) {
             res.render("singleProduct", {
                 product: product,
+                related:related
             });
         } else {
             console.log("Product not found");

@@ -188,6 +188,7 @@
 					  <!-- single product -->
 					  <div class="col-lg-3 col-md-6">
 						<div class="single-product">
+							<a href="/productDetails?id=<%=products1[i]._id%>">
 						  <img class="img-fluid" src="/uploads/product-images/<%= products1[i].productImage[0] %>" alt="">
 						  <div class="product-details">
 							<h6><%= products1[i].productName %></h6>
@@ -195,6 +196,7 @@
 							  <h6 class="text-dark">₹<%= products1[i].salePrice %>.00</h6>
 							  <h6 class="l-through text-secondary">₹<%= products1[i].regularPrice %>.00</h6>
 							</div>
+						</a>
 							<div class="prd-bottom">
 							  <a href="" class="social-info">
 								<span class="ti-bag"></span>
