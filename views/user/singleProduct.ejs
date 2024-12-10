@@ -94,6 +94,8 @@
 						<% } %>
 					  </div>
 
+
+					  
 				</div>
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
@@ -103,8 +105,22 @@
 
 						<ul class="list">
 							<li><a class="active" href="#"><span>Category</span><%= product.category.name %></a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							<li><a ><span>Availibility</span> : In Stock</a></li>
+							<li><a ><span>Size</span> </a></li>
+							<li>
+								<a>
+									<span></span>
+									<select class="size-dropdown">
+										<% for(let i=0;i<product.sizes.length;i++){%>
+											<option value=""><%= product.sizes[i].size%></option>
+											<% } %>
+									</select>
+								</a>
+							</li>
+
+							
 						</ul>
+						
 						<p><%= product.description %></p>
 						<!-- <div class="product_count">
 							<label for="qty">Quantity:</label>

@@ -86,7 +86,7 @@ function viewImage(event, index) {
         const cropperContainer = croppedImg.parentElement;
 
         imgView.src = reader.result;
-        cropperContainer.style.display = 'flex';
+        cropperContainer.style.display = 'block';
 
         // Initialize Cropper.js
         const cropper = new Cropper(imgView, {

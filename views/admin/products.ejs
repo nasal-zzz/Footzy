@@ -78,7 +78,7 @@
                         
                        
                         <td>
-                            <% if(item.status === 'Available' || totalstocks > 0){ %>
+                            <% if(item.status === 'Available' && totalstocks > 0){ %>
                            <span class="badge bg-success">Available</span>
                            <% }else{ %>
                                <span class="badge bg-warning">Sold Out</span>
