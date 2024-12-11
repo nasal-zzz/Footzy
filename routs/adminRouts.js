@@ -14,12 +14,12 @@ router.get('/notFound',adminController.pageError)
 router.get('/login',adminController.loadLogin)
 
 router.post('/login',adminController.adminLogin);
-
-router.get('/dashboard',adminAuth.adminAuth,adminController.loadDashboard)
+     
+router.get('/dashboard',adminAuth.adminAuth,adminAuth.isLogin,adminController.loadDashboard)
 
 router.get('/logout',adminController.logout)
 
-router.get('/users',adminAuth.adminAuth,usersController.customerInfo)
+router.get('/users',adminAuth.adminAuth,adminAuth.isLogin,usersController.customerInfo)
 
 // block user
 router.get('/blockUser',adminAuth.adminAuth,usersController.userBlock)
@@ -27,9 +27,9 @@ router.get('/blockUser',adminAuth.adminAuth,usersController.userBlock)
 router.get('/unblockUser',adminAuth.adminAuth,usersController.userunBlock)
 
 //category management
-router.get('/categories',adminAuth.adminAuth,categoryController.categoryInfo)
+router.get('/categories',adminAuth.adminAuth,adminAuth.isLogin,categoryController.categoryInfo)
 
-router.get('/addCategory',adminAuth.adminAuth,categoryController.loadAddCategory)
+router.get('/addCategory',adminAuth.adminAuth,adminAuth.isLogin,categoryController.loadAddCategory)
 router.post('/addCategory',adminAuth.adminAuth,categoryController.addCategory)
 
 // list/unlist
@@ -37,17 +37,17 @@ router.get('/listCategory',adminAuth.adminAuth,categoryController.listCategory)
 router.get('/unlistCategory',adminAuth.adminAuth,categoryController.unlistCategory)
 
 // edit category
-router.get('/editCategory',adminAuth.adminAuth,categoryController.loadEditCategory)
+router.get('/editCategory',adminAuth.adminAuth,adminAuth.isLogin,categoryController.loadEditCategory)
 router.patch('/editCategory/:id',adminAuth.adminAuth,categoryController.editCategory)
 
 // product management
-router.get('/products',adminAuth.adminAuth,productController.loadProducts)
+router.get('/products',adminAuth.adminAuth,adminAuth.isLogin,productController.loadProducts)
 
-router.get('/addProducts',adminAuth.adminAuth,productController.loadAddProduct)
+router.get('/addProducts',adminAuth.adminAuth,adminAuth.isLogin,productController.loadAddProduct)
 router.post('/addProduct',adminAuth.adminAuth,uploads.array("images",3),productController.addProduct)
 
 // edit product 
-router.get('/editProduct',adminAuth.adminAuth,productController.getEditProduct)
+router.get('/editProduct',adminAuth.adminAuth,adminAuth.isLogin,productController.getEditProduct)
 router.post('/editProduct/:id',adminAuth.adminAuth,uploads.array("newImages[]"),productController.editProduct)
 
 router.post('/deleteImage',adminAuth.adminAuth,productController.deleteImage)

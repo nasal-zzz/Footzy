@@ -28,10 +28,15 @@ const loadUserLogin = async (req, res) => {
         // If either req.user (Passport) or req.session.user (custom session) exists
         if (req.user || req.session.user) {
             console.log('User found, redirecting to home page.');
-            res.render('home'); // Redirect to home page
+            res.render('home',{
+                suser:req.session.user,
+
+            }); // Redirect to home page
         } else {
+            const message = req.query.error || '';
+
             console.log('No user found, rendering login page.');
-            res.render('login', { title: 'Login' }); // Render login page
+            res.render('login', { title: 'Login',message }); // Render login page
         }
     } catch (error) {
         console.error('Error loading login page:', error.message);
@@ -219,6 +224,15 @@ const userLogin = async(req,res)=>{
            return res.render('login',{message:"User is Blocked"}) 
         }
 
+        const errorMessage = req.query.error || '';
+
+
+        if(errorMessage){
+            console.log('error,,,!',errorMessage);
+            return res.render('login',{message:errorMessage}) 
+
+        }
+
         const passwordMatch = await bcrypt.compare(password,findUser.password);
             console.log('match',passwordMatch)
         if(!passwordMatch){
@@ -226,9 +240,12 @@ const userLogin = async(req,res)=>{
         }
 
         req.session.user = findUser._id;
-        res.render('home',{
-            suser:req.session.user,
-        user:req.user});
+        // res.render('home',{
+        //     suser:req.session.user,
+        // user:req.user});
+
+      res.redirect('/')
+
 
     } catch (error) {
         console.error('login error');
@@ -253,8 +270,12 @@ const loaduserHome = async (req, res) => {
 let  productData = await productSchema.find({
  isBlocked:false,
 //  status:"Available",
- category:{$in:caetegories.map(category=>category._id)}
+//  category:{$in:caetegories.map(category=>category._id)}
 })
+.sort({productName:1})
+
+console.log('data-prod',productData);
+
 
 
 productData.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
@@ -328,6 +349,11 @@ const logout = async(req,res)=>{
 const loadShopePage = async (req,res) => {
     try {
 
+        const moment = require('moment');
+        const page = parseInt(req.query.page) || 1;
+        const limit = 3;
+        const skip = (page-1)*limit;
+
         const caetegories = await categorySchema.find({isListed:true})
 
 
@@ -335,13 +361,26 @@ const loadShopePage = async (req,res) => {
          isBlocked:false,
         //  status:"Available",
          category:{$in:caetegories.map(category=>category._id)}
-        }).sort({productName:-1})
-        
-    
+        })
+        .sort({productName:1})
+        .skip(skip)
+        .limit(limit)
+
+        const totalProducts = await productSchema.find({isBlocked:false})
+        .countDocuments();
+
+
+        const totalPages = Math.ceil(totalProducts/limit)
 
         res.render('shop',{
             product:productData,
-            category:caetegories
+            category:caetegories,
+            suser:req.session.user,
+            currentPage:page,
+            totalPages:totalPages,
+            moment,
+            limit 
+
         })
         
     } catch (error) {

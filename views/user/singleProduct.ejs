@@ -37,6 +37,40 @@
     width: 100%; /* Makes the image fill its container */
     height: auto; /* Maintains the aspect ratio */
 }
+.sold-out-container {
+      position: relative;
+      width: 200px;
+      height: 50px;
+      background: linear-gradient(45deg, #ff4b2b, #ff416c);
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+    }
+
+    .sold-out-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      z-index: 1;
+    }
+
+    .sold-out-text {
+      position: relative;
+      z-index: 2;
+      font-family: 'Arial', sans-serif;
+    }
 </style>
 
 
@@ -103,16 +137,34 @@
 						<h2>₹<%= product.salePrice%>.00</h2>
 						<h4 class="text-danger " style="text-decoration: line-through;">₹<%=product.regularPrice %>.00</h4>
 
+						
+
 						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span><%= product.category.name %></a></li>
-							<li><a ><span>Availibility</span> : In Stock</a></li>
-							<li><a ><span>Size</span> </a></li>
+							<li><a class="active" href="#"><span style="width: fit-content;">Category</span>    :   <%= product.category.name %></a></li>
+
+							<% 
+							const totalstocks = product.sizes 
+								? product.sizes.reduce((sum, sizeObj) => sum + sizeObj.stock, 0)
+								: 0;
+						%>
+
+							<li><a class="active"><span style="width: fit-content;">Stocks Available</span> : 
+								
+								<% if(totalstocks <=0){%>
+									 Out of Stock
+									<% }else{ %>
+								<%= totalstocks %>
+							<% } %>
+							</a></li>
+							<li><a  class="active"><span style="width: fit-content;">Available Sizes </span> : </a></li>
 							<li>
 								<a>
 									<span></span>
 									<select class="size-dropdown">
 										<% for(let i=0;i<product.sizes.length;i++){%>
+											<% if(product.sizes[i].stock >0){ %>
 											<option value=""><%= product.sizes[i].size%></option>
+											<% } %>
 											<% } %>
 									</select>
 								</a>
@@ -122,6 +174,8 @@
 						</ul>
 						
 						<p><%= product.description %></p>
+
+
 						<!-- <div class="product_count">
 							<label for="qty">Quantity:</label>
 							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
@@ -131,6 +185,13 @@
 							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
 						</div> -->
 
+						<% if(totalstocks <= 0){ %>
+							<div class="sold-out-container">
+								<span class="sold-out-text">Sold Out</span>
+							  </div>
+
+							  <% }else{ %>
+
                         <div class="product_count">
                             <label for="qty">Quantity:</label>
                             <input type="number" name="qty" id="sst" min="1" value="1" title="Quantity:" class="input-text qty">
@@ -139,12 +200,15 @@
                             <button onclick="var result = document.getElementById('sst'); var sst = parseInt(result.value, 10); if(!isNaN(sst) && sst > 1) result.value = sst - 1; return false;"
                                 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
-                        
+						
+
 						<div class="card_area d-flex align-items-center">
 							<a class="primary-btn" href="#">Add to Cart</a>
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
 							<a class="primary-btn" href="#">Buy Now</a>
 						</div>
+
+						<% } %>
 					</div>
 				</div>
 			</div>

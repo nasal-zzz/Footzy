@@ -20,8 +20,9 @@ if(req.session.admin){
     try {
 
 const search = req.query.search || "";
-const page =  req.query.page || 1;
+const page = parseInt(req.query.page) || 1;
 const limit = 3;
+const skip = (page-1)*limit
 
 const productData = await productSchema.find({
 
@@ -29,15 +30,20 @@ const productData = await productSchema.find({
         {productName:{$regex: new RegExp(".*"+search+".*","i")}},
         // {category:{$regex:new RegExp(".*"+search+".*","i")}}
     ],
-}).populate('category').sort({createdAt:-1}).limit(limit).skip((page-1)*limit)
+})
+.populate('category')
+.sort({createdAt:-1})
+.skip(skip)
+.limit(limit)
 
 const count = await productSchema.find({
     $or:[
         {productName:{$regex:new RegExp(".*"+search+".*","i")}},
         // {category:{$regex:new RegExp(".*"+search+".*","i")}}
     ],
-})
+}).countDocuments();
 
+const moment = require('moment');
 
 
 
@@ -52,6 +58,7 @@ const totalPages = Math.ceil(count / limit);
            currentPage: page,
            totalPages: totalPages,
            limit: limit,
+           moment
 
     })
         
@@ -457,34 +464,61 @@ const editProduct = async (req, res) => {
 
 
 
-  const deleteImage = async (req,res) => {
+//   const deleteImage = async (req,res) => {
     
-try {
+// try {
     
-    const {imageNameToServer,productIdToServer} = req.body;
-    const product = await productSchema.findByIdAndUpdate(productIdToServer,{$pull:{productImage:imageNameToServer}});
-    const imagePath = path.join("public","product-images",imageNameToServer)
-    if(fs.existsSync(imagePath)){
-        await fs.unlinkSync(imagePath);
-        console.log(`image ${imageNameToServer} deleted successfully`);
+//     const {imageNameToServer,productIdToServer} = req.body;
+//     const product = await productSchema.findByIdAndUpdate(productIdToServer,{$pull:{productImage:imageNameToServer}});
+//     const imagePath = path.join("public","product-images",imageNameToServer)
+//     if(fs.existsSync(imagePath)){
+//         await fs.unlinkSync(imagePath);
+//         console.log(`image ${imageNameToServer} deleted successfully`);
         
-    }else{
-        console.log(`image ${imageNameToServer} not foung`);
+//     }else{
+//         console.log(`image ${imageNameToServer} not foung`);
         
+//     }
+
+// res.send({status:true});
+
+
+// } catch (error) {
+//     res.redirect('/notFound')
+//     console.log('error on deleting imge...!');
+    
+// }
+
+
+//   }
+
+
+
+const deleteImage = async (req, res) => {
+    try {
+        const { imageNameToServer, productIdToServer } = req.body;
+        
+        // Remove the image from the product's image array
+        await productSchema.findByIdAndUpdate(productIdToServer, {
+            $pull: { productImage: imageNameToServer }
+        });
+
+        // Delete the image file
+        const imagePath = path.join("public", "uploads", "product-images", imageNameToServer);
+        if (fs.existsSync(imagePath)) {
+            await fs.promises.unlink(imagePath);
+            console.log(`Image ${imageNameToServer} deleted successfully`);
+        } else {
+            console.log(`Image ${imageNameToServer} not found`);
+        }
+
+        // Send a success response
+        res.json({ status: true });
+    } catch (error) {
+        console.error('Error deleting image:', error);
+        res.status(500).json({ status: false, message: 'Failed to delete image' });
     }
-
-res.send({status:true});
-
-
-} catch (error) {
-    res.redirect('/notFound')
-    console.log('error on deleting imge...!');
-    
-}
-
-
-  }
-
+};
 
 
 module.exports = {

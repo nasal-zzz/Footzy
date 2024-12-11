@@ -255,23 +255,19 @@ document.addEventListener('DOMContentLoaded', () => {
 function deleteImg(imageId, productId) {
     $.ajax({
         url: "/admin/deleteImage",
-        method: "post",
-        data: { imageNameToServer: imageId, productIdToServer: productId },
-        success: (response) => {
+        method: 'post',
+        data: {
+            imageNameToServer: imageId,
+            productIdToServer: productId
+        },
+        success: function(response) {
             if (response.status === true) {
-                const imgContainer = document.querySelector(`[data-image-id="${imageId}"]`);
-                if (imgContainer) {
-                    imgContainer.style.transition = "opacity 0.5s";
-                    imgContainer.style.opacity = 0;
-                    setTimeout(() => {
-                        imgContainer.remove();
-                    }, 500); // Wait for the transition to complete
-                }
+                // Find the closest parent container and remove it
+                $(`button[onclick="deleteImg('${imageId}','${productId}')"]`).closest('.mb-4').remove();
             }
         },
-        error: (err) => {
-            console.error("Error deleting image:", err);
+        error: function() {
+            alert('Failed to remove image');
         }
     });
 }
-

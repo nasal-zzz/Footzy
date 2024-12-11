@@ -167,8 +167,18 @@
                                 <div class="mb-4">
                             <label class="form-label">Status</label>
                                 <select class="form-select" name="status" id="status">
+                                    <% if(product.status === 'Available'){ %>
+
                                 <option value="Available">Available</option>
-                                <option value="Sold Out">Sold Out</option></select>   
+                                <option value="Sold Out">Sold Out</option>
+                            
+                                <% }else{ %>
+                                    <option value="Sold Out">Sold Out</option>
+                                    <option value="Available">Available</option>
+
+                                    <% } %> 
+
+                            </select>   
                                   <div id="status-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
@@ -176,8 +186,17 @@
                                 <div class="mb-4">
                             <label class="form-label">isBlocked</label>
                                 <select class="form-select" name="isBlocked" id="status">
+                                    <% if(product.isBlocked === false){ %>
                                 <option value='false'>false</option>
-                                <option value="true">true</option></select>   
+                                <option value="true" >true</option>
+
+                                    <% }else{ %>
+                                <option value="true" >true</option>
+                                <option value='false'>false</option>
+                                <% } %> 
+
+                            </select> 
+                                 
                                   <div id="status-error" class="error-message text-danger"></div>
                                 </div>
                             </div>

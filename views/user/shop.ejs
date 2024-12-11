@@ -1,5 +1,21 @@
 <%-include("../../views/partials/user/header")%>
 
+<style>
+
+.pagination .page-item.active .page-link {
+    background-color: #fd7e14; /* Bootstrap "danger" color for background */
+    border-color: #fd7e14;
+	/* Matching border color */
+    color: #fff; /* White text */
+  }
+  .pagination .page-item.active .page-link:hover {
+    background-color: #fd7e14;
+	/* Slightly darker shade for hover effect */
+    border-color: #fd7e14;
+
+  }
+</style>
+
 	<!-- End Header Area -->
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
@@ -114,20 +130,20 @@
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting">
-						<select>
+						<!-- <select>
 							<option value="1">Default sorting</option>
 							<option value="1">Default sorting</option>
 							<option value="1">Default sorting</option>
-						</select>
+						</select> -->
 					</div>
 					<div class="sorting mr-auto">
-						<select>
+						<!-- <select>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
-						</select>
+						</select> -->
 					</div>
-					<div class="pagination">
+					<!-- <div class="pagination">
 						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
 						<a href="#" class="active">1</a>
 						<a href="#">2</a>
@@ -135,7 +151,46 @@
 						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
 						<a href="#">6</a>
 						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+					</div> -->
+
+					<div class="pagination-area ">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<!-- Back Button (Hidden if on the first page) -->
+								<% if (currentPage > 1) { %>
+									<li class="page-item">
+										<a class="page-link text-danger" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+								<% } %>
+					
+								<!-- Page Numbers -->
+								<% 
+									const visiblePages = 3; // Number of pages to show at a time
+									const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+									const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+								%>
+								<% for (let i = startPage; i <= endPage; i++) { %>
+									<li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+										<a class="page-link text-danger" href="?page=<%= i %>">
+											<%= i %>
+										</a>
+									</li>
+								<% } %>
+					
+								<!-- Next Button (Hidden if on the last page) -->
+								<% if (currentPage < totalPages) { %>
+									<li class="page-item">
+										<a class="page-link text-danger" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								<% } %>
+							</ul>
+						</nav>
 					</div>
+
 				</div>
 				<!-- End Filter Bar -->
 				<!-- Start Best Seller -->

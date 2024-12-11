@@ -71,22 +71,42 @@
             
             <div class="pagination-area">
               <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <% for(let i=1;i<=totalPages;i++){%>
-                  <li class="page-item  <%= (i===currentPage) ? 'active' : ''  %>"><a class="page-link" href="?page=<%= i %> ">
-                    <%= i %>
-                  </a></li>
-                 <% } %>
-
-                 <li class="page-item <%= (currentPage === totalPages) ? 'disabled' : '' %>">
-                  <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next" <%= (currentPage === totalPages) ? 'tabindex="-1" aria-disabled="true"' : '' %> >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-
-                </ul>
+                  <ul class="pagination justify-content-center">
+                      <!-- Back Button (Hidden if on the first page) -->
+                      <% if (currentPage > 1) { %>
+                          <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                              </a>
+                          </li>
+                      <% } %>
+          
+                      <!-- Page Numbers -->
+                      <% 
+                          const visiblePages = 3; // Number of pages to show at a time
+                          const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+                          const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+                      %>
+                      <% for (let i = startPage; i <= endPage; i++) { %>
+                          <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+                              <a class="page-link" href="?page=<%= i %>">
+                                  <%= i %>
+                              </a>
+                          </li>
+                      <% } %>
+          
+                      <!-- Next Button (Hidden if on the last page) -->
+                      <% if (currentPage < totalPages) { %>
+                          <li class="page-item">
+                              <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                              </a>
+                          </li>
+                      <% } %>
+                  </ul>
               </nav>
-            </div>
+          </div>
+          
           </section>
        <!-- content-main end// -->
        <%-include("../../views/partials/admin/footer")%>

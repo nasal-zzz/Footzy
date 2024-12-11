@@ -34,7 +34,7 @@ const isLogin = (req,res,next)=>{
         next();
 
     }else{
-        res.redirect('/admin/dashboard')
+        res.redirect('/admin/login')
 
     }
 }

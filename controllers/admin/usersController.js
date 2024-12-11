@@ -3,16 +3,11 @@ const userSchema = require('../../models/userSchema')
 
 const customerInfo = async (req,res) => {
     try {
-        let search ="";
-        if(req.query.search){
-            search = req.query.search;
-        }
-        
-        let page = 1;
-        if(req.query.page){
-            page = req.query.page;
-        }
-        const limit = 10
+        const search = req.query.search || "";
+        const page = parseInt(req.query.page) || 1;
+        const limit = 4;
+        const skip = (page-1)*limit;
+
         const userData = await userSchema.find({
             isAdmin:false,
             $or:[
@@ -20,9 +15,12 @@ const customerInfo = async (req,res) => {
                 {email:{$regex:".*"+search+".*"}}
             ]
         })
-        .limit(limit*1)
-        .skip((page-1)*limit)
+        .skip(skip)
+        .limit(limit)
         .exec();
+
+        const moment = require('moment');
+
 
 const count = await userSchema.find({
     isAdmin:false,
@@ -40,6 +38,7 @@ res.render('users',{
     currentPage: page,
     totalPages: totalPages,
     limit: limit,
+    moment
 })
 
     } catch (error) {

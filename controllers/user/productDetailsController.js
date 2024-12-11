@@ -31,7 +31,9 @@ const getDetails = async (req, res) => {
         if (product) {
             res.render("singleProduct", {
                 product: product,
-                related:related
+                related:related,
+                suser:req.session.user,
+
             });
         } else {
             console.log("Product not found");
