@@ -351,7 +351,7 @@ const loadShopePage = async (req,res) => {
 
         const moment = require('moment');
         const page = parseInt(req.query.page) || 1;
-        const limit = 3;
+        const limit = 9;
         const skip = (page-1)*limit;
 
         const caetegories = await categorySchema.find({isListed:true})

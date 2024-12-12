@@ -167,106 +167,192 @@ function handleFileSelect(event){
 
 
 
-document.getElementById("addProductForm").addEventListener('submit',(e)=>{
+// document.getElementById("addProductForm").addEventListener('submit',(e)=>{
+
+//     const name = document.getElementById('productName').value.trim();
+//     const description = document.getElementById('productDescription').value.trim();
+//     const regularPrice = document.getElementById('regularPrice').value;
+//     const salePrice = document.getElementById('salePrice').value;
+//     const status = document.getElementById('status').value;
+//     const category = document.getElementById('category').value;
+//     const sizeInputs = document.querySelectorAll('#size-container div');
+   
+//     if (name.trim() === "") {
+//         e.preventDefault()
+//         document.getElementById('name-error').innerText = "Please enter a product name...!"
+  
+//         setTimeout(function() {
+//             document.getElementById('name-error').style.display = 'none';
+//         }, 5000);
+
+//     // } else
+//     // if(!/^[a-zA-Z\s]+$/.test(name)){
+//     //     e.preventDefault()
+
+//     //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic charecters..!"
+
+//     //     setTimeout(function() {
+//     //         document.getElementById('name-error').style.display = 'none';
+//     //     }, 5000);
+
+//     }else if(description.trim() === ""){
+//         e.preventDefault()
+
+//         document.getElementById('description-error').innerText = "PPlease enter the product description...!"
+
+//         setTimeout(function() {
+//             document.getElementById('description-error').style.display = 'none';
+//         }, 5000);
+
+//     // }else if(!/^[a-zA-Z\s]{10,}$/.test(description)){
+//     //     e.preventDefault()
+
+//     //     document.getElementById('description-error').innerText = "Product description should contain only alphabetic charecters and must 10 charecters length..!"
+
+//     //     setTimeout(function() {
+//     //         document.getElementById('description-error').style.display = 'none';
+//     //     }, 5000);
+   
+//     }else if(!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0){
+//         e.preventDefault()
+
+//         document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price...!"
+
+//         setTimeout(function() {
+//             document.getElementById('regularPrice-error').style.display = 'none';
+//         }, 5000);
+
+//     }else if(!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0){
+//         e.preventDefault()
+
+//         document.getElementById('salePrice-error').innerText = "Please enter a valid non-negative sale price...!"
+
+//         setTimeout(function() {
+//             document.getElementById('salePrice-error').style.display = 'none';
+//         }, 5000);
+
+//     }else if (parseFloat(regularPrice) <= parseFloat(salePrice)){
+//         e.preventDefault()
+
+//         document.getElementById('salePrice-error').innerText = "Regular price must be greater than sale price...!"
+        
+//         setTimeout(function() {
+//             document.getElementById('salePrice-error').style.display = 'none';
+//         }, 5000);
+
+// }else if( sizeInputs.forEach((input, index) => {
+//     const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
+//     const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
+
+//     if(!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0){
+//         e.preventDefault()
+
+//         document.getElementById('stock-error').innerText = "Please enter a valid non-negative stock...!"
+
+//         setTimeout(function() {
+//             document.getElementById('stock-error').style.display = 'none';
+//         }, 3000);
+
+//     }else if(!/^(?:[0-9]|1[0-2])$/.test(size) || parseFloat(size) < 0){
+//         e.preventDefault()
+    
+//         document.getElementById('size-error').innerText = "Please enter a valid  size between 0 to 12...!"
+    
+//         setTimeout(function() {
+//             document.getElementById('size-error').style.display = 'none';
+//         }, 3000);
+//     }
+//   })
+// )
+
+//     return;
+// })
+
+
+
+document.getElementById("addProductForm").addEventListener('submit', async function (e) {
 
     const name = document.getElementById('productName').value.trim();
     const description = document.getElementById('productDescription').value.trim();
     const regularPrice = document.getElementById('regularPrice').value;
     const salePrice = document.getElementById('salePrice').value;
-    const status = document.getElementById('status').value;
-    const category = document.getElementById('category').value;
     const sizeInputs = document.querySelectorAll('#size-container div');
-   
-    if (name.trim() === "") {
-        e.preventDefault()
-        document.getElementById('name-error').innerText = "Please enter a product name...!"
-  
-        setTimeout(function() {
-            document.getElementById('name-error').style.display = 'none';
-        }, 5000);
+    const imageInputs = document.getElementsByClassName('.imageTag');
 
-    // } else
-    // if(!/^[a-zA-Z\s]+$/.test(name)){
-    //     e.preventDefault()
 
-    //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic charecters..!"
-
-    //     setTimeout(function() {
-    //         document.getElementById('name-error').style.display = 'none';
-    //     }, 5000);
-
-    }else if(description.trim() === ""){
-        e.preventDefault()
-
-        document.getElementById('description-error').innerText = "PPlease enter the product description...!"
-
-        setTimeout(function() {
-            document.getElementById('description-error').style.display = 'none';
-        }, 5000);
-
-    // }else if(!/^[a-zA-Z\s]{10,}$/.test(description)){
-    //     e.preventDefault()
-
-    //     document.getElementById('description-error').innerText = "Product description should contain only alphabetic charecters and must 10 charecters length..!"
-
-    //     setTimeout(function() {
-    //         document.getElementById('description-error').style.display = 'none';
-    //     }, 5000);
-   
-    }else if(!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0){
-        e.preventDefault()
-
-        document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price...!"
-
-        setTimeout(function() {
-            document.getElementById('regularPrice-error').style.display = 'none';
-        }, 5000);
-
-    }else if(!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0){
-        e.preventDefault()
-
-        document.getElementById('salePrice-error').innerText = "Please enter a valid non-negative sale price...!"
-
-        setTimeout(function() {
-            document.getElementById('salePrice-error').style.display = 'none';
-        }, 5000);
-
-    }else if (parseFloat(regularPrice) <= parseFloat(salePrice)){
-        e.preventDefault()
-
-        document.getElementById('salePrice-error').innerText = "Regular price must be greater than sale price...!"
-        
-        setTimeout(function() {
-            document.getElementById('salePrice-error').style.display = 'none';
-        }, 5000);
-
-}else if( sizeInputs.forEach((input, index) => {
-    const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
-    const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
-
-    if(!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0){
-        e.preventDefault()
-
-        document.getElementById('stock-error').innerText = "Please enter a valid non-negative stock...!"
-
-        setTimeout(function() {
-            document.getElementById('stock-error').style.display = 'none';
-        }, 3000);
-
-    }else if(!/^(?:[0-9]|1[0-2])$/.test(size) || parseFloat(size) < 0){
-        e.preventDefault()
-    
-        document.getElementById('size-error').innerText = "Please enter a valid  size between 0 to 12...!"
-    
-        setTimeout(function() {
-            document.getElementById('size-error').style.display = 'none';
-        }, 3000);
+    // Validate Product Name
+    if (name === "") {
+        document.getElementById('name-error').innerText = "Please enter a product name!";
+        document.getElementById('name-error').style.display = 'block';
+        e.preventDefault();
+        // } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+    //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic characters!";
+    //     document.getElementById('name-error').style.display = 'block';
+    //     isValid = false;
+    } else {
+        document.getElementById('name-error').style.display = 'none';
     }
-  })
-)
 
-    return;
-})
+    // Validate Description
+    if (description === "") {
+        document.getElementById('description-error').innerText = "Please enter the product description!";
+        document.getElementById('description-error').style.display = 'block';
+        e.preventDefault();
+        // } else if (!/^[a-zA-Z\s]{10,}$/.test(description)) {
+    //     document.getElementById('description-error').innerText = "Description should be at least 10 characters long!";
+    //     document.getElementById('description-error').style.display = 'block';
+    //     isValid = false;
+    } else {
+        document.getElementById('description-error').style.display = 'none';
+    }
+
+    // Validate Prices
+    if (!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0) {
+        document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price!";
+        document.getElementById('regularPrice-error').style.display = 'block';
+        e.preventDefault();
+    } else {
+        document.getElementById('regularPrice-error').style.display = 'none';
+    }
+
+    if (!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0 || parseFloat(regularPrice) <= parseFloat(salePrice)) {
+        document.getElementById('salePrice-error').innerText = "Sale price must be less than regular price and non-negative!";
+        document.getElementById('salePrice-error').style.display = 'block';
+        e.preventDefault();
+    } else {
+        document.getElementById('salePrice-error').style.display = 'none';
+    }
+
+    // Validate Sizes
+    sizeInputs.forEach((input, index) => {
+        const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
+        const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
+
+        if (!/^(?:[0-9]|1[0-2])$/.test(size)) {
+            document.getElementById('size-error').innerText = "Size must be between 0 and 12!";
+            document.getElementById('size-error').style.display = 'block';
+            e.preventDefault();
+        } else {
+            document.getElementById('size-error').style.display = 'none';
+        }
+
+        if (!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0) {
+            document.getElementById('stock-error').innerText = "Stock must be a non-negative number!";
+            document.getElementById('stock-error').style.display = 'block';
+            e.preventDefault();
+        } else {
+            document.getElementById('stock-error').style.display = 'none';
+        }
+    });
+
+   
+
+
+
+   return;
+});
+
+
 
 let sizeIndex = 1;
       

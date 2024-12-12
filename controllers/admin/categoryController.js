@@ -48,8 +48,11 @@ const addCategory = async (req, res) => {
 
     try {
         // Check if category name already exists
-        const existingCategory = await categorySchema.findOne({ name: name.trim() });
-        if (existingCategory) {
+        const existingCategory = await categorySchema.findOne({
+            name: { $regex: new RegExp(`^${name.trim()}$`, 'i') }
+          });
+          
+                  if (existingCategory) {
             return res.render('addCategory', {
                 error: "Category already exists with this name!",
                 data: { name: name, description: description, isListed },
@@ -120,7 +123,10 @@ const loadEditCategory = async (req,res) => {
 
 const editCategory = async (req,res) => {
     const {id} = req.params;
-    const {name,description} = req.body;
+
+    console.log("bddy..cat..",req.body);
+
+    const {name,description,isListed} = req.body;
 
 
     // const existCategory = await categorySchema.findOne({name:name});
@@ -135,6 +141,7 @@ const editCategory = async (req,res) => {
         const category = await categorySchema.findByIdAndUpdate(id,{
             name:name,
             description:description,
+            isListed:isListed
         },{new:true})
 
     

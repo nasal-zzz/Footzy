@@ -100,8 +100,11 @@ const addProduct = async (req, res) => {
 
         const product = req.body;
 
-        const productExist = await productSchema.find({productName:product.productName})
-        console.log("exist....!",productExist);
+        const productExist = await productSchema.find({
+            productName: { $regex: new RegExp(`^${product.productName}$`, 'i') }
+          });
+          
+                  console.log("exist....!",productExist);
         console.log("exist...length.....!",productExist.length);
         
 
@@ -457,7 +460,7 @@ const editProduct = async (req, res) => {
 
     } catch (error) {
       console.error('Error on editing product:', error.message);
-      res.redirect('/notFound');
+      res.redirect('/admin/notFound');
     }
   };
   
@@ -497,6 +500,17 @@ const editProduct = async (req, res) => {
 const deleteImage = async (req, res) => {
     try {
         const { imageNameToServer, productIdToServer } = req.body;
+
+        // const productimg = productSchema.findOne({_id:productIdToServer})
+        // console.log('prod imgs.../',productimg);
+        
+
+        // if(productimg.productImage.length <= 2){
+        //     return res.status(400).json({
+        //         status: false,
+        //         message: 'must want 2 images for a product...!'
+        //     });
+        // }
         
         // Remove the image from the product's image array
         await productSchema.findByIdAndUpdate(productIdToServer, {

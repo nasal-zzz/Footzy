@@ -5,6 +5,8 @@ document.getElementById('editCategoryForm').addEventListener('submit', async fun
     const id = document.getElementById('categoryId').value;
     const name = document.getElementById('name').value.trim();
     const description = document.getElementById('description').value.trim();
+    const isListed = document.getElementById('status').value;  // Get the value of the isListed field
+
 
     if (!name || !description) {
         return Swal.fire({
@@ -14,8 +16,8 @@ document.getElementById('editCategoryForm').addEventListener('submit', async fun
             confirmButtonColor: '#d33',
             confirmButtonText: 'Ok',
         });
-    }else if(!/^[a-zA-Z\s]+$/.test(name)){
-        document.getElementById('name-error').innerText = "Category name should contain only alphabetic charecters..!"
+    // }else if(!/^[a-zA-Z\s]+$/.test(name)){
+    //     document.getElementById('name-error').innerText = "Category name should contain only alphabetic charecters..!"
 
     }else if(description.length<10){
         document.getElementById('description-error').innerText = "Description must have 10 charecter length..!"
@@ -30,7 +32,7 @@ document.getElementById('editCategoryForm').addEventListener('submit', async fun
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, description}),
+        body: JSON.stringify({ name,description,isListed}),
       });
   
       const result = await response.json();

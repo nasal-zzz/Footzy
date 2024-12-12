@@ -123,7 +123,7 @@
                 <div class="content-header">
                     <h2 class="content-title">Edit Product</h2>
                     <div class="d-flex justify-content-end gap-3">
-                        <button type="button" class="btn btn-light">Cancel</button>
+                        <a href="/admin/products"> <button type="button" class="btn btn-light">Cancel</button> </a>
                         <button type="submit" class="btn btn-primary">Publish</button>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     </div>
                     
                     <div class="card-body">
-                        <input type="" name="productId" value="<%= product._id %>">
+                        <input type="" name="productId" value="<%= product._id %>" hidden>
 
                         <div class="mb-4">
 
@@ -258,13 +258,15 @@
                         <h4>Media</h4>
                     </div>
                  
-                    <div class="card-body" id="card-body">
+                    <div class="card-body" id="card-body"  data-image-count="<%= product.productImage.length %>">
 
                         <!-- Image upload and cropper -->
                         <% for (let i = 0; i <product.productImage.length ; i++) { %>
                         <div class="mb-4" id="img-container">
                            <input type="hidden" value="<%=product.productImage[i] %>" id="imageData" name="images" multiple>
-                           <img src="/uploads/product-images/<%=product.productImage[i]%>" alt="" class="rounded" style="width: 50px; height: 60px;">
+                           <img src="/uploads/product-images/<%=product.productImage[i]%>" alt="" class="rounded" style="width: 50px; height: 60px;">                              <div id="stock-error" class="error-message text-danger"></div>
+                           <div id="img-error" class="error-message text-danger"></div>
+
                            <br><br>
                            <button type="button" class="remove-img" onclick="deleteImg('<%=product.productImage[i]%>','<%=product._id%>')" style="margin: 40px;">Remove Image</button>
 

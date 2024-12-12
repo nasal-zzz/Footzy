@@ -58,38 +58,28 @@
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <div class="mb-4">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-select" name="isListed">
-                                                <option value="true">List</option>
-                                                <option value="false">Unlist</option>
+                                            <label class="form-label">Status  <%=category.isListed%></label>
+                                            <select class="form-select" name="isListed" id="status">
+
+                                                <% if(category.isListed=== false){ %>
+                                                    <option value='false'>false</option>
+                                                    <option value="true" >true</option>
+                    
+                                                        <% }else{ %>
+                                                    <option value="true" >true</option>
+                                                    <option value='false'>false</option>
+                                                    <% } %> 
+
                                             </select>
                                         </div>
-                                        <!-- <div class="mb-4">
-                                            <label class="form-label">Sort Order</label>
-                                            <input type="number" placeholder="0" class="form-control" />
-                                        </div> -->
-                                        <!-- <div class="mb-4">
-                                            <label class="form-label d-block">Featured Category</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="featured" value="yes">
-                                                <label class="form-check-label">Yes</label>
-                                            </div> -->
-                                            <!-- <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="featured" value="no" checked>
-                                                <label class="form-check-label">No</label>
-                                            </div> -->
-                                        <!-- </div> -->
-                                        <!-- <div>
-                                            <label class="form-label">SEO Meta Keywords</label>
-                                            <input type="text" placeholder="Type here" class="form-control" />
-                                        </div> -->
+                                       
                                     </div>
                                 </div>
                                 <!-- card end// -->
                             </div>
                         </div>
                         <div class="d-flex justify-content-end gap-3">
-                            <button type="button" class="btn btn-light">Cancel</button>
+                            <a href="/admin/categories"> <button type="button" class="btn btn-light">Cancel</button> </a>
                             <button type="submit" class="btn btn-primary">Edit Category</button>
                         </div>
                     </form>

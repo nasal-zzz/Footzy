@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -45,5 +45,78 @@
   <div class="sold-out-container">
     <span class="sold-out-text">Sold Out</span>
   </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Input Validation</title>
+  <style>
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div id="size-container"></div>
+  <button id="add-size">Add Size</button>
+  <button id="validate-sizes">Submit</button>
+
+  <script>
+    let sizeIndex = 1;
+
+    document.getElementById('add-size').addEventListener('click', () => {
+      const container = document.getElementById('size-container');
+      const sizeInput = `
+        <div class="size-group">
+          <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size (e.g., 6)" class="size-input"><br><br>
+          <div class="error-message size-error"></div>
+          <input type="number" name="sizes[${sizeIndex}][stock]" placeholder="Stock for this size" class="stock-input"><br><br>
+          <div class="error-message stock-error"></div>
+          <button type="button" class="remove-size">Remove Size</button>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', sizeInput);
+      sizeIndex++;
+    });
+
+    document.getElementById('size-container').addEventListener('click', (event) => {
+      if (event.target.classList.contains('remove-size')) {
+        event.target.closest('.size-group').remove();
+      }
+    });
+
+    document.getElementById('validate-sizes').addEventListener('click', () => {
+      let allValid = true;
+
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(error => error.textContent = '');
+
+      document.querySelectorAll('.size-group').forEach(group => {
+        const sizeInput = group.querySelector('.size-input');
+        const stockInput = group.querySelector('.stock-input');
+        const sizeError = group.querySelector('.size-error');
+        const stockError = group.querySelector('.stock-error');
+
+        if (!sizeInput.value.trim()) {
+          sizeError.textContent = 'Size is required.';
+          allValid = false;
+        }
+
+        if (!stockInput.value.trim()) {
+          stockError.textContent = 'Stock is required.';
+          allValid = false;
+        }
+      });
+
+      if (allValid) {
+        alert('All inputs are valid!');
+      }
+    });
+  </script>
 </body>
 </html>

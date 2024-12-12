@@ -25,33 +25,6 @@ router.get('/google/callback',passport.authenticate('google',{failureRedirect:'/
 });
 
 
-// Google Authentication
-// router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// router.get(
-//     '/google/callback',
-//     passport.authenticate('google', { failureRedirect: '/login?error=Authentication failed', failureFlash: true }),
-//     async (req, res) => {
-//         try {
-//             const user = await UserSchema.findById(req.user._id);
-
-//             // Check if the user is blocked
-//             if (user.isBlocked) {
-//                 req.logout(); // Logout blocked user
-//                 req.flash('error', 'Your account is blocked. Please contact support.');
-//                 return res.redirect('/login');
-//             }
-
-//             // Store user ID in session
-//             req.session.user = user._id;
-//             res.redirect('/');
-//         } catch (error) {
-//             console.error('Error in Google callback:', error);
-//             res.redirect('/signup');
-//         }
-//     }
-// );
-
 
 //profile 
 router.get('/userProfile',userAuth.checkSession,userController.userProfile)
@@ -66,7 +39,7 @@ router.get('/shop',userController.loadShopePage)
 
 
 // product details page 
-router.get('/productDetails',userAuth.checkSession,productDetailsController.getDetails)
+router.get('/productDetails',userAuth.userAuth,userAuth.checkSession,productDetailsController.getDetails)
 
 
 module.exports = router;
