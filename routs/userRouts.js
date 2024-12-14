@@ -3,6 +3,7 @@ const router = express.Router();
 const userAuth = require('../middlewares/user/userAuth')
 const userController = require('../controllers/user/userController');
 const productDetailsController = require('../controllers/user/productDetailsController');
+const profileController = require('../controllers/user/profileController');
 const passport = require('passport');
 
 
@@ -14,7 +15,17 @@ router.post('/signup',userController.SignUp)
 router.post('/verify-otp',userController.verifyOTP)
 router.post('/resend-otp',userController.resendOtp);
 
+// forgot password
+router.get('/forgotPassword-verifyEmail',userController.getVerifyEmail)
 
+router.post('/forgotPassword-verifyEmail',userController.verifyEmail)
+
+router.post('/verifyForgot-otp',userController.verifyForgotOTP)
+router.post('/resendForgot-otp',userController.resendForgotOtp);
+
+// reset password
+router.get('/reset-password',userController.loadResetPassword)
+router.post('/reset-password',userController.resetPassword)
 
 
 // //google authenticatiom
@@ -26,9 +37,6 @@ router.get('/google/callback',passport.authenticate('google',{failureRedirect:'/
 
 
 
-//profile 
-router.get('/userProfile',userAuth.checkSession,userController.userProfile)
-
 // logout
 router.get('/logout',userAuth.checkSession,userController.logout)
 
@@ -39,7 +47,21 @@ router.get('/shop',userController.loadShopePage)
 
 
 // product details page 
-router.get('/productDetails',userAuth.userAuth,userAuth.checkSession,productDetailsController.getDetails)
+router.get('/productDetails',userAuth.checkSession,userAuth.userAuth,productDetailsController.getDetails)
+
+
+//profile 
+router.get('/userProfile',userAuth.checkSession,userController.userProfile)
+
+// address
+router.get('/address',userAuth.checkSession,profileController.userAddress)
+router.get('/editInfo',userAuth.checkSession,profileController.loadEditInfo)
+
+// orders
+router.get('/orders',userAuth.checkSession,profileController.loadOrders)
+
+
+
 
 
 module.exports = router;

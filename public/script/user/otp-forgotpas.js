@@ -1,16 +1,3 @@
-// document.querySelectorAll('.otp-input').forEach((input, index, inputs) => {
-//     input.addEventListener('input', (e) => {
-//         if (e.target.value.length === 1 && index < inputs.length - 1) {
-//             inputs[index + 1].focus();
-//         }
-//     });
-    
-//     input.addEventListener('keydown', (e) => {
-//         if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
-//             inputs[index - 1].focus();
-//         }
-//     });
-// });
 
 
 // timer 
@@ -114,7 +101,7 @@ document.getElementById('otpForm').addEventListener('submit', function (e) {
   
     $.ajax({
       type: "POST",
-      url: "/verify-otp",
+      url: "/verifyForgot-otp",
       data: JSON.stringify({ otp1: otpInput }), // Send data as JSON
       contentType: "application/json",
       success: function (response) {
@@ -155,7 +142,7 @@ document.getElementById('otpForm').addEventListener('submit', function (e) {
   
 
   // resend otp 
-  function resendOTP() {
+  function resendOTPForgot() {
     clearInterval(countdown); // Stop any ongoing timer
     isTimerActive = false;
     timeLeft = 60; // Reset the timer duration to 60 seconds
@@ -164,7 +151,7 @@ document.getElementById('otpForm').addEventListener('submit', function (e) {
 
     $.ajax({
         type: "POST",
-        url: "/resend-otp",
+        url: "/resendForgot-otp",
         contentType: "application/json",
         success: function (response) {
           console.log(response); // Add this to inspect the response

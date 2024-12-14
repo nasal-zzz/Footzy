@@ -33,6 +33,7 @@ const getDetails = async (req, res) => {
                 product: product,
                 related:related,
                 suser:req.session.user,
+                title:'Details'
 
             });
         } else {

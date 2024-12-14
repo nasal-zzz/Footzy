@@ -17,7 +17,10 @@ const userAuth = (req, res, next) => {
                             console.error("Error destroying session:", err);
                             res.status(500).send('Internal server error');
                         } else {
-                            res.render('signup',{message:"You have been blocked for some reason...!"});
+                            res.render('login',{
+                                message:"You have been blocked for some reason...!",
+                                title:'Login'
+                            });
                         }
                     });
                 }
@@ -33,7 +36,10 @@ const userAuth = (req, res, next) => {
                 res.status(500).send('Internal server error');
             } else {
                 // res.redirect('/login');
-                res.render('signup',{message:"You have been blocked for some reason...!"});
+                res.render('login',{
+                    message:"You have been blocked for some reason...!",
+                    title:'Login'
+                });
             }
         });
     }

@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f9f9;
+        }
+        .profile-section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .nav-link {
+            color: #007bff;
+        }
+        .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .order-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .address-card, .order-card {
+            margin-bottom: 15px;
+        }
+        .btn-edit {
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <h2 class="mb-4">Your Account</h2>
+        <div class="row">
+            <!-- Left Side Menu -->
+            <div class="col-md-3">
+                <ul class="list-group">
+                    <li class="list-group-item active">Profile</li>
+                    <li class="list-group-item">Orders</li>
+                    <li class="list-group-item">Addresses</li>
+                    <li class="list-group-item">Payment Methods</li>
+                </ul>
+            </div>
+
+            <!-- Right Content Area -->
+            <div class="col-md-9">
+                <!-- Profile Section -->
+                <div class="profile-section mb-4">
+                    <h5 class="d-flex align-items-center">
+                        Personal Information
+                        <button class="btn btn-link btn-edit">Edit</button>
+                    </h5>
+                    <p><strong>Name:</strong> John Doe</p>
+                    <p><strong>Email:</strong> johndoe@example.com</p>
+                    <p><strong>Phone:</strong> +123 456 7890</p>
+                </div>
+
+                <!-- Addresses Section -->
+                <div class="profile-section mb-4">
+                    <h5 class="d-flex align-items-center">
+                        Saved Addresses
+                        <button class="btn btn-link btn-edit">Add New</button>
+                    </h5>
+                    <div class="address-card">
+                        <p>123 Main Street, New York, NY</p>
+                        <p class="text-muted">Phone: +123 456 7890</p>
+                    </div>
+                    <div class="address-card">
+                        <p>456 Elm Street, Los Angeles, CA</p>
+                        <p class="text-muted">Phone: +987 654 3210</p>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div class="profile-section">
+                    <h5 class="d-flex align-items-center">
+                        Order History
+                    </h5>
+                    <div class="order-card">
+                        <h6>Order #12345</h6>
+                        <p>Placed on: 2024-12-01</p>
+                        <p><strong>Status:</strong> Delivered</p>
+                        <button class="btn btn-outline-secondary btn-sm">View Details</button>
+                    </div>
+                    <div class="order-card">
+                        <h6>Order #12346</h6>
+                        <p>Placed on: 2024-11-25</p>
+                        <p><strong>Status:</strong> In Transit</p>
+                        <button class="btn btn-outline-secondary btn-sm">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

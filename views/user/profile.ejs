@@ -59,9 +59,9 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container">
-					<a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+					<a class="navbar-brand logo_h" href="/"><img src="img/logo.png" alt=""></a>
             <div class="d-flex">
-                <a href="index.html" class="btn btn-outline-danger me-2">Home</a>
+                <a href="/" class="btn btn-outline-danger me-2">Home</a>
                 <a href="cart.html" class="btn btn-outline-danger">
                     <i class="fas fa-shopping-cart"></i>
                 </a>
@@ -82,16 +82,19 @@
         <div class="container">
             <ul class="nav justify-content-center">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Profile</a>
+                    <a class="nav-link " href="/profilr">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Orders</a>
+                    <a class="nav-link " href="/address">Addresses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Wishlist</a>
+                    <a class="nav-link" href="/orders">Orders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Wallet</a>
+                    <a class="nav-link" href="/wishlist">Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/wallet">Wallet</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-outline-danger me-2" href="/logout">Logout</a>
@@ -104,31 +107,41 @@
     <div class="container my-5">
         <div class="row">
             <!-- Personal Information -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Personal Information</h5>
                         <form>
                             <div class="mb-3">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" value="John Doe">
+                                <input type="text" class="form-control" value="<%= user.username %>" readonly>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" value="john.doe@example.com">
+                                <input type="email" class="form-control" value="<%= user.email %>" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="email" class="form-control" value="********" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dae Of Birth</label>
+                                <% const formattedDate = user.dob.toISOString().split('T')[0] %>
+                                <input type="email" class="form-control" value="<%= formattedDate %>" readonly>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" value="+1 234 567 890">
+                                <input type="tel" class="form-control" value="<%= user.phone %>" readonly>
                             </div>
-                            <button class="btn btn-orange">Save Changes</button>
                         </form>
+                        <a href="/editInfo"><button class="btn btn-orange">Edit</button></a>
+
                     </div>
                 </div>
             </div>
 
             <!-- Address Section -->
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Address</h5>
@@ -149,7 +162,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

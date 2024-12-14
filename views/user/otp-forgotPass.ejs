@@ -26,13 +26,14 @@
         }
 
         .otp-input {
-            width: 350px;
+            width: 145px;
             height: 45px;
             padding: 10px;
             margin: 0 8px;
             font-size: 20px;
             border-radius: 5px;
             border: 1px solid #ddd;
+            text-align: center;
         }
 
         .otp-input:focus {
@@ -71,13 +72,6 @@
             color: #666;
             font-size: 14px;
         }
-        #signup{
-          text-decoration: none;
-	color:#007bff;
-        }
-        #signup:hover{
-	text-decoration: underline;
-}
     </style>
 </head>
 <body>
@@ -91,45 +85,35 @@
                     </div>
 
                     <!-- Title -->
-                    <h4 class="text-center mb-4">Reset Your Password</h4>
+                    <h4 class="text-center mb-4">Verify Your Account</h4>
                     
                     <!-- Subtitle -->
                     <p class="text-center text-muted mb-4">
-                        Please enter your<br>
-                        <strong>New Password</strong>
-                    </p> 
-                   
+                        Please enter the verification code sent to<br>
+                        <strong><%=eemail%></strong>
+                    </p>
+
                     <!-- OTP Input Group -->
-<form id="passwordForm" >
+<form id="otpForm" onsubmit="return validateOTPForm()">
     <div class="d-flex justify-content-center gap-2 mb-4">
-        <input type="password" name="password" class="otp-input" id="password" autofocus placeholder="Password">                          <div id="description-error" class="error-message text-danger"></div>
-
+        <input  name="otp1" class="otp-input" id="otp" maxlength="6"  autofocus >
     </div>
-
-    <div class="d-flex justify-content-center gap-2 mb-4">
-        <input type="password"  name="cpassword" class="otp-input" id="cpassword" autofocus placeholder="Conform Password">                          <div id="description-error" class="error-message text-danger"></div>
-
-    </div>
-    <div id="email-error" class="error-message text-danger mb-3 "></div>
-
 
     <!-- Timer -->
-    <!-- <p class="text-center timer mb-4">
+    <p class="text-center timer mb-4">
         Code expires in: <span id="timer">01:00</span>
-    </p> -->
+    </p>
 
     <!-- Verify Button -->
     <div class="d-grid gap-2 mb-3">
         <button type="submit" class="btn btn-primary verify-btn">Verify</button>
     </div>
-
-    
       
                     <!-- Resend -->
-                    <!-- <p class="text-center mb-0">
-                        Don't have an account? 
-                        <a id="signup" href="/signup">Sign up</a>
-                    </p> -->
+                    <p class="text-center mb-0">
+                        Didn't receive the code? 
+                        <button type="button"  class="resend-link" onclick="resendOTPForgot()">Resend</button>
+                    </p>
 </form>
 
                   
@@ -137,49 +121,8 @@
             </div>
         </div>
     </div>
-    <script src="/script/user/otp.js"></script>
+    <script src="/script/user/otp-forgotpas.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
 
-document.getElementById('passwordForm').addEventListener('submit',(e)=>{
-  const password = document.getElementById('password').value;
-  const cpassword = document.getElementById('cpassword').value;
-
-  if(!password || !cpassword){
-    e.preventDefault();
-        return Swal.fire({
-            title: '<span style="color: red;">All Fields Are Required!</span>',
-            text: 'must fill all fields!',
-            icon: 'warning',
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Ok',
-        });
-  }else if(!password.match(/^(?=.*[\W_]).{8,}$/)){
-    document.getElementById('email-error').innerText = "Password must have a special charecter and eight charecter length..!";
-        document.getElementById('email-error').style.display = 'block';
-        e.preventDefault();
-
-  }else if(password !== cpassword){
-
-        document.getElementById('email-error').innerText = "Passwords do not match...!";
-        document.getElementById('email-error').style.display = 'block';
-        e.preventDefault();
-
-  }
-
-    return  
-
-  
-
-})
-
-setTimeout(function() {
-    let alertElement = document.getElementById('email-error');
-    if (alertElement) {
-      alertElement.style.display = 'none'; // Hides the element
-    }
-  }, 5000);
-
-</script>

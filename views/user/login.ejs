@@ -4,6 +4,15 @@
   display: none; /* Hide by default */
 }
 
+#forgotPass{
+	text-decoration: none;
+	color:#007bff;
+}
+#forgotPass:hover{
+	text-decoration: underline;
+}
+
+
 @media (max-width: 992px) {
   .login_box_img {
     display: none;
@@ -71,10 +80,13 @@
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
 							<div id="errmsg" class="abc alert text-danger text-center mx-auto my-4" style="max-width: 600px; font-size: 1.25rem; font-weight: bold"></div>
+							<div class="form-group d-flex justify-content-end">
+								<a id="forgotPass" href="/forgotPassword-verifyEmail" class=" ms-auto">Forgot Password?</a>
+							</div>
+
 
 							<div class="col-md-12 form-group mt-3">
 								<button type="submit" value="submit" class="primary-btn">Log In</button>
-								<a href="#">Forgot Password?</a>
 
 								<!-- OR Divider -->
 								<div class="or-divider mt-3">
