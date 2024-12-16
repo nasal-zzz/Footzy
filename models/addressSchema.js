@@ -12,6 +12,16 @@ const addressSchema = new Schema({
     address:[{
         addressType:{
             type:String,
+            required:true,
+            enum: ['Home', 'Work', 'Office'],
+            default: 'Home'
+        },
+        fullName:{
+            type:String,
+            required:true
+        },
+        address:{
+            type:String,
             required:true
         },
         city:{
@@ -22,7 +32,15 @@ const addressSchema = new Schema({
             type:String,
             required:true
         },
+        country:{
+            type:String,
+            required:true
+        },
         state:{
+            type:String,
+            required:true
+        },
+        place:{
             type:String,
             required:true
         },
@@ -34,10 +52,10 @@ const addressSchema = new Schema({
             type:String,
             required:true
         },
-        altPhone :{
-            type:String,
-            required:true
-        }
+        isDefault: {
+            type: Boolean,
+            default: false
+          }
     }]
     
 },{versionKey:false})

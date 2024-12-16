@@ -1,37 +1,135 @@
 <%-include("../../views/partials/profile/header")%>
 
+<style>
+
+.address-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .address-details {
+            flex: 1;
+        }
+        .address-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .address-actions button {
+            background-color: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .address-actions button:hover {
+            background-color: #e65100;
+        }
+        .add-address {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .add-address button {
+            background-color: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .add-address button:hover {
+            background-color: #e65100;
+        }
+        .default-badge {
+            background-color: #f57c00;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .form-container {
+            display: none;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input {
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-container button {
+            background-color: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #e65100;
+        }
+
+    .error {
+    color: red;
+    font-size: 0.8em;
+}
+#addressType{
+    width: 98%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            }
+</style>
 
     <div class="container">
         <h1 class="header">Your Addresses</h1>
 
-        <!-- Existing Addresses -->
-        <!-- <div class="address-card">
-            <div class="address-details">
-                <p><strong>John Doe</strong></p>
-                <p>123 Main Street, Apt 4B</p>
-                <p>New York, NY 10001</p>
-                <p>Phone: +1 234-567-890</p>
-                <span class="default-badge">Default</span>
-            </div>
-            <div class="address-actions">
-                <button>Edit</button>
-                <button>Delete</button>
-            </div>
-        </div> -->
+        <% if(data.length >0){ %>
 
-        <!-- <div class="address-card">
+        <!-- Existing Addresses -->
+         <% for(let i=0;i<data.length;i++){%>
+        <div class="address-card">
+           
             <div class="address-details">
-                <p><strong>Jane Smith</strong></p>
-                <p>456 Elm Street</p>
-                <p>Los Angeles, CA 90001</p>
-                <p>Phone: +1 987-654-321</p>
+                <p><strong><%= data[i].fullName %></strong></p>
+                <p><%= data[i].address %></p>
+                <p><%= data[i].place %></p>
+                <p><%= data[i].city %>,<%= data[i].state %>,<%= data[i].pincode %></p>
+                <p><%= data[i].country %></p>
+                <p>Phone :  <%= data[i].phone %></p>
+                <p>Address Type :  <%= data[i].addressType %></p>
+                <p>Land Mark :   <%= data[i].landMark %></p>
+
+                <%if( data[i].isDefault === true){ %>
+                <span class="default-badge">Default Address</span>
+                <% } %>
+
             </div>
             <div class="address-actions">
-                <button>Set as Default</button>
-                <button>Edit</button>
+                <a href="/editAddress?index=<%= i %>"><button>Edit</button></a>
                 <button>Delete</button>
+                <%if( data[i].isDefault === false){ %>
+                    <button>Set as Default</button>
+                    <% } %>
             </div>
-        </div> -->
+        </div>
+        <% } %>
+        <% } %>
+      
 
         <!-- Add Address Button -->
         <div class="add-address">
@@ -41,18 +139,70 @@
         <!-- Add Address Form -->
         <div class="form-container" id="addAddressForm">
             <h2>Add New Address</h2>
-            <form>
-                <input type="text" placeholder="Full Name" required>
-                <input type="text" placeholder="Address Line 1" required>
-                <input type="text" placeholder="Address Line 2">
-                <input type="text" placeholder="City" required>
-                <input type="text" placeholder="State" required>
-                <input type="text" placeholder="Zip Code" required>
-                <input type="tel" placeholder="Phone Number" required>
+            <form id="addressForm" action="/addAddress" method="post">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name">
+                <span class="error" id="fullNameError"></span> <!-- Error message for full name -->
+                <br>
+            
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="E.g house name">
+                <span class="error" id="addressError"></span> <!-- Error message for address -->
+                <br>
+                <label for="addressType">Address Type:</label>              
+                 <br>
+
+                <select id="addressType" name="addressType" class=""  >
+                <option value="Home">Home</option>
+                <option value="Work">Work</option>
+                <option value="Office">Office</option>
+                </select>
+                <br>
+                <br>
+
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" placeholder="Country">
+                <span class="error" id="countryError"></span> <!-- Error message for country -->
+                <br>
+          
+            
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" placeholder="State">
+                <span class="error" id="stateError"></span> <!-- Error message for state -->
+                <br>
+        
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" placeholder="City">
+                <span class="error" id="cityError"></span> <!-- Error message for city -->
+                <br>
+
+                <label for="place">Place:</label>
+                <input type="text" id="place" name="place" placeholder="Place">
+                <span class="error" id="placeError"></span> <!-- Error message for city -->
+                <br>
+
+
+                <label for="pinCode">Pin Code:</label>
+                <input type="text" id="pinCode" name="pincode" placeholder="Pin Code">
+                <span class="error" id="pinCodeError"></span> <!-- Error message for pin code -->
+                <br>
+            
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" name="phone" placeholder="Phone Number">
+                <span class="error" id="phoneNumberError"></span> <!-- Error message for phone number -->
+                <br>
+            
+                <label for="landmark">Landmark:</label>
+                <input type="text" id="landmark" name="landMark" placeholder="E.g near st Marry's school">
+                <span class="error" id="landmarkError"></span> <!-- Error message for landmark -->
+                <br>
+            
                 <button type="submit">Save Address</button>
             </form>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         function toggleForm() {
@@ -63,6 +213,95 @@
                 form.style.display = 'none';
             }
         }
+
+
+        document.getElementById('addressForm').addEventListener('submit', function(event) {
+            // Prevent form submission
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const state = document.getElementById('state').value.trim();
+            const place = document.getElementById('place').value.trim();
+            const pinCode = document.getElementById('pinCode').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const landmark = document.getElementById('landmark').value.trim();
+
+
+            // Clear previous error messages
+            const errorMessages = document.querySelectorAll('.error');
+            errorMessages.forEach(function(error) {
+                error.textContent = ''; // Clear the error message text
+            });
+
+            // Validate Full Name
+            if (fullName === '' || !fullName.match(/^[A-Za-z\s]+$/)) {
+                event.preventDefault();
+
+                showError('fullNameError', 'Please Enter a valid Name..!');
+            }else
+            if (address === '') {
+                event.preventDefault();
+
+                showError('addressError', 'Address is required.');
+            }else
+            if (country === '') {
+                event.preventDefault();
+
+                showError('countryError', 'Country is required.');
+                
+            }else
+            if (city === '') {
+                event.preventDefault();
+
+                showError('cityError', 'City is required.');
+            }else
+            if (place === '') {
+                event.preventDefault();
+
+                showError('placeError', 'Place is required.');
+            }else
+            if (state === '') {
+                event.preventDefault();
+
+                showError('stateError', 'State is required.');
+            }else
+            if (!/^\d{6}$/.test(pinCode)) {
+                event.preventDefault();
+
+                showError('pinCodeError', 'Pin Code must be a 6-digit number.');
+            }else
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                event.preventDefault();
+
+                showError('phoneNumberError', 'Phone Number must be a 10-digit number.');
+            }else
+            if (landmark === '') {
+                event.preventDefault();
+
+                showError('landmarkError', 'Landmark is required.');
+            }else{
+                event.preventDefault(); // Prevent default to show Swal
+        Swal.fire({
+            title: `Address added successfully..!`, 
+            icon: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 2500,
+        }).then(() => {
+            document.getElementById('addressForm').submit(); // Submit the form programmatically
+        });
+            }
+
+           
+        });
+
+        function showError(errorId, message) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = message;
+        }
+
     </script>
 </body>
 </html>

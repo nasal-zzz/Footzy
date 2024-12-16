@@ -172,13 +172,16 @@
             background-color: #e65100;
         }
         #brodcrumb{
-            margin-left:90%;
+            margin-left:82%;
         }
         #brodcrumb >a{
             text-decoration:none;
             color: #f57c00;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -210,27 +213,86 @@
         <form method="POST" action="/updateProfile" id="infoForm">
             <div class="mb-3">
                 <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" name="username" value="<%= user.username %>">
+                <input type="text" class="form-control" name="username" id="username" value="<%= user.username %>">
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" value="<%= user.email %>">
+                <input type="email" class="form-control" name="email" id="email" value="<%= user.email %>" readonly>
+                <p class="text-danger">can't edit email..!</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" placeholder="********">
-            </div>
+                <input type="password" class="form-control" name="password" id="password" placeholder="********">
+            </div> -->
             <div class="mb-3">
                 <label class="form-label">Date Of Birth</label>
                 <% const formattedDate = user.dob.toISOString().split('T')[0] %>
-                <input type="text" class="form-control" name="dob" value="<%= formattedDate %>">
+                <input type="text" class="form-control" name="dob" id="dob" value="<%= formattedDate %>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Phone</label>
-                <input type="tel" class="form-control" name="phone" value="<%= user.phone %>">
+                <input type="tel" class="form-control" name="phone" id="phone" value="<%= user.phone %>">
             </div>
-            <button class="btn btn-orange" type="submit">Update Profile</button>
+            <div id="errmsg" class="abc alert text-danger text-center mx-auto my-4" style="max-width: 600px; font-size: 1.25rem; font-weight: bold"></div>
+
+            <button class="btn btn-orange" type="submit" value="submit">Update Profile</button>
         </form>
     </div>
+
+
+
+
+
+
+<script>
+document.getElementById('infoForm').addEventListener('submit', (e) => {
+    const username = document.getElementById('username').value;
+    // const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const dob = document.getElementById('dob').value;
+    // const password = document.getElementById('password').value;
+
+    if (!username ||  !phone || !dob ) {
+        e.preventDefault();
+        return Swal.fire({
+            title: 'All Fields Are Required..!', 
+            text: 'Must fill all fields!',
+            icon: 'warning',
+            confirmButtonColor: '#d32',
+        });
+    } else if (!username.match(/^[A-Za-z\s]+$/)) {
+        e.preventDefault();
+        document.getElementById('errmsg').innerText = "Please Enter a valid Name...";
+    // } else if (!email.match(/^([a-zA-Z0-9_]+)@([a-zA-Z0-9]+).([a-zA-Z]+)(.[a-zA-Z]+)?$/)) {
+    //     e.preventDefault();
+    //     document.getElementById('errmsg').innerText = "Email should be correctly entered..!";
+     } else if (!phone.match(/^\d{10,}$/)) {
+        e.preventDefault();
+        document.getElementById('errmsg').innerText = "Enter a correct Phone Number..!";
+    // } else if (!password.match(/^(?=.*[\W_]).{8,}$/)) {
+    //     e.preventDefault();
+    //     document.getElementById('errmsg').innerText = "Password must have a special character and be at least 8 characters long!";
+     } else {
+        e.preventDefault(); // Prevent default to show Swal
+        Swal.fire({
+            title: `Profile updated successfully..!`, 
+            // text: 'Please check your email!',
+            icon: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 2500,
+        }).then(() => {
+            document.getElementById('infoForm').submit(); // Submit the form programmatically
+        });
+    }
+});
+
+</script>
+
+
+
+
+
+
 </body>
 </html>

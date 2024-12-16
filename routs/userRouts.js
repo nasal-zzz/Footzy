@@ -52,10 +52,17 @@ router.get('/productDetails',userAuth.checkSession,userAuth.userAuth,productDeta
 
 //profile 
 router.get('/userProfile',userAuth.checkSession,userController.userProfile)
+router.get('/editInfo',userAuth.checkSession,profileController.loadEditInfo)
+router.post('/updateProfile',userAuth.checkSession,profileController.editInfo)
+
 
 // address
 router.get('/address',userAuth.checkSession,profileController.userAddress)
-router.get('/editInfo',userAuth.checkSession,profileController.loadEditInfo)
+router.post('/addAddress',userAuth.checkSession,profileController.addAddress)
+
+//edit address
+router.get('/editAddress',userAuth.checkSession,profileController.getEditAddress)
+router.post('/editAddress',userAuth.checkSession,profileController.editAddress)
 
 // orders
 router.get('/orders',userAuth.checkSession,profileController.loadOrders)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Code Lookup</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Pin Code Lookup</h1>
+    <form>
+        <label for="pincode">Enter Pin Code:</label>
+        <input type="text" id="pincode" placeholder="Enter pin code" required>
+        <br>
+        <label for="country">Country:</label>
+        <input type="text" id="country" readonly>
+        <br>
+        <label for="state">State:</label>
+        <input type="text" id="state" readonly>
+        <br>
+        <label for="city">City:</label>
+        <input type="text" id="city" readonly>
+        <br>
+    </form>
+
+    <script>
+        $('#pincode').on('input', function () {
+            const pincode = $(this).val();
+
+            if (pincode.length === 6) { // Adjust length as per the country's pin code format
+                $.ajax({
+                    url: `/get-location/${pincode}`,
+                    method: 'GET',
+                    success: function (data) {
+                        if (data.success) {
+                            $('#country').val(data.country);
+                            $('#state').val(data.state);
+                            $('#city').val(data.city);
+                        } else {
+                            alert('Invalid Pin Code');
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching location data');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
