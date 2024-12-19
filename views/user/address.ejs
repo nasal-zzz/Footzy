@@ -121,9 +121,8 @@
             </div>
             <div class="address-actions">
                 <a href="/editAddress?index=<%= i %>"><button>Edit</button></a>
-                <button>Delete</button>
-                <%if( data[i].isDefault === false){ %>
-                    <button>Set as Default</button>
+                <a href="#" onclick="confirmDlt('<%= data[i]._id %>')"><button>Delete</button></a>                <%if( data[i].isDefault === false){ %>
+                    <button onclick="setDefault('<%= data[i]._id %>')">Set as Default</button>
                     <% } %>
             </div>
         </div>
@@ -301,6 +300,44 @@
             const errorElement = document.getElementById(errorId);
             errorElement.textContent = message;
         }
+
+function confirmDlt(addressId){
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Redirect to delete route
+            window.location.href = `/deleteAddress?address=${addressId}`;
+        }
+    });
+}
+
+
+function setDefault(addressId){
+    Swal.fire({
+        title: "Set as Default?",
+        text: "Do you want to set this address as the default?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Set Default!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Redirect to delete route
+            window.location.href = `/setDefaultAddress?address=${addressId}`;
+        }
+    });
+}
+
+
 
     </script>
 </body>

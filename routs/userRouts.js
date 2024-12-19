@@ -4,6 +4,7 @@ const userAuth = require('../middlewares/user/userAuth')
 const userController = require('../controllers/user/userController');
 const productDetailsController = require('../controllers/user/productDetailsController');
 const profileController = require('../controllers/user/profileController');
+const cartController  = require('../controllers/user/cartController');
 const passport = require('passport');
 
 
@@ -63,6 +64,15 @@ router.post('/addAddress',userAuth.checkSession,profileController.addAddress)
 //edit address
 router.get('/editAddress',userAuth.checkSession,profileController.getEditAddress)
 router.post('/editAddress',userAuth.checkSession,profileController.editAddress)
+//dlt address
+router.get('/deleteAddress',userAuth.checkSession,profileController.dltAddress)
+// set as default address 
+router.get('/setDefaultAddress',userAuth.checkSession,profileController.setDefaultAddress)
+
+
+// cart 
+router.get('/cart',userAuth.checkSession,cartController.loadCart)
+router.post('/addToCart',userAuth.checkSession,cartController.addToCart)
 
 // orders
 router.get('/orders',userAuth.checkSession,profileController.loadOrders)

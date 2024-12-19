@@ -235,8 +235,107 @@ const editAddress = async (req,res) => {
 }
 
 
+const dltAddress = async (req,res) => {
+    try {
+
+       const userId = req.session.user;
+       console.log('usssr,,./',userId);
+
+    const addresssId = req.query.address;
+       console.log('adrs',addresssId);
+
+       const addressExist = await addressSchema.findOne({"address._id":addresssId})
+       console.log('exist =',addressExist);
+       
+       if(!addressExist){
+        console.log('address not found..!!');
+        
+       }
+       
+    await addressSchema.updateOne(
+        {userId:userId},
+    {$pull:{address:{_id:addresssId}}}
+    );
+
+    console.log('address deleted successfully..!');
+    
+    res.redirect('/address');
+
+        
+    } catch (error) {
+        console.log('error',error);
+        res.redirect('/notFound')
+    }
+}
 
 
+// const setDefaultAddress = async (req,res) => {
+    
+// try {
+
+//     const userId = req.session.user;
+//     console.log('usssr,,./',userId);
+
+//  const addresssId = req.query.address;
+//     console.log('adrs',addresssId)
+
+
+//     await addressSchema.findOneAndUpdate(
+//         {userId:userId,"address._id":addresssId},
+//         {$set:{"address.$.isDefault":true}}
+//     )
+//     console.log('address set as default...!');
+    
+//     await addressSchema.updateMany(
+//         {userId:userId,"address._id":{$ne:addresssId}},
+//         {$set:{"address.$[].isDefault":false}}
+//     )
+//     console.log('others set as not default...!');
+
+//     console.log("success....!!");
+    
+
+//     res.redirect('/address');
+
+
+    
+// } catch (error) {
+//     console.log('error',error);
+//         res.redirect('/notFound')
+// }
+
+// }
+
+const setDefaultAddress = async (req, res) => {
+    try {
+        const userId = req.session.user;
+        const addressId = req.query.address; // Corrected typo
+
+        // Atomic update in a single operation
+        await addressSchema.updateMany(
+            { userId: userId },
+            { 
+                $set: { 
+                    "address.$[elem].isDefault": false 
+                }
+            },
+            { 
+                arrayFilters: [{ "elem._id": { $ne: addressId } }],
+                // multi: true 
+            }
+        );
+
+        await addressSchema.updateOne(
+            { userId: userId, "address._id": addressId },
+            { $set: { "address.$.isDefault": true } }
+        );
+
+        res.redirect('/address');
+    } catch (error) {
+        console.error('Error setting default address:', error);
+        res.redirect('/notFound');
+    }
+};
 
 module.exports = {
     userAddress,
@@ -245,5 +344,7 @@ module.exports = {
     editInfo,
     addAddress,
     getEditAddress,
-    editAddress
+    editAddress,
+    dltAddress,
+    setDefaultAddress
 }

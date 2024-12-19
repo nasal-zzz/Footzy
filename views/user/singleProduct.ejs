@@ -94,7 +94,7 @@
 	<!-- End Banner Area -->
 
 	<!--================Single Product Area =================-->
-	
+	<form id="dertailsForm" method="post">
 	<div class="product_image_area">
 		<div class="container">
 			<div class="row s_product_inner">
@@ -102,7 +102,7 @@
 					<div class="product-image-preview">
 
 						<div class="single-prd-item">
-							<img id="preview-image" class="" src="/uploads/product-images/<%=product.productImage[0] %>" alt="">
+							<img id="preview-image" class=""  src="/uploads/product-images/<%=product.productImage[0] %>" alt="">
 						</div>
 						
 					</div>
@@ -128,12 +128,13 @@
 						<% } %>
 					  </div>
 
+					  <input type="hidden" name="productId" value="<%= product._id %>">
 
 					  
 				</div>
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
-						<h3><%= product.productName %></h3>
+						<h3 name="productName" ><%= product.productName %></h3>
 						<h2>₹<%= product.salePrice%>.00</h2>
 						<h4 class="text-danger " style="text-decoration: line-through;">₹<%=product.regularPrice %>.00</h4>
 
@@ -160,10 +161,10 @@
 							<li>
 								<a>
 									<span></span>
-									<select class="size-dropdown">
+									<select class="size-dropdown" name="size">
 										<% for(let i=0;i<product.sizes.length;i++){%>
 											<% if(product.sizes[i].stock >0){ %>
-											<option value=""><%= product.sizes[i].size%></option>
+											<option value="<%= product.sizes[i].size %>" ><%= product.sizes[i].size%></option>
 											<% } %>
 											<% } %>
 									</select>
@@ -192,20 +193,31 @@
 
 							  <% }else{ %>
 
-                        <div class="product_count">
+                        <!-- <div class="product_count">
                             <label for="qty">Quantity:</label>
                             <input type="number" name="qty" id="sst" min="1" value="1" title="Quantity:" class="input-text qty">
                             <button onclick="var result = document.getElementById('sst'); var sst = parseInt(result.value, 10); if(!isNaN(sst)) result.value = sst + 1; return false;"
                                 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                             <button onclick="var result = document.getElementById('sst'); var sst = parseInt(result.value, 10); if(!isNaN(sst) && sst > 1) result.value = sst - 1; return false;"
                                 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                        </div>
+                        </div> -->
 						
+						<div class="product_count">
+							<label for="qty">Quantity:</label>
+							<input type="number" name="qty" id="sst" min="1" value="1" title="Quantity:" class="input-text qty">
+						</div>
 
 						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
+							<!-- <a class=""  href="/addToCart?productId=<%= product._id%>"><button class="primary-btn border-0" type="submit">Add to Cart</button></a>
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-							<a class="primary-btn" href="#">Buy Now</a>
+						<button><a class="primary-btn" href="#">Buy Now</a></button>
+						<a class=""  href=""><button class="primary-btn border-0" type="submit">Buy Now</button></a> -->
+						<button class="primary-btn border-0" type="button" onclick="submitTo('/addToCart')">Add to Carkt</button>
+						<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+
+						<button class="primary-btn border-0" type="button" onclick="submitTo('/buyNow')">Buy Now</button>
+
+	
 						</div>
 
 						<% } %>
@@ -214,6 +226,8 @@
 			</div>
 		</div>
 	</div>
+
+</form>
 	<!--================End Single Product Area =================-->
 
 	<!--================Product Description Area =================-->
@@ -285,111 +299,7 @@
 										<% } %>
 									
 									
-										<!-- <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r2.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r3.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r5.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r6.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r7.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r9.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r10.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-6">
-											<div class="single-related-product d-flex">
-												<a href="#"><img src="img/r11.jpg" alt=""></a>
-												<div class="desc">
-													<a href="#" class="title">Black lace Heels</a>
-													<div class="price">
-														<h6>$189.00</h6>
-														<h6 class="l-through">$210.00</h6>
-													</div>
-												</div>
-											</div>
-										</div> -->
-									</div>
-								</div>
-								<!-- <div class="col-lg-3">
-									<div class="ctg-right">
-										<a href="#" target="_blank">
-											<img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
-										</a>
-									</div>
-								</div> -->
+									
 							</div>
 						</div>
 
@@ -748,6 +658,15 @@
 			});
 		  });
 		});
+
+
+		function submitTo(route) {
+    const form = document.getElementById('dertailsForm');
+    form.action = route; // Dynamically set the action
+    form.submit();       // Submit the form
+  }
+
+		
 	  </script>
 
 
