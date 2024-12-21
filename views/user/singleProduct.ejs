@@ -204,7 +204,7 @@
 						
 						<div class="product_count">
 							<label for="qty">Quantity:</label>
-							<input type="number" name="qty" id="sst" min="1" value="1" title="Quantity:" class="input-text qty">
+							<input type="number" name="qty" id="sst"  max="<%=product.maxQuantity %>" min="1" title="Quantity:" class="input-text qty" value="1">
 						</div>
 
 						<div class="card_area d-flex align-items-center">
@@ -215,7 +215,7 @@
 						<button class="primary-btn border-0" type="button" onclick="submitTo('/addToCart')">Add to Carkt</button>
 						<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
 
-						<button class="primary-btn border-0" type="button" onclick="submitTo('/buyNow')">Buy Now</button>
+						<!-- <button class="primary-btn border-0" type="button" onclick="submitTo('/buyNow')">Buy Now</button> -->
 
 	
 						</div>
@@ -596,6 +596,7 @@
 	<!-- Start related-product Area -->
 	
 	<!-- End related-product Area -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
@@ -665,6 +666,8 @@
     form.action = route; // Dynamically set the action
     form.submit();       // Submit the form
   }
+
+  const errorr = req.query.error;
 
 		
 	  </script>

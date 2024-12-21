@@ -1,122 +1,20 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sold Out Div</title>
-  <style>
-    .sold-out-container {
-      position: relative;
-      width: 200px;
-      height: 50px;
-      background: linear-gradient(45deg, #ff4b2b, #ff416c);
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      text-transform: uppercase;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      margin: 20px auto;
-    }
 
-    .sold-out-container::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
-      z-index: 1;
-    }
-
-    .sold-out-text {
-      position: relative;
-      z-index: 2;
-      font-family: 'Arial', sans-serif;
-    }
-  </style>
-</head>
-<body>
-  <div class="sold-out-container">
-    <span class="sold-out-text">Sold Out</span>
-  </div>
-</body>
-</html> -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Input Validation</title>
-  <style>
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-    }
-  </style>
+  <title>Document</title>
 </head>
 <body>
-  <div id="size-container"></div>
-  <button id="add-size">Add Size</button>
-  <button id="validate-sizes">Submit</button>
-
-  <script>
-    let sizeIndex = 1;
-
-    document.getElementById('add-size').addEventListener('click', () => {
-      const container = document.getElementById('size-container');
-      const sizeInput = `
-        <div class="size-group">
-          <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size (e.g., 6)" class="size-input"><br><br>
-          <div class="error-message size-error"></div>
-          <input type="number" name="sizes[${sizeIndex}][stock]" placeholder="Stock for this size" class="stock-input"><br><br>
-          <div class="error-message stock-error"></div>
-          <button type="button" class="remove-size">Remove Size</button>
-        </div>
-      `;
-      container.insertAdjacentHTML('beforeend', sizeInput);
-      sizeIndex++;
-    });
-
-    document.getElementById('size-container').addEventListener('click', (event) => {
-      if (event.target.classList.contains('remove-size')) {
-        event.target.closest('.size-group').remove();
-      }
-    });
-
-    document.getElementById('validate-sizes').addEventListener('click', () => {
-      let allValid = true;
-
-      // Clear previous errors
-      document.querySelectorAll('.error-message').forEach(error => error.textContent = '');
-
-      document.querySelectorAll('.size-group').forEach(group => {
-        const sizeInput = group.querySelector('.size-input');
-        const stockInput = group.querySelector('.stock-input');
-        const sizeError = group.querySelector('.size-error');
-        const stockError = group.querySelector('.stock-error');
-
-        if (!sizeInput.value.trim()) {
-          sizeError.textContent = 'Size is required.';
-          allValid = false;
-        }
-
-        if (!stockInput.value.trim()) {
-          stockError.textContent = 'Stock is required.';
-          allValid = false;
-        }
-      });
-
-      if (allValid) {
-        alert('All inputs are valid!');
-      }
-    });
-  </script>
+ 
+  <div class="cart-item">
+    <button class="decrease" data-product-id="123">-</button>
+    <input type="number" class="quantity" data-product-id="123" value="1" min="1" max="10" />
+    <button class="increase" data-product-id="123">+</button>
+  </div>
+  <h2>hii</h2>
+  
 </body>
 </html>

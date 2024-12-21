@@ -73,6 +73,11 @@ router.get('/setDefaultAddress',userAuth.checkSession,profileController.setDefau
 // cart 
 router.get('/cart',userAuth.checkSession,cartController.loadCart)
 router.post('/addToCart',userAuth.checkSession,cartController.addToCart)
+router.delete('/removeCartProduct',userAuth.checkSession,cartController.removeCartProduct)
+
+router.post('/cartQuantityIncrease',userAuth.checkSession,cartController.incraseQuantity)
+router.post('/cartQuantityDecrease',userAuth.checkSession,cartController.decreaseQuantity)
+
 
 // orders
 router.get('/orders',userAuth.checkSession,profileController.loadOrders)

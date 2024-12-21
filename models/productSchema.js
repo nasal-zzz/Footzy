@@ -51,6 +51,10 @@ const produtSchema = new Schema({
         required:true,
         default:"Available"
     },
+    maxQuantity: {
+         type: Number,
+          default: 10 
+        },
     createdAt:{
         type:Date,
         default:Date.now

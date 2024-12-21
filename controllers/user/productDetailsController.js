@@ -4,6 +4,8 @@ const productSchema = require('../../models/productSchema')
 
 const categorySchema =  require('../../models/categorySchema')
 
+const cartSchema = require('../../models/cartSchema')
+
 
 const getDetails = async (req, res) => {
     try {
