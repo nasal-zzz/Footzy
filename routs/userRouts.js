@@ -5,6 +5,7 @@ const userController = require('../controllers/user/userController');
 const productDetailsController = require('../controllers/user/productDetailsController');
 const profileController = require('../controllers/user/profileController');
 const cartController  = require('../controllers/user/cartController');
+const checkoutController  = require('../controllers/user/checkOutController');
 const passport = require('passport');
 
 
@@ -77,6 +78,14 @@ router.delete('/removeCartProduct',userAuth.checkSession,cartController.removeCa
 
 router.post('/cartQuantityIncrease',userAuth.checkSession,cartController.incraseQuantity)
 router.post('/cartQuantityDecrease',userAuth.checkSession,cartController.decreaseQuantity)
+
+// check out
+router.get('/checkOut',userAuth.checkSession,checkoutController.loadCheckout)
+router.post('/addNewAddress',userAuth.checkSession,checkoutController.addNewAddress)
+
+// placee order
+router.get('/placeOrder',userAuth.checkSession,checkoutController.loadplaceOrder)
+
 
 
 // orders

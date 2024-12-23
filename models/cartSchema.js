@@ -16,6 +16,10 @@ const cartSchema = new Schema({
                 refuserI: 'Product', 
                 required: true 
             },
+            productName:{
+                type: String,
+                required: true,
+            },
             size:{
                 type: String,
                 required: true

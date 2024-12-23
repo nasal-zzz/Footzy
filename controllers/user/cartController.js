@@ -30,7 +30,7 @@ try {
 
 const cartItems = await Promise.all(
   Usercart.items.map(async (item)=>{
-    const product = await productSchema.findById(item.productId).select('productName salePrice productImage description maxQuantity');
+    const product = await productSchema.findById(item.productId).select('productName salePrice productImage description maxQuantity ');
 console.log('prdct===',product);
 
 
@@ -74,163 +74,6 @@ res.render('cart',{
 }
 
 }
-
-
-// const addToCart = async (req, res) => {
-//     try {
-//       const userId = req.session.user;
-//       const { productId, size, qty } = req.body;
-  
-//       console.log('User:', userId, 'Product:', productId, 'Body:', req.body);
-  
-//       // Fetch user and product details
-//       const user = await userSchema.findById(userId);
-//       const product = await productSchema.findById(productId);
-
-//       const sizes = product.sizes.find(size => size.size === req.body.size)
-// console.log('sizzz////',sizes);
-
-  
-//       if (!user || !product) {
-//         console.log('User or Product not found');
-//         return res.redirect('/notFound');
-//       }
-
-//       const selectedSize = product.sizes.find(s => s.size === size);
-//       if (!sizes || sizes.stock < qty) {
-//           console.log('Insufficient stock for size:', size);
-//         return res.send(`<!DOCTYPE html>
-//             <html>
-//             <head>
-//                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-//             </head>
-//             <body>
-//             <script>
-//                 Swal.fire({
-//                     icon: 'error',
-//                     title: 'Oops...',
-//                     text: 'Insufficient stock for the selected size..!. Please decrease the Quantity',
-//                     confirmButtonText: 'OK'
-//                 }).then(() => {
-//                     window.location.href = '/productDetails?id=${productId}';
-//                 });
-//             </script>
-//             </body>
-//             </html>`);
-//       }
-
-
-
-
-
-  
-//       const totalPrice = product.salePrice * qty;
-//       console.log('Total Price:', totalPrice);
-  
-//       // Check for existing cart
-//       let cart = await cartSchema.findOne({ userId });
-//       if (!cart) {
-//         // Create a new cart if none exists
-//         cart = new cartSchema({
-//           userId,
-//           items: [
-//             {
-//               productId,
-//               size,
-//               quantity: qty,
-//               price: product.salePrice,
-//               totalPrice,
-//             },
-//           ],
-//           finalPrice: totalPrice,
-//         });
-
-
-//       } else {
-
-
-
-
-//         const cartt = await cartSchema.findOne({ userId });
-//         if (!cart) {
-//           throw new Error('Cart not found');
-//         }
-      
-//         const item = cartt.items.find(item => item.productId.toString() === productId && item.size === size);
-//         if (!item) {
-//           throw new Error('Item not found in cart');
-//         }
-//         console.log('ittmm',item);
-        
-
-//         if(item.quantity + qty > product.maxQuantity){
-
-//           console.log('Reached the maxQuantity per user');
-
-//           return res.send(`<!DOCTYPE html>
-//               <html>
-//               <head>
-//                   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-//               </head>
-//               <body>
-//               <script>
-//                   Swal.fire({
-//                       icon: 'error',
-//                       title: 'Oops...',
-//                       text: 'You are Reached the Limit For Purchacing this product..!. Please decrease the Quantity',
-//                       confirmButtonText: 'OK'
-//                   }).then(() => {
-//                       window.location.href = '/productDetails?id=${productId}';
-//                   });
-//               </script>
-//               </body>
-//               </html>`);
-
-//         }
-
-
-
-//         // Check if the product with the same size exists
-//         const existItemIndex = cart.items.findIndex(
-//           (item) => item.productId.toString() === productId && item.size === size);
-  
-
-
-//         if (existItemIndex > -1) {
-//           // Update existing item's quantity and price
-//           cart.items[existItemIndex].quantity = cart.items[existItemIndex].quantity + Number(qty);
-//           cart.items[existItemIndex].price = product.salePrice;
-//           cart.items[existItemIndex].totalPrice = cart.items[existItemIndex].quantity * product.salePrice;
-
-//         } else {
-//           // Add new item to the cart
-//           cart.items.push({
-//             productId,
-//             size,
-//             quantity: qty,
-//             price: product.salePrice,
-//             totalPrice,
-//           });
-//         }
-  
-//         // Update final price
-//         cart.finalPrice = cart.items.reduce(
-//           (sum, item) => sum + item.totalPrice,
-//           0
-//         );
-//       }
-  
-//       // Save the cart
-//       await cart.save();
-//       console.log('Cart updated:', cart);
-  
-//       res.redirect(`/productDetails?id=${productId}`);
-//     } catch (error) {
-//       console.error('Error adding to cart:', error);
-//       res.redirect('/notFound');
-//     }
-//   };
-
 
 
 
@@ -279,6 +122,8 @@ const addToCart = async (req, res) => {
 
     const totalPrice = product.salePrice * qty;
     console.log('Total Price:', totalPrice);
+    console.log('prod-name=',product.productName);
+    
 
     // Check for existing cart
     let cart = await cartSchema.findOne({ userId });
@@ -288,6 +133,7 @@ const addToCart = async (req, res) => {
         userId,
         items: [{
           productId,
+          productName:product.productName,
           size,
           quantity: qty,
           price: product.salePrice,
@@ -301,6 +147,7 @@ const addToCart = async (req, res) => {
       if (!item) {
         cart.items.push({
           productId,
+          productName:product.productName,
           size,
           quantity: qty,
           price: product.salePrice,

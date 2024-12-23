@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Footzy Footwear</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .checkout-container {
+            width: 70%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .checkout-header {
+            color: #ff6b00;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .address-section, .payment-section, .summary-section {
+            margin-bottom: 30px;
+        }
+        h3 {
+            color: #333;
+        }
+        .address-list {
+            list-style: none;
+            padding: 0;
+        }
+        .address-item {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .address-item:hover {
+            background-color: #ffedcc;
+        }
+        .selected {
+            border: 2px solid #ff6b00;
+        }
+        .add-address-btn, .place-order-btn {
+            background-color: #ff6b00;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .add-address-btn:hover, .place-order-btn:hover {
+            background-color: #e65a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-header">Checkout</div>
+
+        <div class="address-section">
+            <h3>Select Delivery Address</h3>
+            <ul class="address-list">
+                <li class="address-item selected">123 Street, Nilambur, Kerala - 679329</li>
+                <li class="address-item">456 Avenue, Malappuram, Kerala - 679321</li>
+                <li class="address-item">789 Road, Kozhikode, Kerala - 673004</li>
+            </ul>
+            <button class="add-address-btn">+ Add New Address</button>
+        </div>
+
+        <div class="payment-section">
+            <h3>Payment Method</h3>
+            <label><input type="radio" name="payment" checked> Cash on Delivery (COD)</label>
+        </div>
+
+        <div class="summary-section">
+            <h3>Order Summary</h3>
+            <p>Subtotal: ₹3,500</p>
+            <p>Delivery Fee: ₹50</p>
+            <p><strong>Total: ₹3,550</strong></p>
+        </div>
+
+        <button class="place-order-btn">Place Order</button>
+    </div>
+</body>
+</html>

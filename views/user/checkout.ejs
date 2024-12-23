@@ -1,82 +1,142 @@
-<!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<%-include("../../views/partials/user/header")%>
+<style>
+     .address-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #dee2e6;
+        }
+        .address-card.selected {
+            border-color: #fd7e14;
+            background-color: #fff8f3;
+        }
+        .payment-method {
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        .payment-method.selected {
+            border-color: #fd7e14;
+            background-color: #fff8f3;
+        }
+        .all-addresses {
+            display: none;
+        }
+        .all-addresses.show {
+            display: block;
+        }
+        .selected-address {
+            display: block;
+        }
+        .selected-address.hide {
+            display: none;
+        }
+        .btn-outline-secondary {
+            border-color: #fd7e14;
+            color: #fd7e14;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #fd7e14;
+            color: white;
+        }
+        .btn-outline-primary {
+            border-color: #fd7e14;
+            color: #fd7e14;
+        }
+        .btn-outline-primary:hover {
+            background-color: #fd7e14;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #fd7e14;
+            border-color: #fd7e14;
+        }
+        .btn-primary:hover {
+            background-color: #e67e00;
+            border-color: #e67e00;
+        }
+        .default-badge {
+            background-color: #f57c00;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
 
-<head>
-    <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="img/fav.png">
-    <!-- Author Meta -->
-    <meta name="author" content="CodePixar">
-    <!-- Meta Description -->
-    <meta name="description" content="">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="">
-    <!-- meta character set -->
-    <meta charset="UTF-8">
-    <!-- Site Title -->
-    <title>Karma Shop</title>
+        .add-address {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .add-address button {
+            background-color: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .add-address button:hover {
+            background-color: #e65100;
+        }
+        .default-badge {
+            background-color: #f57c00;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .form-container {
+            display: none;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input {
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-container button {
+            background-color: #f57c00;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #e65100;
+        }
 
-    <!--
-            CSS
-            ============================================= -->
-    <link rel="stylesheet" href="css/linearicons.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/nice-select.css">
-    <link rel="stylesheet" href="css/nouislider.min.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/main.css">
-</head>
+    .error {
+    color: red;
+    font-size: 0.8em;
+}
+#addressType{
+    width: 98%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            }
 
-<body>
+        
+</style>
 
-  <!-- Start Header Area -->
-  <header class="header_area sticky-header">
-    <div class="main_menu">
-        <nav class="navbar navbar-expand-lg navbar-light main_box">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="category.html">Shope</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-                        <li class="nav-item"><a href="#" class="wishlist"><span class="ti-heart"></span></a></li>
-                        <li class="nav-item"><a href="#" class="my-account"><span class="ti-user"></span></a></li>
-                        <li class="nav-item">
-                            <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div class="search_input" id="search_input_box">
-        <div class="container">
-            <form class="d-flex justify-content-between">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                <button type="submit" class="btn"></button>
-                <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-            </form>
-        </div>
-    </div>
-</header>
-<!-- End Header Area -->
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+
 
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -85,9 +145,9 @@
                 <div class="col-first">
                     <h1>Checkout</h1>
                     <nav class="d-flex align-items-center">
-                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.html">Shop<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="single-product.html">Details<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/shop">Shop<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/cart">Cart<span class="lnr lnr-arrow-right"></span></a>
                         <a href="">Checkout</a>
                     </nav>
                 </div>
@@ -96,131 +156,356 @@
     </section>
     <!-- End Banner Area -->
 
-    <!--================Checkout Area =================-->
-    <section class="checkout_area section_gap">
-        <div class="container">
-          
-            <div class="cupon_area">
-                <div class="check_title">
-                    <h2>Have a coupon? <a href="#">Click here to enter your code</a></h2>
-                </div>
-                <input type="text" placeholder="Enter coupon code">
-                <a class="tp_btn" href="#">Apply Coupon</a>
-            </div>
-            <div class="billing_details">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h3>Billing Details</h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="First name"></span>
+
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-7" style="height: max-content;width: max-content;">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <!-- <h3 class="card-title text-primary mb-4">
+                            <i class="fas fa-shopping-cart me-2"></i>Checkout
+                        </h3>
+                         -->
+                        <!-- Selected Address Section -->
+                        <div class="selected-address mb-4">
+                            <h5 class="mb-3">Delivery Address</h5>
+                            <% for(let i=0;i<address.length;i++){%>
+                            <%if( address[i].isDefault === true){ %>
+                            <div class="address-card selected p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between">
+                                    <div><strong><%=address[i].fullName %></strong><br>
+                                        <span><%=address[i].address%></span>
+                                        <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
+                                        <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
+                                       <span>ph:</span> <%= address[i].phone%>
+                                    </div>
+                                </div> <br>
+                                <span class="default-badge">Default Address</span>
+
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="last" name="name">
-                                <span class="placeholder" data-placeholder="Last name"></span>
+<% } %>
+                        <% } %>                           
+
+                         <button class="btn btn-outline-secondary mb-3" onclick="showAllAddresses()">
+                                <i class="fas fa-exchange-alt me-2"></i>Choose Another Address
+                            </button>
+                        </div>
+
+                        <!-- All Addresses Section -->
+                        <div class="all-addresses mb-4">
+                            <h5 class="mb-3">Select Delivery Address</h5>
+                            <% for(let i=0;i<address.length;i++){%>
+
+                            <div class="address-card p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between">
+                                    <div><strong><%=address[i].fullName %></strong><br>
+                                        <span><%=address[i].address%></span>
+                                        <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
+                                        <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
+                                       <span>ph:</span> <%= address[i].phone%>
+                                    </div>
+
+                                    
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="address">
+                                    </div>
+
+                                </div>
+                                <br>
+                                <%if( address[i].isDefault === true){%>
+                                    <span class="default-badge">Default Address</span>
+                                <% } %>
+                                
                             </div>
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="company" name="company" placeholder="Company name">
+
+                            <% } %>                           
+
+
+                 
+
+                            <div class="d-flex gap-2 mb-3">
+                                <button class="btn btn-primary" onclick="confirmAddressSelection()">
+                                    Confirm Address 
+                                </button> &nbsp;&nbsp;
+                                <button class="btn btn-outline-secondary" onclick="cancelAddressSelection()">
+                                    Cancel
+                                </button>
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="number" name="number">
-                                <span class="placeholder" data-placeholder="Phone number"></span>
-                            </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="email" name="compemailany">
-                                <span class="placeholder" data-placeholder="Email Address"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <select class="country_select">
-                                    <option value="1">Country</option>
-                                    <option value="2">Country</option>
-                                    <option value="4">Country</option>
+                        </div>
+
+                        
+
+                        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#addAddressModal"  >
+                            <i class="fas fa-plus me-2"></i>Add New Address
+                        </button>
+
+                        <!-- <div class="add-address">
+                            <button onclick="toggleForm()">+ Add New Address</button>
+                        </div> -->
+
+                        <!-- <div class="form-container" id="addAddressForm">
+                            <h2>Add New Address</h2>
+                            <form id="addressForm" action="/addAddress" method="post">
+                                <label for="fullName">Full Name:</label>
+                                <input type="text" id="fullName" name="fullName" placeholder="Full Name">
+                                <span class="error" id="fullNameError"></span> 
+                                <br>
+                            
+                                <label for="address">Address:</label>
+                                <input type="text" id="address" name="address" placeholder="E.g house name">
+                                <span class="error" id="addressError"></span> 
+                                <br>
+                                <label for="addressType">Address Type:</label>              
+                                 <br>
+                    
+                                <select id="addressType" name="addressType" class=""  >
+                                <option value="Home">Home</option>
+                                <option value="Work">Work</option>
+                                <option value="Office">Office</option>
                                 </select>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="add1" name="add1">
-                                <span class="placeholder" data-placeholder="Address line 01"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="add2" name="add2">
-                                <span class="placeholder" data-placeholder="Address line 02"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="city" name="city">
-                                <span class="placeholder" data-placeholder="Town/City"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <select class="country_select">
-                                    <option value="1">District</option>
-                                    <option value="2">District</option>
-                                    <option value="4">District</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <input type="checkbox" id="f-option2" name="selector">
-                                    <label for="f-option2">Create an account?</label>
+                                <br>
+                                <br>
+                    
+                                <label for="country">Country:</label>
+                                <input type="text" id="country" name="country" placeholder="Country">
+                                <span class="error" id="countryError"></span>
+                                <br>
+                          
+                            
+                                <label for="state">State:</label>
+                                <input type="text" id="state" name="state" placeholder="State">
+                                <span class="error" id="stateError"></span> 
+                                <br>
+                        
+                                <label for="city">City:</label>
+                                <input type="text" id="city" name="city" placeholder="City">
+                                <span class="error" id="cityError"></span>
+                                <br>
+                    
+                                <label for="place">Place:</label>
+                                <input type="text" id="place" name="place" placeholder="Place">
+                                <span class="error" id="placeError"></span> 
+                                <br>
+                    
+                    
+                                <label for="pinCode">Pin Code:</label>
+                                <input type="text" id="pinCode" name="pincode" placeholder="Pin Code">
+                                <span class="error" id="pinCodeError"></span>  
+                                <br>
+                            
+                                <label for="phoneNumber">Phone Number:</label>
+                                <input type="tel" id="phoneNumber" name="phone" placeholder="Phone Number">
+                                <span class="error" id="phoneNumberError"></span> 
+                                <br>
+                            
+                                <label for="landmark">Landmark:</label>
+                                <input type="text" id="landmark" name="landMark" placeholder="E.g near st Marry's school">
+                                <span class="error" id="landmarkError"></span> 
+                                <br>
+                            
+                                <button type="submit">Save Address</button>
+                            </form>
+                        </div>
+                    -->
+
+
+                        <!-- Payment Method Section -->
+                        <h5 class="mb-3">Payment Method</h5>
+                        <div class="payment-methods">
+                            <div class="payment-method selected p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-money-bill-wave me-2"></i>
+                                        Cash on Delivery (COD)
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment" checked>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 form-group">
-                                <div class="creat_account">
-                                    <h3>Shipping Details</h3>
-                                    <input type="checkbox" id="f-option3" name="selector">
-                                    <label for="f-option3">Ship to a different address?</label>
+
+                            <div class="payment-method p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-credit-card me-2"></i>
+                                        Credit/Debit Card
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment">
+                                    </div>
                                 </div>
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="order_box">
-                            <h2>Your Order</h2>
-                            <ul class="list">
-                                <li><a href="#">Product <span>Total</span></a></li>
-                                <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            </ul>
-                            <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                                <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                                <li><a href="#">Total <span>$2210.00</span></a></li>
-                            </ul>
-                            <div class="payment_item">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">Check payments</label>
-                                    <div class="check"></div>
+
+                            <div class="payment-method p-3 rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-wallet me-2"></i>
+                                        UPI Payment
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment">
+                                    </div>
                                 </div>
-                                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
-                                    Store Postcode.</p>
                             </div>
-                            <div class="payment_item active">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option6" name="selector">
-                                    <label for="f-option6">Paypal </label>
-                                    <img src="img/product/card.jpg" alt="">
-                                    <div class="check"></div>
-                                </div>
-                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
-                                    account.</p>
-                            </div>
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option4" name="selector">
-                                <label for="f-option4">I’ve read and accept the </label>
-                                <a href="#">terms & conditions*</a>
-                            </div>
-                            <a class="primary-btn" href="#">Proceed to Paypal</a>
                         </div>
                     </div>
+
+                </div>
+            </div>
+                        
+                       
+            <div class="order_box py-5" style="height: max-content;width: max-content;">
+                <h2>Order Summary</h2>
+                <div class="cart_details">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>Qty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i=0; i < items.length; i++) { %>
+                            <tr>
+                                <td style="font-size: small;"><%= items[i].productName %>&nbsp;&nbsp;&nbsp; <br> <small>size: <%=items[i].size %></small></td>
+                                <td>x <%=items[i].quantity %></td>
+                                <td>₹ <%=items[i].totalPrice %>.00</td>
+                                
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                        <br>
+
+                    </table>
+                </div>
+            
+                <ul class="list list_2">
+                    <li>
+                        <a href="#">
+                            Subtotal <span>₹ <%=finalPaice %> .00</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Shipping <span> ___</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Total <span>₹ <%=finalPaice %> .00</span>
+                        </a>
+                    </li>
+                </ul>
+            
+                <!-- <div class="creat_account">
+                    <input type="checkbox" id="f-option4" name="selector">
+                    <label for="f-option4">I’ve read and accept the </label>
+                    <a href="#">terms & conditions*</a>
+                </div> -->
+            
+                <a class="primary-btn" href="/placeOrder" onclick="placeOrder()">Place Order</a>
+            </div>
+            
+                    </div>
+            
+        </div>
+    </div>
+
+
+   
+
+     <!-- Add Address Modal -->
+     <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addressForm" action="/addNewAddress" method="post">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name">
+                            <span class="error text-danger" id="fullNameError"></span>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="E.g house name">
+                            <span class="error text-danger" id="addressError"></span>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="addressType" class="form-label">Address Type</label>
+                            <select id="addressType" name="addressType" class="form-select">
+                                <option value="Home">Home</option>
+                                <option value="Work">Work</option>
+                                <option value="Office">Office</option>
+                            </select>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+                            <span class="error text-danger" id="countryError"></span>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                                <span class="error text-danger" id="stateError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                                <span class="error text-danger" id="cityError"></span>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="place" class="form-label">Place</label>
+                                <input type="text" class="form-control" id="place" name="place" placeholder="Place">
+                                <span class="error text-danger" id="placeError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pinCode" class="form-label">Pin Code</label>
+                                <input type="text" class="form-control" id="pinCode" name="pincode" placeholder="Pin Code">
+                                <span class="error text-danger" id="pinCodeError"></span>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phone" placeholder="Phone Number">
+                            <span class="error text-danger" id="phoneNumberError"></span>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="landmark" class="form-label">Landmark</label>
+                            <input type="text" class="form-control" id="landmark" name="landMark" placeholder="E.g near St. Mary's School">
+                            <span class="error text-danger" id="landmarkError"></span>
+                        </div>
+    
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Save Address</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    
+
     <!--================End Checkout Area =================-->
 
     <!-- start footer Area -->
@@ -321,6 +606,275 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+
+// function toggleForm() {
+//             const form = document.getElementById('addAddressForm');
+//             if (form.style.display === 'none' || form.style.display === '') {
+//                 form.style.display = 'block';
+//             } else {
+//                 form.style.display = 'none';
+//             }
+//         }
+
+
+       // Initialize variables
+let currentSelectedCard = null;
+let lastConfirmedAddress = {};
+
+// Initialize default address when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const defaultCard = document.querySelector('.selected-address .address-card');
+    if (defaultCard) {
+        lastConfirmedAddress = {
+            name: defaultCard.querySelector('strong').textContent,
+            street: defaultCard.querySelector('.mb-1').textContent,
+            details: defaultCard.querySelector('.text-muted').textContent,
+            isDefault: defaultCard.querySelector('.default-badge') ? true : false
+        };
+    }
+});
+
+// Show all addresses
+function showAllAddresses() {
+    document.querySelector('.selected-address').classList.add('hide');
+    document.querySelector('.all-addresses').classList.add('show');
+    
+    // Pre-select the current address
+    const addresses = document.querySelectorAll('.all-addresses .address-card');
+    addresses.forEach(card => {
+        const cardAddress = card.querySelector('.mb-1').textContent;
+        if (cardAddress === lastConfirmedAddress.street) {
+            selectAddress(card);
+        }
+    });
+}
+
+// Select an address card
+function selectAddress(card) {
+    if (currentSelectedCard) {
+        currentSelectedCard.classList.remove('selected');
+        currentSelectedCard.querySelector('input[type="radio"]').checked = false;
+    }
+    
+    card.classList.add('selected');
+    card.querySelector('input[type="radio"]').checked = true;
+    currentSelectedCard = card;
+}
+
+// Confirm address selection
+function confirmAddressSelection() {
+    if (currentSelectedCard) {
+        const nameText = currentSelectedCard.querySelector('strong').textContent;
+        const addressText = currentSelectedCard.querySelector('.mb-1').textContent;
+        const detailsText = currentSelectedCard.querySelector('.text-muted').textContent;
+        
+        // Update selected address display
+        const selectedAddressDisplay = document.querySelector('.selected-address .address-card');
+        selectedAddressDisplay.innerHTML = `
+            <div class="d-flex justify-content-between">
+                <div>
+                    <strong>${nameText}</strong>
+                    <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i>${addressText}</div>
+                    <div class="text-muted">${detailsText}</div>
+                </div>
+            </div>`;
+
+        // Add default badge if present
+        if (currentSelectedCard.querySelector('.default-badge')) {
+            selectedAddressDisplay.innerHTML += '<br><span class="default-badge">Default Address</span>';
+        }
+        
+        // Update lastConfirmedAddress
+        lastConfirmedAddress = {
+            name: nameText,
+            street: addressText,
+            details: detailsText,
+            isDefault: currentSelectedCard.querySelector('.default-badge') ? true : false
+        };
+        
+        hideAddressSelection();
+    }
+}
+
+// Cancel address selection
+function cancelAddressSelection() {
+    hideAddressSelection();
+    currentSelectedCard = null;
+}
+
+// Hide address selection
+function hideAddressSelection() {
+    document.querySelector('.all-addresses').classList.remove('show');
+    document.querySelector('.selected-address').classList.remove('hide');
+}
+
+// Initialize event listeners
+document.querySelectorAll('.all-addresses .address-card').forEach(card => {
+    card.addEventListener('click', () => selectAddress(card));
+});
+
+
+
+        // Handle payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                method.classList.add('selected');
+                method.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+
+        // Save new address
+        function saveAddress() {
+            const form = document.getElementById('addressForm');
+            if (form.checkValidity()) {
+                alert('Address saved successfully!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
+                modal.hide();
+                form.reset();
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        // Place order
+        function placeOrder() {
+            const selectedAddress = document.querySelector('.selected-address .address-card .mb-1').textContent;
+            const selectedPayment = document.querySelector('.payment-method.selected');
+            
+            if (selectedAddress && selectedPayment) {
+                // alert('Order placed successfully!\n\nDelivery Address: ' + selectedAddress + '\n' +
+                //       'Payment Method: ' + selectedPayment.textContent.trim());
+
+                Swal.fire({
+                     title: 'Order Placed Successfully!',
+                     html: `
+                          <strong>Delivery Address:</strong> ${selectedAddress} <br>
+                         <strong>Payment Method:</strong> ${selectedPayment.textContent.trim()}
+                            `,
+                     icon: 'success',
+                     confirmButtonText: 'OK'
+                    });
+
+
+            } else {
+                // alert('Please select both delivery address and payment method.');
+
+                Swal.fire({
+                     icon: 'warning',
+                     title: 'Incomplete Selection',
+                     text: 'Please select both delivery address and payment method.',
+                     confirmButtonText: 'OK'
+                        });
+
+
+            }
+        }
+
+
+
+
+
+        document.getElementById('addressForm').addEventListener('submit', function(event) {
+            // Prevent form submission
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const state = document.getElementById('state').value.trim();
+            const place = document.getElementById('place').value.trim();
+            const pinCode = document.getElementById('pinCode').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const landmark = document.getElementById('landmark').value.trim();
+
+
+            // Clear previous error messages
+            const errorMessages = document.querySelectorAll('.error');
+            errorMessages.forEach(function(error) {
+                error.textContent = ''; // Clear the error message text
+            });
+
+            // Validate Full Name
+            if (fullName === '' || !fullName.match(/^[A-Za-z\s]+$/)) {
+                event.preventDefault();
+
+                showError('fullNameError', 'Please Enter a valid Name..!');
+            }else
+            if (address === '') {
+                event.preventDefault();
+
+                showError('addressError', 'Address is required.');
+            }else
+            if (country === '') {
+                event.preventDefault();
+
+                showError('countryError', 'Country is required.');
+                
+            }else
+            if (city === '') {
+                event.preventDefault();
+
+                showError('cityError', 'City is required.');
+            }else
+            if (place === '') {
+                event.preventDefault();
+
+                showError('placeError', 'Place is required.');
+            }else
+            if (state === '') {
+                event.preventDefault();
+
+                showError('stateError', 'State is required.');
+            }else
+            if (!/^\d{6}$/.test(pinCode)) {
+                event.preventDefault();
+
+                showError('pinCodeError', 'Pin Code must be a 6-digit number.');
+            }else
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                event.preventDefault();
+
+                showError('phoneNumberError', 'Phone Number must be a 10-digit number.');
+            }else
+            if (landmark === '') {
+                event.preventDefault();
+
+                showError('landmarkError', 'Landmark is required.');
+            }else{
+                event.preventDefault(); // Prevent default to show Swal
+        Swal.fire({
+            title: `Address added successfully..!`, 
+            icon: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 2500,
+        }).then(() => {
+            document.getElementById('addressForm').submit(); // Submit the form programmatically
+        });
+            }
+
+           
+        });
+
+        function showError(errorId, message) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = message;
+        }
+
+
+
+
+
+
+
+
+    </script>
+
 </body>
 
 </html>
