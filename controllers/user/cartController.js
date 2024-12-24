@@ -15,6 +15,18 @@ try {
   const Usercart = await cartSchema.findOne({userId}).populate('items.productId')
   console.log('itttms',Usercart);
 
+  if(!Usercart){
+    const itemz =[]
+
+    res.render('cart',{
+      title:'Cart',
+      item:itemz,
+      suser:userId
+
+    })
+
+  }else{
+
   let finalPrice = Usercart.finalPrice;
   console.log('final../',finalPrice);
   
@@ -66,7 +78,7 @@ res.render('cart',{
  subTotal : finalPrice,
  suser:userId
 })
-  
+}
   
 } catch (error) {
   console.error('Error adding to cart:', error);

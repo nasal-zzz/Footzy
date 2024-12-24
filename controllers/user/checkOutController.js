@@ -8,6 +8,9 @@ const cartSchema = require('../../models/cartSchema')
 
 const addressSchema =  require('../../models/addressSchema')
 
+const orderSchema =  require('../../models/orderSchema')
+
+
 
 
 const loadCheckout = async (req,res) => {
@@ -108,10 +111,106 @@ const loadplaceOrder = async (req,res) => {
  
     try {
 
+        const userId = req.session.user;
+
+        const latestOrder = await orderSchema
+  .findOne({ userId: userId }) 
+  .sort({ invoiceDate: -1 })  
+  .populate('orderedItems.productId'); 
+
+console.log('Latest Order:', latestOrder);
+
+        const address = await addressSchema.findOne({'address._id':latestOrder.address})
+        console.log('adrrs==',address);
+        
+        
+
         res.render('orderConfermation',{
             title:'Order Placed'
         })
         
+    } catch (error) {
+
+        console.log('err',error.message);
+        
+        res.redirect('/notFound')
+        
+    }
+
+}
+
+
+const generateOrderId = () => {
+    const randomNum = Math.floor(1000 + Math.random() * 9000);  // Random number between 1000 and 9999
+    return `ORD${randomNum}`;
+  };
+
+
+const getOrderDetails = async (req,res) => {
+ 
+    try {
+        
+        const userId = req.session.user;
+        console.log('boooooooody post',req.body , 'usr',userId);
+        
+        const  { addressId, paymentMethod } = req.body
+
+      const orderItems = await cartSchema.findOne({userId:userId})
+      console.log('cargt=',orderItems);
+
+
+      const newOrder = new orderSchema ({
+        orderId: generateOrderId(),
+        userId,
+        orderedItems: [],
+        totalPrice:orderItems.finalPrice,
+        discount:0,
+        finalAmount:0,
+        address:addressId,
+        paymentMethod,
+        invoiceDate:Date.now(),
+        orderStatus:'Pending'
+      })
+
+      console.log();
+      
+
+      orderItems.items.forEach(item => {
+        newOrder.orderedItems.push({
+            productId: item.productId,
+            productName: item.productName,
+            size:item.size,
+            price: item.price,
+            quantity: item.quantity,
+            total: item.totalPrice
+        });
+        })
+        newOrder.finalAmount = newOrder.totalPrice - newOrder.discount
+        await newOrder.save();
+
+        console.log('order saved success full..!');
+        
+        for (let item of newOrder.orderedItems) {
+
+            const product = await productSchema.findOne({
+                _id: item.productId,'sizes.size': item.size,
+             }); 
+
+             const sizeIndex = product.sizes.findIndex(size => size.size === item.size);
+
+                product.sizes[sizeIndex].stock -= item.quantity;  
+            await product.save();
+          }
+
+
+          console.log('product stocks updated');
+
+          await cartSchema.deleteMany({ userId: userId });
+
+          console.log('cart updated');
+
+          res.redirect(`/placeOrder?orderId=${newOrder.orderId}`)
+
     } catch (error) {
 
         console.log('err',error.message);
@@ -130,8 +229,11 @@ const loadplaceOrder = async (req,res) => {
 
 
 
+
+
 module.exports ={
     loadCheckout,
     addNewAddress,
-    loadplaceOrder
+    loadplaceOrder,
+    getOrderDetails
 }

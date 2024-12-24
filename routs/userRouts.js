@@ -85,6 +85,7 @@ router.post('/addNewAddress',userAuth.checkSession,checkoutController.addNewAddr
 
 // placee order
 router.get('/placeOrder',userAuth.checkSession,checkoutController.loadplaceOrder)
+router.post('/placeOrder',userAuth.checkSession,checkoutController.getOrderDetails)
 
 
 

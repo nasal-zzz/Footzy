@@ -175,6 +175,7 @@
                             <div class="address-card selected p-3 mb-3 rounded">
                                 <div class="d-flex justify-content-between">
                                     <div><strong><%=address[i].fullName %></strong><br>
+                                        <span hidden class="address-id"><%=address[i]._id %></span>
                                         <span><%=address[i].address%></span>
                                         <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
                                         <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
@@ -200,6 +201,7 @@
                             <div class="address-card p-3 mb-3 rounded">
                                 <div class="d-flex justify-content-between">
                                     <div><strong><%=address[i].fullName %></strong><br>
+                                        <span hidden class="address-id"><%=address[i]._id %></span>
                                         <span><%=address[i].address%></span>
                                         <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
                                         <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
@@ -241,74 +243,7 @@
                             <i class="fas fa-plus me-2"></i>Add New Address
                         </button>
 
-                        <!-- <div class="add-address">
-                            <button onclick="toggleForm()">+ Add New Address</button>
-                        </div> -->
-
-                        <!-- <div class="form-container" id="addAddressForm">
-                            <h2>Add New Address</h2>
-                            <form id="addressForm" action="/addAddress" method="post">
-                                <label for="fullName">Full Name:</label>
-                                <input type="text" id="fullName" name="fullName" placeholder="Full Name">
-                                <span class="error" id="fullNameError"></span> 
-                                <br>
-                            
-                                <label for="address">Address:</label>
-                                <input type="text" id="address" name="address" placeholder="E.g house name">
-                                <span class="error" id="addressError"></span> 
-                                <br>
-                                <label for="addressType">Address Type:</label>              
-                                 <br>
-                    
-                                <select id="addressType" name="addressType" class=""  >
-                                <option value="Home">Home</option>
-                                <option value="Work">Work</option>
-                                <option value="Office">Office</option>
-                                </select>
-                                <br>
-                                <br>
-                    
-                                <label for="country">Country:</label>
-                                <input type="text" id="country" name="country" placeholder="Country">
-                                <span class="error" id="countryError"></span>
-                                <br>
-                          
-                            
-                                <label for="state">State:</label>
-                                <input type="text" id="state" name="state" placeholder="State">
-                                <span class="error" id="stateError"></span> 
-                                <br>
-                        
-                                <label for="city">City:</label>
-                                <input type="text" id="city" name="city" placeholder="City">
-                                <span class="error" id="cityError"></span>
-                                <br>
-                    
-                                <label for="place">Place:</label>
-                                <input type="text" id="place" name="place" placeholder="Place">
-                                <span class="error" id="placeError"></span> 
-                                <br>
-                    
-                    
-                                <label for="pinCode">Pin Code:</label>
-                                <input type="text" id="pinCode" name="pincode" placeholder="Pin Code">
-                                <span class="error" id="pinCodeError"></span>  
-                                <br>
-                            
-                                <label for="phoneNumber">Phone Number:</label>
-                                <input type="tel" id="phoneNumber" name="phone" placeholder="Phone Number">
-                                <span class="error" id="phoneNumberError"></span> 
-                                <br>
-                            
-                                <label for="landmark">Landmark:</label>
-                                <input type="text" id="landmark" name="landMark" placeholder="E.g near st Marry's school">
-                                <span class="error" id="landmarkError"></span> 
-                                <br>
-                            
-                                <button type="submit">Save Address</button>
-                            </form>
-                        </div>
-                    -->
+                     
 
 
                         <!-- Payment Method Section -->
@@ -508,106 +443,7 @@
 
     <!--================End Checkout Area =================-->
 
-    <!-- start footer Area -->
-    <footer class="footer-area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>About Us</h6>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore dolore
-                            magna aliqua.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-4  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Newsletter</h6>
-                        <p>Stay update with our latest</p>
-                        <div class="" id="mc_embed_signup">
-
-                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="form-inline">
-
-                                <div class="d-flex flex-row">
-
-                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter Email '" required="" type="email">
-
-
-                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
-                                            aria-hidden="true"></i></button>
-                                    <div style="position: absolute; left: -5000px;">
-                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
-                                            type="text">
-                                    </div>
-
-                                    <!-- <div class="col-lg-4 col-md-4">
-													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-												</div>  -->
-                                </div>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget mail-chimp">
-                        <h6 class="mb-20">Instragram Feed</h6>
-                        <ul class="instafeed d-flex flex-wrap">
-                            <li><img src="img/i1.jpg" alt=""></li>
-                            <li><img src="img/i2.jpg" alt=""></li>
-                            <li><img src="img/i3.jpg" alt=""></li>
-                            <li><img src="img/i4.jpg" alt=""></li>
-                            <li><img src="img/i5.jpg" alt=""></li>
-                            <li><img src="img/i6.jpg" alt=""></li>
-                            <li><img src="img/i7.jpg" alt=""></li>
-                            <li><img src="img/i8.jpg" alt=""></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Follow Us</h6>
-                        <p>Let us be social</p>
-                        <div class="footer-social d-flex align-items-center">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-                <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer Area -->
-
-
-    <script src="js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/nouislider.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="js/gmaps.min.js"></script>
-    <script src="js/main.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
     <script>
 
 
@@ -743,40 +579,53 @@ document.querySelectorAll('.all-addresses .address-card').forEach(card => {
 
         // Place order
         function placeOrder() {
-            const selectedAddress = document.querySelector('.selected-address .address-card .mb-1').textContent;
-            const selectedPayment = document.querySelector('.payment-method.selected');
-            
-            if (selectedAddress && selectedPayment) {
-                // alert('Order placed successfully!\n\nDelivery Address: ' + selectedAddress + '\n' +
-                //       'Payment Method: ' + selectedPayment.textContent.trim());
+    // Get selected address details
+    const selectedAddressCard = document.querySelector('.selected-address .address-card');
+    const addressId = selectedAddressCard.querySelector('span[hidden]').textContent;
+    
+    // Get selected payment method
+    const selectedPayment = document.querySelector('.payment-method.selected');
+    const paymentMethod = selectedPayment.textContent.trim();
 
-                Swal.fire({
-                     title: 'Order Placed Successfully!',
-                     html: `
-                          <strong>Delivery Address:</strong> ${selectedAddress} <br>
-                         <strong>Payment Method:</strong> ${selectedPayment.textContent.trim()}
-                            `,
-                     icon: 'success',
-                     confirmButtonText: 'OK'
-                    });
-
-
-            } else {
-                // alert('Please select both delivery address and payment method.');
-
-                Swal.fire({
-                     icon: 'warning',
-                     title: 'Incomplete Selection',
-                     text: 'Please select both delivery address and payment method.',
-                     confirmButtonText: 'OK'
-                        });
-
-
-            }
+    console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+    console.log('addressId',addressId)
+    console.log('paymentMethod',paymentMethod)
+    
+    // Create the data object to send
+    const orderData = {
+        addressId: addressId,
+        paymentMethod: paymentMethod
+    };
+    
+    // Send the data using fetch
+    fetch('/placeOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            Swal.fire({
+                title: 'Order Placed Successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                timer:2000
+            }).then(() => {
+                window.location.href = `/placeOrder?data=${orderData}`; // Redirect after success
+            });
         }
-
-
-
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Something went wrong!',
+        });
+    });
+}
 
 
         document.getElementById('addressForm').addEventListener('submit', function(event) {
@@ -875,6 +724,4 @@ document.querySelectorAll('.all-addresses .address-card').forEach(card => {
 
     </script>
 
-</body>
-
-</html>
+<%-include("../../views/partials/user/footer")%>
