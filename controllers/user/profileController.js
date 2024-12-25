@@ -6,6 +6,8 @@ const categorySchema =  require('../../models/categorySchema')
 
 const addressSchema =  require('../../models/addressSchema')
 
+const orderSchema = require('../../models/orderSchema')
+
 const bcrypt = require('bcrypt')
 
 
@@ -21,7 +23,7 @@ const userAddress = async (req,res) => {
         if(userAddress){
 
 res.render('address',{
-    title:'Address',
+    title:' Address',
     data:userAddress.address
 })
         }else{
@@ -37,16 +39,77 @@ res.render('address',{
     }
 }
 
-const loadOrders = async (req,res) => {
+const loadOrders = async (req, res) => {
     try {
+        const userId = req.session.user;
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;  
+        const skip = (page - 1) * limit;
         
-res.render('orders')
+        const orders = await orderSchema.find({ userId: userId }).sort({ invoiceDate: -1 })
+        .skip(skip)
+        .limit(limit)
+        console.log('ordrs-=', orders);
+
+        const totalOrders = await orderSchema.countDocuments({ userId: userId });
+        const totalPages = Math.ceil(totalOrders / limit);
+        
+        const orderedItemss = orders.flatMap(order => order.orderedItems || []);
+
+        const orderItems = await Promise.all(
+            orderedItemss.map(async (item) => {
+                try {
+                    const product = await productSchema.findById(item.productId)
+                        .select('productName salePrice productImage description maxQuantity');
+                    
+                    if (!product) {
+                        console.error(`Product not found for ID: ${item.productId}`);
+                        return null;  
+                    }
+
+                    return {
+                        productName: product.productName,
+                        productId: product._id,
+                        price: product.salePrice,
+                        image: product.productImage[0],  
+                        quantity: item.quantity,
+                        totalPrice: item.total,
+                        size: item.size,
+                        id: item._id,
+                        total: item.total
+                    };
+                } catch (error) {
+                    console.error(`Error fetching product for ID: ${item.productId}`, error);
+                    return null; 
+                }
+            })
+        );
+
+        const validOrderItems = orderItems.filter(item => item !== null);
+
+        const reversedOrderItems = validOrderItems.reverse();
+
+        console.log('Processed Order Items:', reversedOrderItems);
+
+        res.render('orders', {
+            title: 'Orders',
+            orders: orders,
+            items: reversedOrderItems,
+            currentPage: page,
+            totalPages: totalPages,
+        });
 
     } catch (error) {
-        console.log('error',error);
-res.redirect('/notFound')
+        console.error('Error loading orders:', error);
+        res.status(500).send('Error loading orders.');
     }
-}
+};
+
+
+
+
+
+
 
 const loadEditInfo = async (req,res) => {
     try {

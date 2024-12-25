@@ -29,16 +29,7 @@ try {
 
   let finalPrice = Usercart.finalPrice;
   console.log('final../',finalPrice);
-  
-//   const cartItems = Usercart.items.map(item => ({
-//     productId: item.productId._id,
-//     name: item.productId.productName,
-//     price: item.productId.productName,
-//     image: item.productId.productImage,
-//     description: item.productId.description,
-//     quantity: item.quantity,
-//     totalPrice: item.totalPrice
-// }));
+
 
 const cartItems = await Promise.all(
   Usercart.items.map(async (item)=>{
@@ -69,6 +60,9 @@ return {
 
   })
 )
+
+
+
 
 console.log('passings==',cartItems);
 

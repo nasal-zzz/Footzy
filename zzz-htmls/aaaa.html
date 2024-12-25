@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empty Orders</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Flexbox container for centering */
+        .full-screen-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fff8f3 0%, #fff 100%);
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.1);
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Decorative circle */
+        .circle {
+            width: 80px;
+            height: 80px;
+            background: #fff3e6;
+            border-radius: 50%;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Empty box image */
+        .empty-box {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        #message-heading {
+            color: #ff8c00;
+            font-weight: 700;
+            margin-top: 50px;
+            font-size: 1.8rem;
+        }
+
+        #message-paragraph {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .btnz {
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btnz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="full-screen-container">
+        <div class="content-box">
+            <!-- Decorative circle -->
+            <div class="circle">
+            <img src="/public/img/empty-order.png" alt="Empty box illustration" class="empty-box" />
+        </div>
+            <!-- Content -->
+            <h3 id="message-heading">No Orders Yet</h3>
+            <p id="message-paragraph">     You haven't placed any orders yet.<br>
+                Start shopping to see your order history here!</p>
+
+            <!-- Styled Button -->
+            <button class="btnz">Explore Products</button>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<div style="background: linear-gradient(135deg, #fff8f3 0%, #fff 100%);">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="text-center p-5 mx-auto my-5" style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(255, 165, 0, 0.1); max-width: 500px;">
+            <!-- Decorative elements -->
+            <div class="position-relative mb-4">
+              <div style="width: 80px; height: 80px; background: #fff3e6; border-radius: 50%;" class="mx-auto position-absolute top-50 start-50 translate-middle"></div>
+              <img src="/api/placeholder/100/100" alt="Empty orders box illustration" class="position-relative" />
+            </div>
+            
+            <!-- Content -->
+            <h3 class="mb-3" style="color: #ff8c00; font-weight: 700;">No Orders Yet</h3>
+            <p class="text-muted mb-4" style="font-size: 1.1rem;">
+              You haven't placed any orders yet.<br>
+              Start shopping to see your order history here!
+            </p>
+            
+            <!-- Styled Button -->
+            <button class="btn px-4 py-3" style="background: linear-gradient(45deg, #ff8c00, #ffa500); color: white; border: none; border-radius: 12px; font-weight: 600; transition: transform 0.2s;">
+              Browse Products
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

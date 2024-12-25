@@ -61,7 +61,6 @@
             font-size: 12px;
             margin-left: 10px;
         }
-
         .add-address {
             text-align: center;
             margin: 20px 0;
@@ -77,14 +76,6 @@
         }
         .add-address button:hover {
             background-color: #e65100;
-        }
-        .default-badge {
-            background-color: #f57c00;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 10px;
         }
         .form-container {
             display: none;
@@ -113,285 +104,277 @@
         .form-container button:hover {
             background-color: #e65100;
         }
-
-    .error {
-    color: red;
-    font-size: 0.8em;
-}
-#addressType{
-    width: 98%;
+        .error {
+            color: red;
+            font-size: 0.8em;
+        }
+        #addressType {
+            width: 98%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            }
-
-        
+        }
 </style>
 
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
 <!-- SweetAlert2 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
-
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+
+<!-- Bootstrap JS (Bundle includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col-first">
-                    <h1>Checkout</h1>
-                    <nav class="d-flex align-items-center">
-                        <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="/shop">Shop<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="/cart">Cart<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="">Checkout</a>
-                    </nav>
-                </div>
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Checkout</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="/shop">Shop<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="/cart">Cart<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="">Checkout</a>
+                </nav>
             </div>
         </div>
-    </section>
-    <!-- End Banner Area -->
+    </div>
+</section>
+<!-- End Banner Area -->
 
+<div class="container py-5">
+    <div class="row">
+        <!-- Left Column - Address and Payment -->
+        <div class="col-lg-7" style="height: max-content;width: max-content;">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <!-- Selected Address Section -->
 
+                    <% if(address.length<=0){%>
 
-    <div class="container py-5">
-        <div class="row">
-            <div class="col-lg-7" style="height: max-content;width: max-content;">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <!-- <h3 class="card-title text-primary mb-4">
-                            <i class="fas fa-shopping-cart me-2"></i>Checkout
-                        </h3>
-                         -->
-                        <!-- Selected Address Section -->
-                        <div class="selected-address mb-4">
-                            <h5 class="mb-3">Delivery Address</h5>
-                            <% for(let i=0;i<address.length;i++){%>
-                            <%if( address[i].isDefault === true){ %>
-                            <div class="address-card selected p-3 mb-3 rounded">
-                                <div class="d-flex justify-content-between">
-                                    <div><strong><%=address[i].fullName %></strong><br>
-                                        <span hidden class="address-id"><%=address[i]._id %></span>
-                                        <span><%=address[i].address%></span>
-                                        <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
-                                        <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
-                                       <span>ph:</span> <%= address[i].phone%>
-                                    </div>
-                                </div> <br>
-                                <span class="default-badge">Default Address</span>
-
-                            </div>
-<% } %>
-                        <% } %>                           
-
-                         <button class="btn btn-outline-secondary mb-3" onclick="showAllAddresses()">
-                                <i class="fas fa-exchange-alt me-2"></i>Choose Another Address
-                            </button>
-                        </div>
-
-                        <!-- All Addresses Section -->
-                        <div class="all-addresses mb-4">
-                            <h5 class="mb-3">Select Delivery Address</h5>
-                            <% for(let i=0;i<address.length;i++){%>
-
-                            <div class="address-card p-3 mb-3 rounded">
-                                <div class="d-flex justify-content-between">
-                                    <div><strong><%=address[i].fullName %></strong><br>
-                                        <span hidden class="address-id"><%=address[i]._id %></span>
-                                        <span><%=address[i].address%></span>
-                                        <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i> <%= address[i].landMark%>, <%=address[i].place%> , <%= address[i].city%> </div>
-                                        <div class="text-muted"><%= address[i].state%> - <%= address[i].pincode%> , <%= address[i].country%></div>
-                                       <span>ph:</span> <%= address[i].phone%>
-                                    </div>
-
-                                    
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="address">
-                                    </div>
-
-                                </div>
-                                <br>
-                                <%if( address[i].isDefault === true){%>
-                                    <span class="default-badge">Default Address</span>
-                                <% } %>
-                                
-                            </div>
-
-                            <% } %>                           
-
-
-                 
-
-                            <div class="d-flex gap-2 mb-3">
-                                <button class="btn btn-primary" onclick="confirmAddressSelection()">
-                                    Confirm Address 
-                                </button> &nbsp;&nbsp;
-                                <button class="btn btn-outline-secondary" onclick="cancelAddressSelection()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-
-                        
-
-                        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#addAddressModal"  >
+                        <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#addAddressModal">
                             <i class="fas fa-plus me-2"></i>Add New Address
                         </button>
 
-                     
+                    <% }else{%>
 
+                    <div class="selected-address mb-4">
+                        <h5 class="mb-3">Delivery Address</h5>
+                        <% if(Array.isArray(address)) { %>
+                            <% if(address.length > 0) { %>
+                                <% const selectedAddress = address.find(addr => addr.isDefault) || address[0] %>
+                                <div class="address-card selected p-3 mb-3 rounded">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <strong><%= selectedAddress.fullName %></strong><br>
+                                            <span hidden class="address-id"><%= selectedAddress._id %></span>
+                                            <span><%= selectedAddress.address %></span>
+                                            <div class="mb-1">
+                                                <i class="fas fa-map-marker-alt me-2"></i>
+                                                <%= selectedAddress.landMark %>, <%= selectedAddress.place %>, <%= selectedAddress.city %>
+                                            </div>
+                                            <div class="text-muted">
+                                                <%= selectedAddress.state %> - <%= selectedAddress.pincode %>, <%= selectedAddress.country %>
+                                            </div>
+                                            <span>ph:</span> <%= selectedAddress.phone %>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <% if(selectedAddress.isDefault === true) { %>
+                                        <span class="default-badge">Default Address</span>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        <% } %>
 
-                        <!-- Payment Method Section -->
-                        <h5 class="mb-3">Payment Method</h5>
-                        <div class="payment-methods">
-                            <div class="payment-method selected p-3 mb-3 rounded">
-                                <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn btn-outline-secondary mb-3" onclick="showAllAddresses()">
+                            <i class="fas fa-exchange-alt me-2"></i>Choose Another Address
+                        </button>
+                    </div>
+
+                    <!-- All Addresses Section -->
+                    <div class="all-addresses mb-4">
+                        <h5 class="mb-3">Select Delivery Address</h5>
+                        <% for(let i=0; i<address.length; i++) { %>
+                            <div class="address-card p-3 mb-3 rounded">
+                                <div class="d-flex justify-content-between">
                                     <div>
-                                        <i class="fas fa-money-bill-wave me-2"></i>
-                                        Cash on Delivery (COD)
+                                        <strong><%= address[i].fullName %></strong><br>
+                                        <span hidden class="address-id"><%= address[i]._id %></span>
+                                        <span><%= address[i].address %></span>
+                                        <div class="mb-1">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <%= address[i].landMark %>, <%= address[i].place %>, <%= address[i].city %>
+                                        </div>
+                                        <div class="text-muted">
+                                            <%= address[i].state %> - <%= address[i].pincode %>, <%= address[i].country %>
+                                        </div>
+                                        <span>ph:</span> <%= address[i].phone %>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment" checked>
+                                        <input class="form-check-input" type="radio" name="address">
                                     </div>
                                 </div>
+                                <br>
+                                <% if(address[i].isDefault === true) { %>
+                                    <span class="default-badge">Default Address</span>
+                                <% } %>
                             </div>
+                        <% } %>
 
-                            <div class="payment-method p-3 mb-3 rounded">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-credit-card me-2"></i>
-                                        Credit/Debit Card
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment">
-                                    </div>
+                        <div class="d-flex gap-2 mb-3">
+                            <button class="btn btn-primary" onclick="confirmAddressSelection()">
+                                Confirm Address 
+                            </button> &nbsp;&nbsp;
+                            <button class="btn btn-outline-secondary" onclick="cancelAddressSelection()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                        <i class="fas fa-plus me-2"></i>Add New Address
+                    </button> -->
+                    <button class="btn btn-outline-primary mb-4" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                        <i class="fas fa-plus me-2"></i>Add New Address
+                    </button>
+                    <% } %>
+
+
+                    <!-- Payment Method Section -->
+                    <h5 class="mb-3">Payment Method</h5>
+                    <div class="payment-methods">
+                        <div class="payment-method selected p-3 mb-3 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-money-bill-wave me-2"></i>
+                                    Cash on Delivery (COD)
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment" checked>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="payment-method p-3 rounded">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-wallet me-2"></i>
-                                        UPI Payment
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="payment">
-                                    </div>
+                        <div class="payment-method p-3 mb-3 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-credit-card me-2"></i>
+                                    Credit/Debit Card
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-method p-3 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-wallet me-2"></i>
+                                    UPI Payment
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment">
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-                        
-                       
-            <div class="order_box py-5" style="height: max-content;width: max-content;">
-                <h2>Order Summary</h2>
-                <div class="cart_details">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                <th>Qty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                <th>Total Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(let i=0; i < items.length; i++) { %>
-                            <tr>
-                                <td style="font-size: small;"><%= items[i].productName %>&nbsp;&nbsp;&nbsp; <br> <small>size: <%=items[i].size %></small></td>
-                                <td>x <%=items[i].quantity %></td>
-                                <td>₹ <%=items[i].totalPrice %>.00</td>
-                                
-                            </tr>
-                            <% } %>
+        </div>
 
-                        </tbody>
-                        <br>
-
-                    </table>
-                </div>
-            
-                <ul class="list list_2">
-                    <li>
-                        <a href="#">
-                            Subtotal <span>₹ <%=finalPaice %> .00</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Shipping <span> ___</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Total <span>₹ <%=finalPaice %> .00</span>
-                        </a>
-                    </li>
-                </ul>
-            
-                <!-- <div class="creat_account">
-                    <input type="checkbox" id="f-option4" name="selector">
-                    <label for="f-option4">I’ve read and accept the </label>
-                    <a href="#">terms & conditions*</a>
-                </div> -->
-            
-                <a class="primary-btn" href="/placeOrder" onclick="placeOrder()">Place Order</a>
+        <!-- Order Summary -->
+        <div class="order_box py-5" style="height: max-content;width: max-content;">
+            <h2>Order Summary</h2>
+            <div class="cart_details">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th>Qty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i < items.length; i++) { %>
+                        <tr>
+                            <td style="font-size: small;"><%= items[i].productName %>&nbsp;&nbsp;&nbsp; <br> <small>size: <%=items[i].size %></small></td>
+                            <td>x <%=items[i].quantity %></td>
+                            <td>₹ <%=items[i].totalPrice %>.00</td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
             </div>
-            
-                    </div>
-            
+        
+            <ul class="list list_2">
+                <li>
+                    <a href="#">
+                        Subtotal <span>₹ <%=finalPaice %> .00</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Shipping <span> ___</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Total <span>₹ <%=finalPaice %> .00</span>
+                    </a>
+                </li>
+            </ul>
+        
+            <a class="primary-btn" href="/placeOrder" onclick="placeOrder();">Place Order</a>
         </div>
     </div>
+</div>
 
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addressForm" action="/addNewAddress" method="post">
+                    <!-- Form fields remain the same -->
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name">
+                        <span class="error text-danger" id="fullNameError"></span>
+                    </div>
 
-   
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="E.g house name">
+                        <span class="error text-danger" id="addressError"></span>
+                    </div>
 
-     <!-- Add Address Modal -->
-     <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addressForm" action="/addNewAddress" method="post">
-                        <div class="mb-3">
-                            <label for="fullName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name">
-                            <span class="error text-danger" id="fullNameError"></span>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="E.g house name">
-                            <span class="error text-danger" id="addressError"></span>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="addressType" class="form-label">Address Type</label>
-                            <select id="addressType" name="addressType" class="form-select">
-                                <option value="Home">Home</option>
-                                <option value="Work">Work</option>
-                                <option value="Office">Office</option>
-                            </select>
-                        </div>
-    
-                        <div class="mb-3">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" class="form-control" id="country" name="country" placeholder="Country">
-                            <span class="error text-danger" id="countryError"></span>
-                        </div>
-    
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="addressType" class="form-label">Address Type</label>
+                        <select id="addressType" name="addressType" class="form-select">
+                            <option value="Home">Home</option>
+                            <option value="Work">Work</option>
+                            <option value="Office">Office</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+                        <span class="error text-danger" id="countryError"></span>
+                    </div>
+
+                     <div class="row">
+                        <div class="col-md-6 mb-3">
                                 <label for="state" class="form-label">State</label>
                                 <input type="text" class="form-control" id="state" name="state" placeholder="State">
                                 <span class="error text-danger" id="stateError"></span>
@@ -440,163 +423,223 @@
         </div>
     </div>
     
-
-    <!--================End Checkout Area =================-->
-
-    
     <script>
-
-
-// function toggleForm() {
-//             const form = document.getElementById('addAddressForm');
-//             if (form.style.display === 'none' || form.style.display === '') {
-//                 form.style.display = 'block';
-//             } else {
-//                 form.style.display = 'none';
-//             }
-//         }
-
-
-       // Initialize variables
-let currentSelectedCard = null;
-let lastConfirmedAddress = {};
-
-// Initialize default address when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    const defaultCard = document.querySelector('.selected-address .address-card');
-    if (defaultCard) {
-        lastConfirmedAddress = {
-            name: defaultCard.querySelector('strong').textContent,
-            street: defaultCard.querySelector('.mb-1').textContent,
-            details: defaultCard.querySelector('.text-muted').textContent,
-            isDefault: defaultCard.querySelector('.default-badge') ? true : false
-        };
-    }
-});
-
-// Show all addresses
-function showAllAddresses() {
-    document.querySelector('.selected-address').classList.add('hide');
-    document.querySelector('.all-addresses').classList.add('show');
+    // Initialize variables
+    let currentSelectedCard = null;
+    let lastConfirmedAddress = {};
     
-    // Pre-select the current address
-    const addresses = document.querySelectorAll('.all-addresses .address-card');
-    addresses.forEach(card => {
-        const cardAddress = card.querySelector('.mb-1').textContent;
-        if (cardAddress === lastConfirmedAddress.street) {
-            selectAddress(card);
+    // Initialize default address when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const defaultCard = document.querySelector('.selected-address .address-card');
+        if (defaultCard) {
+            lastConfirmedAddress = {
+                name: defaultCard.querySelector('strong').textContent,
+                street: defaultCard.querySelector('.mb-1').textContent,
+                details: defaultCard.querySelector('.text-muted').textContent,
+                isDefault: defaultCard.querySelector('.default-badge') ? true : false,
+                id: defaultCard.querySelector('.address-id').textContent
+            };
         }
     });
-}
-
-// Select an address card
-function selectAddress(card) {
-    if (currentSelectedCard) {
-        currentSelectedCard.classList.remove('selected');
-        currentSelectedCard.querySelector('input[type="radio"]').checked = false;
+    
+    // Show all addresses
+    function showAllAddresses() {
+        document.querySelector('.selected-address').classList.add('hide');
+        document.querySelector('.all-addresses').classList.add('show');
+        
+        // Pre-select the current address
+        const addresses = document.querySelectorAll('.all-addresses .address-card');
+        addresses.forEach(card => {
+            if (card.querySelector('.address-id').textContent === lastConfirmedAddress.id) {
+                selectAddress(card);
+            }
+        });
     }
     
-    card.classList.add('selected');
-    card.querySelector('input[type="radio"]').checked = true;
-    currentSelectedCard = card;
-}
-
-// Confirm address selection
-function confirmAddressSelection() {
-    if (currentSelectedCard) {
-        const nameText = currentSelectedCard.querySelector('strong').textContent;
-        const addressText = currentSelectedCard.querySelector('.mb-1').textContent;
-        const detailsText = currentSelectedCard.querySelector('.text-muted').textContent;
-        
-        // Update selected address display
-        const selectedAddressDisplay = document.querySelector('.selected-address .address-card');
-        selectedAddressDisplay.innerHTML = `
-            <div class="d-flex justify-content-between">
-                <div>
-                    <strong>${nameText}</strong>
-                    <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i>${addressText}</div>
-                    <div class="text-muted">${detailsText}</div>
-                </div>
-            </div>`;
-
-        // Add default badge if present
-        if (currentSelectedCard.querySelector('.default-badge')) {
-            selectedAddressDisplay.innerHTML += '<br><span class="default-badge">Default Address</span>';
+    // Select an address card
+    function selectAddress(card) {
+        if (currentSelectedCard) {
+            currentSelectedCard.classList.remove('selected');
+            currentSelectedCard.querySelector('input[type="radio"]').checked = false;
         }
         
-        // Update lastConfirmedAddress
-        lastConfirmedAddress = {
-            name: nameText,
-            street: addressText,
-            details: detailsText,
-            isDefault: currentSelectedCard.querySelector('.default-badge') ? true : false
-        };
-        
+        card.classList.add('selected');
+        card.querySelector('input[type="radio"]').checked = true;
+        currentSelectedCard = card;
+    }
+    
+    // Confirm address selection
+    function confirmAddressSelection() {
+        if (currentSelectedCard) {
+            const nameText = currentSelectedCard.querySelector('strong').textContent;
+            const addressText = currentSelectedCard.querySelector('.mb-1').textContent;
+            const detailsText = currentSelectedCard.querySelector('.text-muted').textContent;
+            const addressId = currentSelectedCard.querySelector('.address-id').textContent;
+            
+            // Update selected address display
+            const selectedAddressDisplay = document.querySelector('.selected-address .address-card');
+            selectedAddressDisplay.innerHTML = `
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>${nameText}</strong>
+                        <span hidden class="address-id">${addressId}</span>
+                        <div class="mb-1"><i class="fas fa-map-marker-alt me-2"></i>${addressText}</div>
+                        <div class="text-muted">${detailsText}</div>
+                    </div>
+                </div>`;
+    
+            // Add default badge if present
+            if (currentSelectedCard.querySelector('.default-badge')) {
+                selectedAddressDisplay.innerHTML += '<br><span class="default-badge">Default Address</span>';
+            }
+            
+            // Update lastConfirmedAddress
+            lastConfirmedAddress = {
+                name: nameText,
+                street: addressText,
+                details: detailsText,
+                isDefault: currentSelectedCard.querySelector('.default-badge') ? true : false,
+                id: addressId
+            };
+            
+            hideAddressSelection();
+        }
+    }
+    
+    // Cancel address selection
+    function cancelAddressSelection() {
         hideAddressSelection();
     }
-}
-
-// Cancel address selection
-function cancelAddressSelection() {
-    hideAddressSelection();
-    currentSelectedCard = null;
-}
-
-// Hide address selection
-function hideAddressSelection() {
-    document.querySelector('.all-addresses').classList.remove('show');
-    document.querySelector('.selected-address').classList.remove('hide');
-}
-
-// Initialize event listeners
-document.querySelectorAll('.all-addresses .address-card').forEach(card => {
-    card.addEventListener('click', () => selectAddress(card));
-});
-
-
-
-        // Handle payment method selection
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', () => {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                method.classList.add('selected');
-                method.querySelector('input[type="radio"]').checked = true;
-            });
+    
+    // Hide address selection
+    function hideAddressSelection() {
+        document.querySelector('.all-addresses').classList.remove('show');
+        document.querySelector('.selected-address').classList.remove('hide');
+    }
+    
+    // Handle payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', () => {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            method.classList.add('selected');
+            method.querySelector('input[type="radio"]').checked = true;
         });
+    });
+    
+    // Place order function
+    // function placeOrder() {
+    //     // Get the selected address ID based on view state
+    //     let addressId;
+    //     const allAddressesVisible = document.querySelector('.all-addresses').classList.contains('show');
+        
+    //     if (allAddressesVisible && currentSelectedCard) {
+    //         addressId = currentSelectedCard.querySelector('.address-id').textContent;
+    //     } else {
+    //         const selectedAddressCard = document.querySelector('.selected-address .address-card');
+    //         addressId = selectedAddressCard.querySelector('.address-id').textContent;
+    //     }
+        
+    //     // Get selected payment method
+    //     const selectedPayment = document.querySelector('.payment-method.selected');
+    //     const paymentMethod = selectedPayment.textContent.trim();
 
-        // Save new address
-        function saveAddress() {
-            const form = document.getElementById('addressForm');
-            if (form.checkValidity()) {
-                alert('Address saved successfully!');
-                const modal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
-                modal.hide();
-                form.reset();
-            } else {
-                form.reportValidity();
+    //     if(!addressId || addressId === null){
+    //         alert('please add a address')
+    //     }
+        
+    //     // Create the data object to send
+    //     const orderData = {
+    //         addressId: addressId,
+    //         paymentMethod: paymentMethod
+    //     };
+        
+    //     // Send the data using fetch
+    //     fetch('/placeOrder', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(orderData)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if(data.success) {
+    //             Swal.fire({
+    //                 title: 'Order Placed Successfully!',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 timer: 2000
+    //             }).then(() => {
+    //                 window.location.href = `/placeOrder`;  //?data=${encodeURIComponent(JSON.stringify(orderData))}
+    //             });
+    //         }
+    //     })
+    //     .catch(error => {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Error',
+    //             text: 'Something went wrong!',
+    //         });
+    //     });
+    // }
+
+
+
+    function placeOrder() {
+    let addressId = null;
+    const allAddressesVisible = document.querySelector('.all-addresses')?.classList.contains('show');
+    
+    if (allAddressesVisible && currentSelectedCard) {
+        const addressElement = currentSelectedCard.querySelector('.address-id');
+        if (addressElement) {
+            addressId = addressElement.textContent.trim();
+        }
+    } else {
+        const selectedAddressCard = document.querySelector('.selected-address .address-card');
+        if (selectedAddressCard) {
+            const addressElement = selectedAddressCard.querySelector('.address-id');
+            if (addressElement) {
+                addressId = addressElement.textContent.trim();
             }
         }
+    }
 
-        // Place order
-        function placeOrder() {
-    // Get selected address details
-    const selectedAddressCard = document.querySelector('.selected-address .address-card');
-    const addressId = selectedAddressCard.querySelector('span[hidden]').textContent;
-    
+    // Show Swal if address is missing
+    if (!addressId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No Address Selected',
+            text: 'Please select or add an address to proceed with your order.',
+            confirmButtonText: 'Go to Checkout',
+            timer:15000
+        }).then(() => {
+            setTimeout(() => {
+                window.location.href = '/checkOut';
+            }, 115000);
+                });
+        return;  // Stop the function if no address is found
+    }
+
     // Get selected payment method
     const selectedPayment = document.querySelector('.payment-method.selected');
-    const paymentMethod = selectedPayment.textContent.trim();
+    const paymentMethod = selectedPayment ? selectedPayment.textContent.trim() : null;
 
-    console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
-    console.log('addressId',addressId)
-    console.log('paymentMethod',paymentMethod)
-    
+    if (!paymentMethod) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Payment Method Missing',
+            text: 'Please select a payment method.',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
     // Create the data object to send
     const orderData = {
         addressId: addressId,
         paymentMethod: paymentMethod
     };
-    
+
     // Send the data using fetch
     fetch('/placeOrder', {
         method: 'POST',
@@ -607,14 +650,14 @@ document.querySelectorAll('.all-addresses .address-card').forEach(card => {
     })
     .then(response => response.json())
     .then(data => {
-        if(data.success) {
+        if (data.success) {
             Swal.fire({
                 title: 'Order Placed Successfully!',
                 icon: 'success',
                 confirmButtonText: 'OK',
-                timer:2000
+                timer: 2000
             }).then(() => {
-                window.location.href = `/placeOrder?data=${orderData}`; // Redirect after success
+                window.location.href = `/placeOrder`;
             });
         }
     })
@@ -622,106 +665,104 @@ document.querySelectorAll('.all-addresses .address-card').forEach(card => {
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Something went wrong!',
+            text: 'Something went wrong. Please try again!',
         });
     });
 }
 
 
-        document.getElementById('addressForm').addEventListener('submit', function(event) {
-            // Prevent form submission
-
-            const fullName = document.getElementById('fullName').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const country = document.getElementById('country').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const state = document.getElementById('state').value.trim();
-            const place = document.getElementById('place').value.trim();
-            const pinCode = document.getElementById('pinCode').value.trim();
-            const phoneNumber = document.getElementById('phoneNumber').value.trim();
-            const landmark = document.getElementById('landmark').value.trim();
 
 
-            // Clear previous error messages
-            const errorMessages = document.querySelectorAll('.error');
-            errorMessages.forEach(function(error) {
-                error.textContent = ''; // Clear the error message text
+    
+    
+    // Form validation
+    document.getElementById('addressForm').addEventListener('submit', function(event) {
+        const fullName = document.getElementById('fullName').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const country = document.getElementById('country').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const place = document.getElementById('place').value.trim();
+        const pinCode = document.getElementById('pinCode').value.trim();
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+        const landmark = document.getElementById('landmark').value.trim();
+    
+        // Clear previous error messages
+        document.querySelectorAll('.error').forEach(error => {
+            error.textContent = '';
+        });
+    
+        if (fullName === '' || !fullName.match(/^[A-Za-z\s]+$/)) {
+            event.preventDefault();
+            showError('fullNameError', 'Please Enter a valid Name..!');
+        } else if (address === '') {
+            event.preventDefault();
+            showError('addressError', 'Address is required.');
+        } else if (country === '') {
+            event.preventDefault();
+            showError('countryError', 'Country is required.');
+        } else if (city === '') {
+            event.preventDefault();
+            showError('cityError', 'City is required.');
+        } else if (place === '') {
+            event.preventDefault();
+            showError('placeError', 'Place is required.');
+        } else if (state === '') {
+            event.preventDefault();
+            showError('stateError', 'State is required.');
+        } else if (!/^\d{6}$/.test(pinCode)) {
+            event.preventDefault();
+            showError('pinCodeError', 'Pin Code must be a 6-digit number.');
+        } else if (!/^\d{10}$/.test(phoneNumber)) {
+            event.preventDefault();
+            showError('phoneNumberError', 'Phone Number must be a 10-digit number.');
+        } else if (landmark === '') {
+            event.preventDefault();
+            showError('landmarkError', 'Landmark is required.');
+        } else {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Address added successfully..!',
+                icon: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 2500,
+            }).then(() => {
+                document.getElementById('addressForm').submit();
             });
-
-            // Validate Full Name
-            if (fullName === '' || !fullName.match(/^[A-Za-z\s]+$/)) {
-                event.preventDefault();
-
-                showError('fullNameError', 'Please Enter a valid Name..!');
-            }else
-            if (address === '') {
-                event.preventDefault();
-
-                showError('addressError', 'Address is required.');
-            }else
-            if (country === '') {
-                event.preventDefault();
-
-                showError('countryError', 'Country is required.');
-                
-            }else
-            if (city === '') {
-                event.preventDefault();
-
-                showError('cityError', 'City is required.');
-            }else
-            if (place === '') {
-                event.preventDefault();
-
-                showError('placeError', 'Place is required.');
-            }else
-            if (state === '') {
-                event.preventDefault();
-
-                showError('stateError', 'State is required.');
-            }else
-            if (!/^\d{6}$/.test(pinCode)) {
-                event.preventDefault();
-
-                showError('pinCodeError', 'Pin Code must be a 6-digit number.');
-            }else
-            if (!/^\d{10}$/.test(phoneNumber)) {
-                event.preventDefault();
-
-                showError('phoneNumberError', 'Phone Number must be a 10-digit number.');
-            }else
-            if (landmark === '') {
-                event.preventDefault();
-
-                showError('landmarkError', 'Landmark is required.');
-            }else{
-                event.preventDefault(); // Prevent default to show Swal
-        Swal.fire({
-            title: `Address added successfully..!`, 
-            icon: 'success',
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 2500,
-        }).then(() => {
-            document.getElementById('addressForm').submit(); // Submit the form programmatically
-        });
-            }
-
-           
-        });
-
-        function showError(errorId, message) {
-            const errorElement = document.getElementById(errorId);
-            errorElement.textContent = message;
         }
-
-
-
-
-
-
-
-
+    });
+    
+    function showError(errorId, message) {
+        const errorElement = document.getElementById(errorId);
+        errorElement.textContent = message;
+    }
+    
+    // Initialize event listeners for address cards
+    document.querySelectorAll('.all-addresses .address-card').forEach(card => {
+        card.addEventListener('click', () => selectAddress(card));
+    });
     </script>
 
-<%-include("../../views/partials/user/footer")%>
+
+    
+<script src="js/vendor/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+ crossorigin="anonymous"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/jquery.ajaxchimp.min.js"></script>
+<script src="js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.sticky.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<!--gmaps Js-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+<script src="js/gmaps.min.js"></script>
+<script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

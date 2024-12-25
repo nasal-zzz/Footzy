@@ -81,7 +81,7 @@ invoiceDate:{
 orderStatus:{
     type: String,
     required:true,
-    enum: ['Pending', 'Processing', 'Shipped', 'Delivered','Cancell Requested', 'Cancelled','Return Requested','Returned'],
+    enum: ['Pending', 'Processing', 'Shipped', 'Delivered','Cancell-Requested', 'Cancelled','Return-Requested','Returned'],
     default: 'Pending'
 }
 })

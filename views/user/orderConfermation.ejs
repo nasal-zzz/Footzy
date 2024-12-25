@@ -37,31 +37,38 @@
 					<a href="/" class="btn primary-btn">Back to Home</a>
 				</div>
 		
+				<%
+  const dateObj = new Date(details.invoiceDate);
+  const formattedDate = dateObj.toLocaleDateString('en-GB').replace(/\//g, '-');
+%>
 
-				<div class="row order_d_inner mb-5">
-				<div class="col-lg-4">
+
+			
+				<div class="row order_d_inner mb-5 ml-5">
+				<div class="col-lg-6">
 					<div class="details_item">
 						<h4>Order Info</h4>
 						<ul class="list">
-							<li><a href="#"><span>Order number</span> : 60235</a></li>
-							<li><a href="#"><span>Date</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Total</span> : USD 2210</a></li>
-							<li><a href="#"><span>Payment method</span> : Check payments</a></li>
+							<li><a href="#"><span>Order number</span> : <%=details.orderId %></a></li>
+							<li><a href="#"><span>Date</span> :<%= formattedDate %> </a></li>
+							<li><a href="#"><span>Total</span> : ₹ <%=details.finalAmount%></a></li>
+							<li><a href="#"><span>Payment method</span> : <%=details.paymentMethod%></a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-lg-4">
+				<div class="col-lg-6">
 					<div class="details_item">
 						<h4>Billing Address</h4>
 						<ul class="list">
-							<li><a href="#"><span>Street</span> : 56/8</a></li>
-							<li><a href="#"><span>City</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Country</span> : United States</a></li>
-							<li><a href="#"><span>Postcode </span> : 36952</a></li>
+							<li><a href="#"><span>Street</span> : <%=address[0].place %></a></li>
+							<li><a href="#"><span>City</span> : <%=address[0].city %></a></li>
+							<li><a href="#"><span>State</span> : <%=address[0].state %></a></li>
+							<li><a href="#"><span>Postcode </span> : <%=address[0].pincode %></a></li>
+							<li><a href="#"><span>Country</span> : <%=address[0].country %></a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-lg-4">
+				<!-- <div class="col-lg-4">
 					<div class="details_item">
 						<h4>Shipping Address</h4>
 						<ul class="list">
@@ -71,7 +78,7 @@
 							<li><a href="#"><span>Postcode </span> : 36952</a></li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class="order_details_table">
 				<h2>Order Details</h2>
@@ -80,12 +87,29 @@
 						<thead>
 							<tr>
 								<th scope="col">Product</th>
+								<th scope="col">Price</th>
 								<th scope="col">Quantity</th>
 								<th scope="col">Total</th>
 							</tr>
 						</thead>
 						<tbody>
+							<% for(let i=0;i<items.length;i++){%>
+
 							<tr>
+								<td>
+									<p><%=items[i].productName %></p>
+									<small>size : <%=items[i].size %></small>
+								</td>
+								<td><p>₹ <%=items[i].price %></p></td>
+								<td>
+									<p>x <%=items[i].quantity %></p>
+								</td>
+								<td>
+									<p>₹ <%=items[i].total %></p>
+								</td>
+							</tr>
+							<% } %>
+							<!-- <tr>
 								<td>
 									<p>Pixelstore fresh Blackberry</p>
 								</td>
@@ -106,18 +130,7 @@
 								<td>
 									<p>$720.00</p>
 								</td>
-							</tr>
-							<tr>
-								<td>
-									<p>Pixelstore fresh Blackberry</p>
-								</td>
-								<td>
-									<h5>x 02</h5>
-								</td>
-								<td>
-									<p>$720.00</p>
-								</td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td>
 									<h4>Subtotal</h4>
@@ -126,7 +139,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>$2160.00</p>
+									<p>₹ <%=details.totalPrice %></p>
 								</td>
 							</tr>
 							<tr>
@@ -137,7 +150,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>Flat rate: $50.00</p>
+									<p>____</p>
 								</td>
 							</tr>
 							<tr>
@@ -148,7 +161,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>$2210.00</p>
+									<p>₹ <%=details.finalAmount %></p>
 								</td>
 							</tr>
 						</tbody>

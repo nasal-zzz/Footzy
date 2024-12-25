@@ -6,6 +6,7 @@ const productDetailsController = require('../controllers/user/productDetailsCont
 const profileController = require('../controllers/user/profileController');
 const cartController  = require('../controllers/user/cartController');
 const checkoutController  = require('../controllers/user/checkOutController');
+const orderController  = require('../controllers/user/orderController');
 const passport = require('passport');
 
 
@@ -91,6 +92,9 @@ router.post('/placeOrder',userAuth.checkSession,checkoutController.getOrderDetai
 
 // orders
 router.get('/orders',userAuth.checkSession,profileController.loadOrders)
+
+// roderdetails
+router.get('/orderDetails',userAuth.checkSession,orderController.orderDetails)
 
 
 

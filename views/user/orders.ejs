@@ -1,140 +1,239 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders - Footzy</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<%-include("../../views/partials/profile/header")%>
+<style>
+    :root {
+        --primary-orange: #FF6B00;
+    }
 
-    <style>
-        :root {
-            --primary-orange: #FF6B00;
+    .navbar-brand {
+        color: var(--primary-orange) !important;
+        font-weight: bold;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 107, 0, 0.05);
+    }
+
+    .product-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .profile-nav .nav-link {
+        color: #333;
+        padding: 1rem 1.5rem;
+    }
+
+    .profile-nav .nav-link.active {
+        color: var(--primary-orange);
+        border-bottom: 2px solid var(--primary-orange);
+    }
+
+    .btn-orange {
+        background-color: var(--primary-orange);
+        color: white;
+    }
+
+    .btn-orange:hover {
+        background-color: #e65c00;
+        color: white;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 1rem 0.5rem;
+    }
+
+    .status-Pending {
+        color: #ffc107;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Processing {
+        color: #0D6EFD;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Shipped {
+        color: #6610F2;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Delivered {
+        color: #198754;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancel-Requested {
+        color: #FD7E14;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancelled {
+        color: #DC3545;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Return-Requested {
+        color: #FF8800;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Returned {
+        color: #6C757D;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+
+    .table-responsive {
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .order-actions .btn {
+        margin: 0 0.2rem;
+    }
+
+    .search-section {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .pagination .page-item a {
+    color: white;
+    background-color: orange;
+    border: 1px solid orange;
+}
+
+.pagination .page-item.active a {
+    background-color: white;
+    color: orange;  /* This will change the number color to orange */
+    border: 1px solid orange;
+    font-weight: bold;  /* Make the active page bolder */
+}
+
+.pagination .page-item a:hover {
+    background-color: #ff7f00;
+    color: white;
+    border: 1px solid #ff7f00;
+}
+
+.pagination .page-item.disabled a {
+    background-color: #ffcc80;
+    color: white;
+    border: 1px solid #ffcc80;
+    pointer-events: none;
+}
+
+
+
+
+  /* Flexbox container for centering */
+  .full-screen-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fff8f3 0%, #fff 100%);
         }
 
-        .navbar-brand {
-            color: var(--primary-orange) !important;
-            font-weight: bold;
+        .content-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.1);
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(255, 107, 0, 0.05);
-        }
-
-        .product-img {
+        /* Decorative circle */
+        .circle {
             width: 80px;
             height: 80px;
+            background: #fff3e6;
+            border-radius: 50%;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Empty box image */
+        .empty-box {
+            width: 100px;
+            height: 100px;
             object-fit: cover;
+            z-index: 0;
         }
 
-        .profile-nav .nav-link {
-            color: #333;
-            padding: 1rem 1.5rem;
+        #message-heading {
+            color: #ff8c00;
+            font-weight: 700;
+            margin-top: 50px;
+            font-size: 1.8rem;
         }
 
-        .profile-nav .nav-link.active {
-            color: var(--primary-orange);
-            border-bottom: 2px solid var(--primary-orange);
+        #message-paragraph {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
-        .btn-orange {
-            background-color: var(--primary-orange);
+        .btnz {
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
             color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-orange:hover {
-            background-color: #e65c00;
-            color: white;
+        .btnz:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
         }
 
-        .table > :not(caption) > * > * {
-            padding: 1rem 0.5rem;
-        }
+</style>
 
-        .status-delivered {
-            color: #198754;
-            background-color: #19875420;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-        }
+<% if(orders.length<=0){ %>
 
-        .status-processing {
-            color: #0d6efd;
-            background-color: #0d6efd20;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-        }
+    <div class="full-screen-container">
+        <div class="content-box">
+            <!-- Decorative circle -->
+            <div class="circle">
+            <img src="/img/empty-order.png" alt="Empty box illustration" class="empty-box" />
+        </div>
+            <!-- Content -->
+            <h3 id="message-heading">No Orders Yet</h3>
+            <p id="message-paragraph">     You haven't placed any orders yet.<br>
+                Start shopping to see your order history here!</p>
 
-        .status-shipped {
-            color: #ffc107;
-            background-color: #ffc10720;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        .table-responsive {
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-
-        .table thead th {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        .order-actions .btn {
-            margin: 0 0.2rem;
-        }
-
-        .search-section {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-    </style>
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <div class="container">
-        <a class="navbar-brand logo_h" href="index.html">
-            <img src="img/logo.png" alt="">
-        </a>
-        <div class="d-flex">
-            <a href="index.html" class="btn btn-outline-danger me-2">Home</a>
-            <a href="profile.html" class="btn btn-outline-danger me-2">  
-                <i class="fas fa-user"></i>
-            </a>
-            <a href="cart.html" class="btn btn-outline-danger">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
+            <!-- Styled Button -->
+           <a href="/shop"><button class="btnz">Explore Products</button></a> 
         </div>
     </div>
-</nav>
 
-<!-- Profile Navigation -->
-<div class="profile-nav mt-5 pt-4">
-    <div class="container">
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Orders</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Wishlist</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Wallet</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-outline-danger me-2" href="#">Logout</a>
-            </li>
-        </ul>
-    </div>
-</div>
+
+    <% }else{ %>
+
 
     <!-- Orders Section -->
     <div class="container my-5">
@@ -160,11 +259,11 @@
 
         <!-- Orders Table -->
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table  align-middle mb-0">
                 <thead>
                     <tr>
                         <th>Order ID</th>
-                        <th>Product</th>
+                        <th>Products</th>
                         <th>Order Date</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -172,99 +271,90 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Order 1 -->
-                    <tr>
-                        <td>#12345</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
-                                <div>
-                                    <h6 class="mb-0">Nike Air Max - Blue</h6>
-                                    <small class="text-muted">Size: US 10 | Qty: 1</small>
+                    <% for (let i = 0; i < orders.length; i++) { %>
+                        <tr class="order-group">
+                            <!-- Order ID (spans multiple rows if multiple products) -->
+                            <td rowspan="<%= orders[i].orderedItems.length %>">
+                                #<%= orders[i].orderId %>
+                            </td>
+                
+                            <!-- First product of the order -->
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="/uploads/product-images/<%= items[i].image %>" alt="Product" class="product-img me-3">
+                                    <div>
+                                        <h6 class="mb-0"><%= items[i].productName %></h6>
+                                        <small class="text-muted">Size: <%= items[i].size %> | Qty: <%= items[i].quantity %> |  Price: <%= items[i].price %> </small>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div>10 Nov 2024</div>
-                            <small class="text-muted">09:30 AM</small>
-                        </td>
-                        <td>$199.99</td>
-                        <td>
-                            <span class="status-delivered">Delivered</span>
-                        </td>
-                        <td class="order-actions">
-                            <button class="btn btn-sm btn-outline-secondary">View Details</button>
-                        </td>
-                    </tr>
-
-                    <!-- Order 2 -->
-                    <tr>
-                        <td>#12344</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
-                                <div>
-                                    <h6 class="mb-0">Nike Zoom - Black</h6>
-                                    <small class="text-muted">Size: US 9.5 | Qty: 1</small>
+                            </td>
+                            <td rowspan="<%= orders[i].orderedItems.length %>">
+                                <%= orders[i].invoiceDate.toDateString() %>
+                            </td>
+                            <td rowspan="<%= orders[i].orderedItems.length %>">
+                                ₹ <%= orders[i].finalAmount %>
+                            </td>
+                            <td rowspan="<%= orders[i].orderedItems.length %>">
+                                <span class="status-<%= orders[i].orderStatus%>">
+                                    <%= orders[i].orderStatus %>
+                                </span>
+                            </td>
+                            <td rowspan="<%= orders[i].orderedItems.length %>">
+                               <a href="/orderDetails?orderId=<%=orders[i].orderId %>"><button class="btn btn-sm btn-outline-secondary">View Details</button></a> 
+                            </td>
+                        </tr>
+                
+                        <!-- Remaining products of the same order -->
+                        <% for (let j = 1; j < orders[i].orderedItems.length; j++) { %>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="/uploads/product-images/<%= items[i + j].image %>" alt="Product" class="product-img me-3">
+                                    <div>
+                                        <h6 class="mb-0"><%= items[i + j].productName %></h6>
+                                        <small class="text-muted">Size: <%= items[i + j].size %> | Qty: <%= items[i + j].quantity %> |  Price: <%= items[i].price %></small>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div>8 Nov 2024</div>
-                            <small class="text-muted">10:20 AM</small>
-                        </td>
-                        <td>$159.99</td>
-                        <td>
-                            <span class="status-shipped">Shipped</span>
-                        </td>
-                        <td class="order-actions">
-                            <button class="btn btn-sm btn-outline-secondary">Track Order</button>
-                        </td>
-                    </tr>
-
-                    <!-- Order 3 -->
-                    <tr>
-                        <td>#12343</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/80/80" alt="Product" class="product-img me-3">
-                                <div>
-                                    <h6 class="mb-0">Nike Revolution - White</h6>
-                                    <small class="text-muted">Size: US 8 | Qty: 1</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div>7 Nov 2024</div>
-                            <small class="text-muted">02:15 PM</small>
-                        </td>
-                        <td>$129.99</td>
-                        <td>
-                            <span class="status-processing">Processing</span>
-                        </td>
-                        <td class="order-actions">
-                            <button class="btn btn-sm btn-outline-secondary">View Details</button>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <% } %>
+                    <% } %>
                 </tbody>
+                
             </table>
         </div>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation" class="mt-4">
             <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
+        
+                <% if (totalPages > 1) { %>
+                    
+                    <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a class="page-link text-danger bg-warning" href="?page=<%= currentPage - 1 %>">Previous</a>
+                        </li>
+                    <% } %>
+        
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                        </li>
+                    <% } %>
+        
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link bg-warning" href="?page=<%= currentPage + 1 %>">Next</a>
+                        </li>
+                    <% } %>
+        
+                <% } %>
             </ul>
         </nav>
+        
+
     </div>
+    <% } %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

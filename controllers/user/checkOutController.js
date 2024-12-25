@@ -20,22 +20,38 @@ try {
     const userId = req.session.user;
     console.log('ussr=',userId);
     
+    const cartDetails = await cartSchema.findOne({userId:userId})
+    console.log('cartill==',cartDetails);
+
 
     const address = await addressSchema.findOne({userId:userId})
     console.log('addess==',address);
 
-   const cartDetails = await cartSchema.findOne({userId:userId})
-   console.log('cartill==',cartDetails);
-   
-    
+    if(!address){
+        const ad = []
+        // res.status(500).json('please add an address')
+        res.render('checkout',{
+            title:'Checkout',
+            address:ad,
+            items:cartDetails.items,
+            finalPaice:cartDetails.finalPrice,
+            suser:userId
+
+        })
+
+        console.log('please add an address');
+        
+    }else{
+
 
     res.render('checkout',{
         title:'Checkout',
         address:address.address,
         items:cartDetails.items,
-        finalPaice:cartDetails.finalPrice
+        finalPaice:cartDetails.finalPrice,
+        suser:userId
     })
-    
+}
 } catch (error) {
     
     console.error(error);
@@ -107,37 +123,6 @@ const addNewAddress = async (req,res) => {
 
 
 
-const loadplaceOrder = async (req,res) => {
- 
-    try {
-
-        const userId = req.session.user;
-
-        const latestOrder = await orderSchema
-  .findOne({ userId: userId }) 
-  .sort({ invoiceDate: -1 })  
-  .populate('orderedItems.productId'); 
-
-console.log('Latest Order:', latestOrder);
-
-        const address = await addressSchema.findOne({'address._id':latestOrder.address})
-        console.log('adrrs==',address);
-        
-        
-
-        res.render('orderConfermation',{
-            title:'Order Placed'
-        })
-        
-    } catch (error) {
-
-        console.log('err',error.message);
-        
-        res.redirect('/notFound')
-        
-    }
-
-}
 
 
 const generateOrderId = () => {
@@ -154,6 +139,9 @@ const getOrderDetails = async (req,res) => {
         console.log('boooooooody post',req.body , 'usr',userId);
         
         const  { addressId, paymentMethod } = req.body
+
+        console.log('id adres body =',addressId);
+        
 
       const orderItems = await cartSchema.findOne({userId:userId})
       console.log('cargt=',orderItems);
@@ -209,7 +197,6 @@ const getOrderDetails = async (req,res) => {
 
           console.log('cart updated');
 
-          res.redirect(`/placeOrder?orderId=${newOrder.orderId}`)
 
     } catch (error) {
 
@@ -224,6 +211,43 @@ const getOrderDetails = async (req,res) => {
 
 
 
+const loadplaceOrder = async (req,res) => {
+ 
+    try {
+
+        const userId = req.session.user;
+
+        const latestOrder = await orderSchema
+  .findOne({ userId: userId }) 
+  .sort({ invoiceDate: -1 })  
+  .populate('orderedItems.productId'); 
+
+console.log('Latest Order:', latestOrder);
+
+        const address = await addressSchema.findOne({'address._id':latestOrder.address},{ "address.$": 1 })
+        console.log('addr Id = ',latestOrder.address);
+        
+        console.log('adrrs==',address);
+        
+        
+
+        res.render('orderConfermation',{
+            title:'Order Placed',
+            details:latestOrder,
+            items:latestOrder.orderedItems,
+            address:address.address,
+            suser:userId
+        })
+        
+    } catch (error) {
+
+        console.log('err',error.message);
+        
+        res.redirect('/notFound')
+        
+    }
+
+}
 
 
 

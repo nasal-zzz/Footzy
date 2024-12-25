@@ -11,3 +11,20 @@ const addressSchema =  require('../../models/addressSchema')
 const orderSchema =  require('../../models/orderSchema')
 
 
+const orderDetails = async (req,res) => {
+    try {
+        const orderId = req.query.orderId;
+
+        res.render('orderDetails')
+        
+    } catch (error) {
+        
+    }
+}
+
+
+
+
+module.exports = {
+    orderDetails 
+}

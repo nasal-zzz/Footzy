@@ -35,7 +35,6 @@
                               
                             <% }else{%>
                         <thead>
-                            <% for(let i=0;i<item.length;i++){%>
 
                             <tr>
                                 <th scope="col">Product</th>
@@ -45,7 +44,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <% for(let i=0;i<item.length;i++){%>
+
                             <tr>
                                 <td>
                                     <div class="media" >
@@ -104,6 +104,8 @@
                                 </td>
 
                             </tr>
+
+                            <% } %>
 
                             <!-- <tr class="bottom_button">
                                 <td>
@@ -191,7 +193,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <% } %>
 
                         </tbody>
                     </table>
