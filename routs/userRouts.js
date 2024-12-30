@@ -48,6 +48,17 @@ router.get('/logout',userAuth.checkSession,userController.logout)
 //get shop page
 router.get('/shop',userController.loadShopePage)
 
+// filter
+router.get('/filterProducct',userController.filterProducct)
+router.post('/filterByPrice',userController.filterByPrice)
+
+// search 
+router.post('/search',userController.searching)
+
+// sorting
+router.get('/shopSort',userController.sorting)
+
+
 
 // product details page 
 router.get('/productDetails',userAuth.checkSession,userAuth.userAuth,productDetailsController.getDetails)
@@ -93,8 +104,11 @@ router.post('/placeOrder',userAuth.checkSession,checkoutController.getOrderDetai
 // orders
 router.get('/orders',userAuth.checkSession,profileController.loadOrders)
 
-// roderdetails
+// orderdetails
 router.get('/orderDetails',userAuth.checkSession,orderController.orderDetails)
+
+// cancel order
+router.post('/cancelOrder',userAuth.checkSession,orderController.cancelOrder)
 
 
 

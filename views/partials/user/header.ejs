@@ -74,7 +74,7 @@
 <!-- Start Header Area -->
 <header class="header_area sticky-header">
     <div class="main_menu">
-        <nav class="navbar navbar-expand-lg navbar-light main_box">
+        <nav class="navbar navbar-expand-lg navbar-light main_box " style="height: 70px; border-radius: 5px;">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <a class="navbar-brand logo_h" href="/"><img src="img/logo.png" alt=""></a>
@@ -86,8 +86,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav menu_nav ml-auto">
+                <div class="collapse navbar-collapse offset " id="navbarSupportedContent" >
+                    <ul class="nav navbar-nav menu_nav ml-auto h-1">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/shop">Shope</a></li>
                         <li class="nav-item"><a class="nav-link" href="">About</a></li>
@@ -100,16 +100,20 @@
                             <li class="nav-item mt-2"><a href="/userProfile" class="my-account text-dark"><span class="ti-user "></span></a></li>
 
                             <% }else{ %>
-                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/login">Login</a></li>
 
                             <% } %>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right ">
-                        <li class="nav-item"><a href="/cart" class="cart"><span class="ti-bag"></span></a></li>
-                        <li class="nav-item"><a href="#" class="wishlist"><span class="ti-heart"></span></a></li>
-                        <li class="nav-item">
-                            <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                   
+                        <li class="nav-item mt-2"><a href="/cart" class="cart text-dark"><span class="ti-bag"></span></a></li>
+                        <li class="nav-item mt-2"><a href="#" class="wishlist text-dark"><span class="ti-heart"></span></a></li>
+                        <li class="nav-item mt-2">
+                            <button class="search text-dark border-0 bg-white "><span class="lnr lnr-magnifier bg-white" id="search"></span></button>
                         </li>
+
+                        <!-- <form class="d-flex" action="/search" method="post">
+			<input class="form-control me-2" type="search" name="query" placeholder="Search for products..." aria-label="Search">
+			<button class="btn btn-warning  ml-2" type="submit">Search</button>
+		  </form> -->
 
                         
 
@@ -121,8 +125,8 @@
     </div>
     <div class="search_input" id="search_input_box">
         <div class="container">
-            <form class="d-flex justify-content-between">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+            <form class="d-flex justify-content-between" action="/search" method="post">
+                <input type="text" class="form-control" id="search_input" placeholder="Search Here" name="query">
                 <button type="submit" class="btn"></button>
                 <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
             </form>

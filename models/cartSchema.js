@@ -20,6 +20,10 @@ const cartSchema = new Schema({
                 type: String,
                 required: true,
             },
+            productImage:{
+                type: String,
+                required: true,
+            },
             size:{
                 type: String,
                 required: true

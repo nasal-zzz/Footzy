@@ -281,10 +281,10 @@
                             <!-- First product of the order -->
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="/uploads/product-images/<%= items[i].image %>" alt="Product" class="product-img me-3">
+                                    <img src="/uploads/product-images/<%= orders[i].orderedItems[0].productImage %>" alt="Product" class="product-img me-3">
                                     <div>
-                                        <h6 class="mb-0"><%= items[i].productName %></h6>
-                                        <small class="text-muted">Size: <%= items[i].size %> | Qty: <%= items[i].quantity %> |  Price: <%= items[i].price %> </small>
+                                        <h6 class="mb-0"><%= orders[i].orderedItems[0].productName %></h6>
+                                        <small class="text-muted">Size: <%= orders[i].orderedItems[0].size %> | Qty: <%= orders[i].orderedItems[0].quantity %> |  Price: <%= orders[i].orderedItems[0].price %> </small>
                                     </div>
                                 </div>
                             </td>
@@ -309,10 +309,10 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="/uploads/product-images/<%= items[i + j].image %>" alt="Product" class="product-img me-3">
+                                    <img src="/uploads/product-images/<%= orders[i].orderedItems[j].productImage %>" alt="Product" class="product-img me-3">
                                     <div>
-                                        <h6 class="mb-0"><%= items[i + j].productName %></h6>
-                                        <small class="text-muted">Size: <%= items[i + j].size %> | Qty: <%= items[i + j].quantity %> |  Price: <%= items[i].price %></small>
+                                        <h6 class="mb-0"><%=  orders[i].orderedItems[j].productName %></h6>
+                                        <small class="text-muted">Size: <%= orders[i].orderedItems[j].size %> | Qty: <%= orders[i].orderedItems[j].quantity %> |  Price: <%= orders[i].orderedItems[j].price %> </small>
                                     </div>
                                 </div>
                             </td>

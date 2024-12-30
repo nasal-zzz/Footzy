@@ -5,6 +5,7 @@ const adminAuth = require('../middlewares/admin/adminAuth')
 const usersController = require('../controllers/admin/usersController')
 const categoryController = require('../controllers/admin/categoryController')
 const productController = require('../controllers/admin/productController')
+const orderController = require('../controllers/admin/orderController')
 const uploads = require('../config/multer')
 
 
@@ -56,6 +57,12 @@ router.post('/deleteImage',adminAuth.isLogin,productController.deleteImage)
 // list/unlist product
 router.get('/listProduct',adminAuth.isLogin,productController.listProduct)
 router.get('/unlistProduct',adminAuth.isLogin,productController.unlistProduct)
+
+// orders
+router.get('/orders',adminAuth.isLogin,orderController.ordersList)
+router.get('/orderDetailss',adminAuth.isLogin,orderController.orderDetails)
+
+
 
 
 

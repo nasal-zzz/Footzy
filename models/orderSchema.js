@@ -27,6 +27,10 @@ productName:{
     type:String,
     required:true
 },
+productImage:{
+    type:String,
+    required:true
+},
 size:{
     type: String,
     required: true

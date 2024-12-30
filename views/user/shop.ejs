@@ -14,6 +14,51 @@
     border-color: #fd7e14;
 
   }
+
+
+  .no-products {
+    text-align: center;
+    margin: 100px 0;
+    padding: 40px 20px;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.no-products h3 {
+    font-size: 28px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.no-products p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.no-products-img {
+    width: 180px;
+    opacity: 0.8;
+}
+
+.btn-browse {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    color: #fff;
+    /* background-color: #007bff; */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-browse:hover {
+    background-color: #0056b3;
+}
+
+
 </style>
 
 	<!-- End Header Area -->
@@ -32,7 +77,16 @@
 		</div>
 	</section>
 	<!-- End Banner Area -->
+	 <br>
 	<div class="container">
+
+
+		<!-- <form class="d-flex" action="/search" method="post">
+			<input class="form-control me-2" type="search" name="query" placeholder="Search for products..." aria-label="Search">
+			<button class="btn btn-warning  ml-2" type="submit">Search</button>
+		  </form> -->
+		<!-- <br><br> -->
+		  
 		<div class="row">
 			<div class="col-xl-3 col-lg-4 col-md-5">
 				<div class="sidebar-categories">
@@ -41,20 +95,20 @@
     <li class="main-nav-list">
         <a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable">
             <span class="lnr lnr-arrow-right"></span>Categories
-            <span class="number"></span>
+            <span class="number"><%=category.length %></span>
         </a>
         <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
             <% for (let i = 0; i < category.length; i++) { %>
                 <li class="main-nav-list child">
-                    <a href="#"><%= category[i].name %>
+					<input id="catId" type="hidden" value="<%= category[i]._id%>">
+                    <a href="/filterProducct?categoryId=<%= category[i]._id%>"><%= category[i].name %>
                         <span class="number"></span>
                     </a>
                 </li>
             <% } %>
         </ul>
     </li>
-
-
+<a href="/shop"><span>All</span></a>
 						<!-- <li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
 								 class="lnr lnr-arrow-right"></span>Women’s Footwear<span class="number">(53)</span></a>
 								 <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
@@ -110,7 +164,9 @@
 							</ul>
 						</form>
 					</div> -->
-					<div class="common-filter">
+
+					
+					<!-- <div class="common-filter">
 						<div class="head">Price</div>
 						<div class="price-range-area">
 							<div id="price-range"></div>
@@ -123,26 +179,86 @@
 								<div id="upper-value"></div>
 							</div>
 						</div>
+					</div> -->
+
+
+					<div class="common-filter">
+						<div class="head">Price</div>
+						<div class="price-range-area">
+							<form action="/filterByPrice" method="post">
+							<input type="hidden" name="minPrice" id="minPrice" >
+							<input type="hidden" name="maxPrice" id="maxPrice" >
+							<div id="price-range"></div>
+							<div class="value-wrapper d-flex mt-3">
+								<div class="price">Price:</div>
+								<span>₹</span>
+								<div contenteditable="true" id="lower-value"><%=minPrice %></div>
+								<div class="to">to</div>
+								<span>₹</span>
+								<div contenteditable="true" id="upper-value"><%=maxPrice %></div><br><br>
+							</div>
+
+							
+
+							<button id="applyPriceFilter" type="submit" onclick="updateHiddenInputsAndSubmit()" class="btn primary-btn mt-3">Apply</button>
+						</form>
+						</div>
+
+
+<!-- 
+						<div class="common-filter">
+							<div class="head">Price</div>
+							<div class="price-range-area">
+								<form id="priceFilterForm">
+									<div class="value-wrapper d-flex mt-3">
+										<div class="price">Price:</div>
+										<span>₹</span>
+										<input type="number" name="minPrice" id="lower-value" value="0" class="price-input">
+										<div class="to">to</div>
+										<span>₹</span>
+										<input type="number" name="maxPrice" id="upper-value" value="10000" class="price-input">
+									</div>
+									<button type="submit" class="btn btn-primary mt-3">Apply</button>
+								</form>
+							</div>
+						</div> -->
+					
+						
+
 					</div>
+					
+
 				</div>
 			</div>
 			<div class="col-xl-9 col-lg-8 col-md-7">
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
-					<div class="sorting">
-						<!-- <select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-						</select> -->
-					</div>
+					
 					<div class="sorting mr-auto">
+						<h5 class="text-white">Filter Aplied</h5>
+						<p class="text-warning f-1"><%=minPrice %>.00 to <%=maxPrice %>.00</p>
+
 						<!-- <select>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
 						</select> -->
 					</div>
+
+					<div class="sorting">
+						<select onchange="location = this.value;">
+							<option value="/shopSort?sort=All" selected><%=sortt %> </option>
+							<option value="/shopSort?sort=New Arrivals">New Arrivals</option>
+							<option value="/shopSort?sort=Most Popular">Most Popular</option>
+							<option value="/shopSort?sort=Price : Low to High">Price : Low to High</option>
+							<option value="/shopSort?sort=Price : High to Low">Price : High to Low</option>
+							<option value="/shopSort?sort=Name : A to Z">Name : A to Z</option>
+							<option value="/shopSort?sort=Name : Z to A">Name : Z to A</option>
+							<option value="/shopSort?sort=Average Rating">Average Rating</option>
+						</select>
+						
+					</div>
+
 					<!-- <div class="pagination">
 						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
 						<a href="#" class="active">1</a>
@@ -195,6 +311,15 @@
 				<!-- End Filter Bar -->
 				<!-- Start Best Seller -->
 				<section class="lattest-product-area pb-40 category-list">
+					<% if (product.length <=0) { %>
+						<div class="no-products">
+							<img src="/img/notProduct.png" alt="No products" class="no-products-img">
+							<h3>Oops! No Products Found</h3>
+							<p>We couldn't find any products matching your search.</p>
+							<a href="/shop" class="primary-btn">Browse All Products</a>
+						</div>
+					<% } else { %>
+
 					<div class="row">
 						<% for(let i = 0; i < product.length; i++) { %>
 
@@ -238,6 +363,7 @@
 						<!-- single product -->
 						
 					</div>
+					<% } %>
 				</section>
 				<!-- End Best Seller -->
 				<!-- Start Filter Bar -->
@@ -400,5 +526,28 @@
 		</div>
 	</section> -->
 	<!-- End related-product Area -->
+
+
+<script>
+
+	// Update hidden inputs when user types price manually
+	function updateHiddenInputsAndSubmit() {
+    // Get the values from the contenteditable divs
+    var lowerValue = document.getElementById('lower-value').textContent || document.getElementById('lower-value').innerText;
+    var upperValue = document.getElementById('upper-value').textContent || document.getElementById('upper-value').innerText;
+
+    // Update the hidden input fields
+    document.getElementById('minPrice').value = lowerValue;
+    document.getElementById('maxPrice').value = upperValue;
+
+    // Now submit the form (you can also use AJAX here if you don't want a page reload)
+    document.querySelector('form').submit();
+}
+
+
+
+
+</script>
+	
 
 	<%-include("../../views/partials/user/footer")%>

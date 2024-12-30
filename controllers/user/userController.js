@@ -401,8 +401,10 @@ const loadShopePage = async (req,res) => {
             totalPages:totalPages,
             moment,
             limit,
-            title:'Shoping' 
-
+            title:'Shoping',
+            minPrice:0,   
+            maxPrice:0,
+            sortt:'All'
         })
         
     } catch (error) {
@@ -581,6 +583,366 @@ const resetPassword = async (req,res) => {
 
 
 
+const filterProducct = async (req,res) => {
+    try {
+        const moment = require('moment');
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        const skip = (page - 1) * limit;
+
+        const categoryId = req.query.categoryId;
+
+        // Fetch all categories for the sidebar
+        const categories = await categorySchema.find({ isListed: true });
+
+        let filter = { isBlocked: false };
+
+        // If categoryId is present, filter by category
+        if (categoryId) {
+            filter.category = categoryId;
+        } else {
+            // Show products from all listed categories
+            filter.category = { $in: categories.map(cat => cat._id) };
+        }
+
+        // Fetch filtered products with pagination
+        const productData = await productSchema.find(filter)
+            .sort({ productName: 1 })  // Sort by product name
+            .skip(skip)
+            .limit(limit);
+
+        // Calculate total products for pagination
+        const totalProducts = await productSchema.find(filter).countDocuments();
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        req.session.filteredProducts = productData.map(product => product._id);
+
+
+        // Render the shop page with filtered results and pagination
+        res.render('shop', {
+            product: productData,
+            category: categories,
+            suser: req.session.user,
+            currentPage: page,
+            totalPages: totalPages,
+            moment,
+            limit,
+            minPrice : 0,
+            maxPrice : 0,
+            title: 'Shopping',
+            sortt:'All'
+
+        });
+
+    } catch (error) {
+        console.error("Error fetching filtered products: ", error);
+        res.redirect('/');
+    }
+    
+}
+
+
+const filterByPrice = async (req,res) => {
+    console.log('booooooooooooodyyyyyyyyyyyyyy',req.body);
+    try {
+        const moment = require('moment');
+
+        console.log('inn..../');
+        
+
+        // Get page and limit from query, default to page 1, limit 9 per page
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        const skip = (page - 1) * limit;
+
+        // Get price values from request body
+        const minPrice = parseInt(req.body.minPrice) || 0;
+        const maxPrice = parseInt(req.body.maxPrice) || 10000;
+
+        // Filter products by price
+        const filter = {
+            isBlocked: false,
+            salePrice: { $gte: minPrice, $lte: maxPrice }
+        };
+
+        // Fetch products with pagination
+        const productData = await productSchema.find(filter)
+            .sort({ productName: 1 })  // Sort alphabetically by product name
+            .skip(skip)
+            .limit(limit);
+
+            console.log('prod filtr =',productData);
+
+            req.session.filteredProducts = productData.map(product => product._id);
+
+            
+
+        // Calculate total products for pagination
+        const totalProducts = await productSchema.find(filter).countDocuments();
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        const caetegories = await categorySchema.find({isListed:true})
+
+
+        // Render filtered products
+        res.render('shop', {
+            product: productData,
+            category:caetegories,
+            suser: req.session.user,
+            currentPage: page,
+            totalPages: totalPages,
+            minPrice:minPrice || 0,   
+            maxPrice:maxPrice || 0,
+            moment,
+            limit,
+            title: 'Shoping',
+            sortt:'All'
+
+        });
+
+    } catch (error) {
+        console.error("Error filtering products by price: ", error);
+        res.redirect('/');
+    }
+    
+}
+
+
+
+
+const searching = async (req, res) => {
+    try {
+        const moment = require('moment');
+        console.log('Search initiated...');
+        console.log('Filtered products in session:', req.session.filteredProducts);
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        const skip = (page - 1) * limit;
+
+        let search = req.body.query;
+
+console.log('bdy==',search);
+
+
+        let searchResult = [];
+
+        if (req.session.filteredProducts && req.session.filteredProducts.length > 0) {
+            const products = await productSchema.find({
+                _id: { $in: req.session.filteredProducts }
+            });
+
+            searchResult = products.filter(product =>
+                product.productName && product.productName.toLowerCase().includes(search.toLowerCase())
+            );
+
+        } else {
+            // Direct DB search if no filtered products in session
+            searchResult = await productSchema.find({
+                productName: { $regex: ".*" + search + ".*", $options: "i" },
+                isBlocked: false
+            }).sort({ productName: 1 }).skip(skip);
+        }
+
+        console.log('Search result:', searchResult);
+
+        const totalProducts = searchResult.length;
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        const categories = await categorySchema.find({ isListed: true });
+
+        const minPrice = req.body.minPrice || 0;
+        const maxPrice = req.body.maxPrice || 0;
+
+        res.render('shop', {
+            product: searchResult,
+            category: categories,
+            suser: req.session.user,
+            currentPage: page,
+            totalPages: totalPages,
+            minPrice,
+            maxPrice,
+            moment,
+            limit,
+            title: 'Shopping',
+            sortt:'All'
+        });
+
+    } catch (error) {
+        console.error("Error filtering products by price: ", error);
+        res.redirect('/notFound');
+    }
+};
+
+
+
+
+// const sorting = async (req, res) => {
+//     try {
+//         const moment = require('moment');
+//         console.log('Search initiated...');
+//         console.log('Filtered products in session:', req.session.filteredProducts);
+
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 9;
+//         const skip = (page - 1) * limit;
+
+//         const sort = req.query.sort || 'All';
+//         let products;
+//         let totalProductsCount;
+
+//         switch (sort) {
+//             case 'New Arrivals':
+//                 totalProductsCount = await productSchema.countDocuments();
+//                 products = await productSchema.find()
+//                     .sort({ createdAt: -1 })
+//                     .skip(skip)
+//                     .limit(limit);
+//                 break;
+//             case 'Price : Low to High':
+//                 totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+//                 products = await productSchema.find({ isBlocked: false })
+//                     .sort({ salePrice: 1 })
+//                     .skip(skip)
+//                     .limit(limit);
+//                 break;
+//             case 'Price : High to Low':
+//                 totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+//                 products = await productSchema.find({ isBlocked: false })
+//                     .sort({ salePrice: -1 })
+//                     .skip(skip)
+//                     .limit(limit);
+//                 break;
+//             case 'Name : A to Z':
+//                 totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+//                 products = await productSchema.find({ isBlocked: false })
+//                     .sort({ productName: 1 })
+//                     .skip(skip)
+//                     .limit(limit);
+//                 break;
+//             case 'Name : Z to A':
+//                 totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+//                 products = await productSchema.find({ isBlocked: false })
+//                     .sort({ productName: -1 })
+//                     .skip(skip)
+//                     .limit(limit);
+//                 break;
+//             default:
+//                 totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+//                 products = await productSchema.find({ isBlocked: false })
+//                     .skip(skip)
+//                     .limit(limit);
+//         }
+
+//         const totalPages = Math.ceil(totalProductsCount / limit);
+//         console.log('Total products:', totalProductsCount);
+//         console.log('Total pages:', totalPages);
+
+//         const minPrice = req.body.minPrice || 0;
+//         const maxPrice = req.body.maxPrice || 0;
+
+
+//         const categories = await categorySchema.find({ isListed: true });
+
+//         res.render('shop', {
+//             product: products,
+//             category: categories,
+//             suser: req.session.user,
+//             currentPage: page,
+//             totalPages: totalPages,
+//             moment,
+//             limit,
+//             minPrice,
+//             maxPrice,
+//             title: 'Shopping',
+//             sortt: sort
+//         });
+
+//     } catch (error) {
+//         console.error("Error during sorting and pagination: ", error);
+//         res.redirect('/notFound');
+//     }
+// };
+
+
+
+const sorting = async (req, res) => {
+    try {
+        const moment = require('moment');
+        console.log('Search initiated...');
+        console.log('Filtered products in session:', req.session.filteredProducts);
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        const skip = (page - 1) * limit;
+
+        const sort = req.query.sort || 'All';
+        let products;
+        let totalProductsCount;
+
+        const sortOptions = {
+            'New Arrivals': { createdAt: -1 },
+            'Price : Low to High': { salePrice: 1 },
+            'Price : High to Low': { salePrice: -1 },
+            'Name : A to Z': { productName: 1 },
+            'Name : Z to A': { productName: -1 }
+        };
+
+        const selectedSort = sortOptions[sort] || {};
+
+        if (req.session.filteredProducts && req.session.filteredProducts.length > 0) {
+            console.log("Sorting within filtered products...");
+
+            totalProductsCount = req.session.filteredProducts.length;
+
+            products = await productSchema.find({
+                _id: { $in: req.session.filteredProducts }
+            }).sort(selectedSort).skip(skip).limit(limit);
+
+        } else {
+            console.log("Sorting all products...");
+
+            totalProductsCount = await productSchema.countDocuments({ isBlocked: false });
+
+            products = await productSchema.find({ isBlocked: false })
+                .sort(selectedSort)
+                .skip(skip)
+                .limit(limit);
+        }
+
+        const minPrice = req.body.minPrice || 0;
+        const maxPrice = req.body.maxPrice || 0;
+
+        const totalPages = Math.ceil(totalProductsCount / limit);
+        console.log('Total products:', totalProductsCount);
+        console.log('Total pages:', totalPages);
+
+        const categories = await categorySchema.find({ isListed: true });
+
+        res.render('shop', {
+            product: products,
+            category: categories,
+            suser: req.session.user,
+            currentPage: page,
+            totalPages: totalPages,
+            moment,
+            limit,
+            minPrice,
+            maxPrice,
+            title: 'Shopping',
+            sortt: sort
+        });
+
+    } catch (error) {
+        console.error("Error during sorting and pagination: ", error);
+        res.redirect('/notFound');
+    }
+};
+
+
+
+
+
 
 module.exports = {
     loaduserHome,
@@ -599,5 +961,9 @@ module.exports = {
     verifyForgotOTP,
     resendForgotOtp,
     loadResetPassword,
-    resetPassword
+    resetPassword,
+    filterProducct,
+    filterByPrice,
+    searching,
+    sorting
 }

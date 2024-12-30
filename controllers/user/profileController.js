@@ -54,47 +54,11 @@ const loadOrders = async (req, res) => {
         const totalOrders = await orderSchema.countDocuments({ userId: userId });
         const totalPages = Math.ceil(totalOrders / limit);
         
-        const orderedItemss = orders.flatMap(order => order.orderedItems || []);
-
-        const orderItems = await Promise.all(
-            orderedItemss.map(async (item) => {
-                try {
-                    const product = await productSchema.findById(item.productId)
-                        .select('productName salePrice productImage description maxQuantity');
-                    
-                    if (!product) {
-                        console.error(`Product not found for ID: ${item.productId}`);
-                        return null;  
-                    }
-
-                    return {
-                        productName: product.productName,
-                        productId: product._id,
-                        price: product.salePrice,
-                        image: product.productImage[0],  
-                        quantity: item.quantity,
-                        totalPrice: item.total,
-                        size: item.size,
-                        id: item._id,
-                        total: item.total
-                    };
-                } catch (error) {
-                    console.error(`Error fetching product for ID: ${item.productId}`, error);
-                    return null; 
-                }
-            })
-        );
-
-        const validOrderItems = orderItems.filter(item => item !== null);
-
-        const reversedOrderItems = validOrderItems.reverse();
-
-        console.log('Processed Order Items:', reversedOrderItems);
 
         res.render('orders', {
             title: 'Orders',
             orders: orders,
-            items: reversedOrderItems,
+            items: orders.orderedItems,
             currentPage: page,
             totalPages: totalPages,
         });

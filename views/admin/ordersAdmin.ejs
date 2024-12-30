@@ -1,0 +1,205 @@
+<%-include("../../views/partials/admin/header")%>
+
+
+<style>
+
+.status-Pending {
+        color: #ffc107;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Processing {
+        color: #0D6EFD;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Shipped {
+        color: #6610F2;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Delivered {
+        color: #198754;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancel-Requested {
+        color: #FD7E14;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancelled {
+        color: #DC3545;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Return-Requested {
+        color: #FF8800;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Returned {
+        color: #6C757D;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+
+    .btnxz {
+        width: 150px;  /* Set a fixed width for all buttons */
+        text-align: center;  /* Center the text inside the button */
+        padding: 10px 0;  /* Adjust padding for uniform height */
+    }
+
+
+
+</style>
+
+
+        <section class="content-main">
+            <div class="content-header">
+              <div>
+                <h2 class="content-title card-title">Orders</h2>
+                <p>Manage all your orders here</p>
+              </div>
+              <div>
+                <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-add"></i>Add new</a>
+              </div>
+            </div>
+            <div class="card mb-4">
+              <header class="card-header">
+                <!-- <div class="row gx-3">
+                  <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control">
+                  </div>
+                  <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                      <option>All status</option>
+                      <option>Pending</option>
+                      <option>Shipped</option>
+                      <option>Delivered</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                      <option>Latest added</option>
+                      <option>Highest total</option>
+                      <option>Lowest total</option>
+                    </select>
+                  </div>
+                </div> -->
+              </header>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Placed On</th>
+                        <th class="text-end">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0;i<orders.length;i++){%>
+                      <tr>
+                        <td>#<%=orders[i].orderId%></td>
+                        <td><%=orders[i].userId.username %></td>
+                        <td><span class="status-<%= orders[i].orderStatus%>">
+                            <%= orders[i].orderStatus %>
+                        </span></td>
+                        <td>₹<%=orders[i].finalAmount%></td>
+                        <td> <%= orders[i].invoiceDate.toDateString() %></td>
+                        <td class="text-end">
+                            <a href="/admin/orderDetailss?orderId=<%=orders[i].orderId %>"><button class="btn btn-sm btn-outline-success">View Details</button></a> 
+                            <td>
+                            <% if (orders[i].orderStatus === 'Pending') { %>
+                                <button class="btn btn-danger btnxz" onclick="cancelOrder('<%= orders[i].orderId %>')">Cancel Order</button>
+                            <% } else if (orders[i].orderStatus === 'Processing') { %>
+                                <button class="btn btn-secondary btnxz" disabled>Processing...</button>
+                            <% } else if (orders[i].orderStatus === 'Shipped') { %>
+                                <button class="btn btn-info btnxz" onclick="trackOrder('<%= order._id %>')">Track</button>
+                            <% } else if (orders[i].orderStatus === 'Delivered') { %>
+                                <button class="btn btn-warning btnxz" onclick="returnOrder('<%= order._id %>')">Return</button>
+                            <% } else if (orders[i].orderStatus === 'Cancel-Requested') { %>
+                                <button class="btn btn-secondary btnxz" disabled>Cancel Requested</button>
+                            <% } else if (orders[i].orderStatus === 'Cancelled') { %>
+                                <button class="btn btn-dark btnxz" disabled>Order Cancelled</button>
+                            <% } else if (orders[i].orderStatus === 'Return-Requested') { %>
+                                <button class="btn btn-secondary btnxz" disabled>Return Requested</button>
+                            <% } else if (orders[i].orderStatus === 'Returned') { %>
+                                <button class="btn btn-success btnxz" disabled>Returned</button>
+                            <% } %>
+                        </td>
+            </td>
+                      </tr>
+                      <!-- Add more order rows here -->
+                       <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="pagination-area">
+              <!-- <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav> -->
+
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- Back Button (Hidden if on the first page) -->
+                    <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    <% } %>
+        
+                    <!-- Page Numbers -->
+                    <% 
+                        const visiblePages = 3; // Number of pages to show at a time
+                        const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+                        const endPage = Math.min(totalPages, startPage + visiblePages - 1);
+                    %>
+                    <% for (let i = startPage; i <= endPage; i++) { %>
+                        <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+        
+                    <!-- Next Button (Hidden if on the last page) -->
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+            </div>
+          </section>
+        
+        <!-- content-main end// -->
+        <%-include("../../views/partials/admin/footer")%>

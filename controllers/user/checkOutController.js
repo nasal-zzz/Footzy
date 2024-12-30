@@ -167,6 +167,7 @@ const getOrderDetails = async (req,res) => {
         newOrder.orderedItems.push({
             productId: item.productId,
             productName: item.productName,
+            productImage: item.productImage,
             size:item.size,
             price: item.price,
             quantity: item.quantity,
