@@ -96,6 +96,12 @@
 </style>
 
     <div class="container">
+
+<!-- Add Address Button -->
+<div class="add-address">
+    <button onclick="toggleForm()">+ Add New Address</button>
+</div>
+
         <h1 class="header">Your Addresses</h1>
 
         <% if(data.length >0){ %>
@@ -130,10 +136,7 @@
         <% } %>
       
 
-        <!-- Add Address Button -->
-        <div class="add-address">
-            <button onclick="toggleForm()">+ Add New Address</button>
-        </div>
+        
 
         <!-- Add Address Form -->
         <div class="form-container" id="addAddressForm">

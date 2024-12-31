@@ -27,44 +27,6 @@ try {
 
   }else{
 
-  // let finalPrice = Usercart.finalPrice;
-  // console.log('final../',finalPrice);
-
-
-// const cartItems = await Promise.all(
-//   Usercart.items.map(async (item)=>{
-//     const product = await productSchema.findById(item.productId).select('productName salePrice productImage description maxQuantity ');
-// console.log('prdct===',product);
-
-
-
-
-// if(!product){
-//   console.error(`Product not found for ID: ${item.productId}`);
-  
-// }
-// // console.log('itemmss../',iteme);
-
-// return {
-//   productId: product._id,
-//   name: product.productName,
-//   price: product.salePrice,
-//   image: product.productImage[0],
-//   description: product.description,
-//   quantity: item.quantity,
-//   totalPrice: item.totalPrice,
-//   size:item.size,
-//   id:item._id,
-//   maxQuantity:product.maxQuantity
-// };
-
-//   })
-// )
-
-
-
-
-// console.log('passings==',cartItems);
 
 res.render('cart',{
  item:Usercart.items,
@@ -131,10 +93,8 @@ const addToCart = async (req, res) => {
     console.log('prod-name=',product.productName);
     
 
-    // Check for existing cart
     let cart = await cartSchema.findOne({ userId });
     if (!cart) {
-      // Create a new cart if none exists
       cart = new cartSchema({
         userId,
         items: [{

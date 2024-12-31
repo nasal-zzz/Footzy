@@ -51,6 +51,10 @@ const produtSchema = new Schema({
         required:true,
         default:"Available"
     },
+    purchaseCount:{
+        type: Number,
+        default: 0 
+    },
     maxQuantity: {
          type: Number,
           default: 10 

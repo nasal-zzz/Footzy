@@ -52,6 +52,10 @@ router.get('/shop',userController.loadShopePage)
 router.get('/filterProducct',userController.filterProducct)
 router.post('/filterByPrice',userController.filterByPrice)
 
+// clear filter
+router.get('/clearFilters',userController.clearFilters)
+
+
 // search 
 router.post('/search',userController.searching)
 

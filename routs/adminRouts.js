@@ -62,6 +62,11 @@ router.get('/unlistProduct',adminAuth.isLogin,productController.unlistProduct)
 router.get('/orders',adminAuth.isLogin,orderController.ordersList)
 router.get('/orderDetailss',adminAuth.isLogin,orderController.orderDetails)
 
+// update-order-status
+router.post('/update-order-status',adminAuth.isLogin,orderController.updateOrderStatus )
+
+
+
 
 
 

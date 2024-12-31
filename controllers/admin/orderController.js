@@ -36,6 +36,8 @@ res.render('ordersAdmin',{
 
 
     } catch (error) {
+        console.log(error);
+        res.redirect('/admin/notFound')
         
     }
 }
@@ -64,7 +66,7 @@ const orderDetails = async (req,res) => {
 
         const address = await addressSchema.findOne({'address._id':order.address},{ "address.$": 1 })
 
-console.log('ad id==',order.address);
+        console.log('ad id==',order.address);
 
 
         console.log('adress==',address);
@@ -82,17 +84,65 @@ console.log('ad id==',order.address);
 
     
 } catch (error) {
+    console.log(error);
+    res.redirect('/admin/notFound')
     
 }
 
 }
 
 
+const updateOrderStatus = async (req, res) => {
+    try {
+      const { orderId, newStatus } = req.body; 
+  
+      const order = await orderSchema.findOne({orderId:orderId});
+  
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
 
+      if (newStatus === 'Cancelled'){
+
+        await orderSchema.findOneAndUpdate({ orderId: orderId }, { $set: { orderStatus: 'Cancelled' } });
+
+        res.status(200).json({ message: 'Order status updated successfully', order });
+
+        console.log('Order Cancelled successfully............../');
+
+        for (let item of order.orderedItems) {
+            await productSchema.findOneAndUpdate(
+                { 
+                    _id: item.productId._id, 
+                    'sizes.size': item.size 
+                },
+                { 
+                    $inc: { 'sizes.$.stock': item.quantity } 
+                },
+                { new: true }
+            );
+        }
+
+        console.log('cancelled.............');
+
+      }else{
+
+      await orderSchema.findOneAndUpdate({orderId:orderId},{$set:{orderStatus:newStatus}})
+  
+  
+      res.status(200).json({ message: 'Order status updated successfully', order });
+      }
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
 
 
 module.exports = {
     ordersList,
-    orderDetails
+    orderDetails,
+    updateOrderStatus 
 }
 

@@ -36,13 +36,7 @@ console.log('ad id==',order.address);
 
         console.log('adress==',address);
         
-
-            // console.log('item deet=',itemDetails);
-            // console.log('item deet=1111111111111111',itemDetails[0].image[0]);
-            
-        
-
-        res.render('orderDetails',{
+            res.render('orderDetails',{
             title:'Order Details',
             order:order,
             items:orderedItems,
@@ -60,7 +54,6 @@ console.log('ad id==',order.address);
 
 
 const cancelOrder = async (req, res) => {
-    // console.log('reeeeeeeeeeeeeeechhh===cancel ord');
 
     try {
         const { orderId } = req.body;  

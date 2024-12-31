@@ -1,6 +1,64 @@
 <%-include("../../views/partials/admin/header")%>
 
-   
+   <style>
+
+.order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .status-Pending {
+        color: #ffc107;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Processing {
+        color: #0D6EFD;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Shipped {
+        color: #6610F2;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Delivered {
+        color: #198754;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancel-Requested {
+        color: #FD7E14;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Cancelled {
+        color: #DC3545;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Return-Requested {
+        color: #FF8800;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+    .status-Returned {
+        color: #6C757D;
+        background-color: #ffc10720;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+     
+
+   </style>
 
                 <!-- Main Content -->
                 <section class="content-main">
@@ -55,23 +113,8 @@
                                                   </button>                           -->
               
                                                   <td>
-                                                      <% if (order.orderStatus === 'Pending') { %>
-                                                          <button class="btn btn-danger" onclick="cancelOrder('<%= order.orderId %>')">Cancel Order</button>
-                                                      <% } else if (order.orderStatus === 'Processing') { %>
-                                                          <button class="btn btn-secondary" disabled>Processing...</button>
-                                                      <% } else if (order.orderStatus === 'Shipped') { %>
-                                                          <button class="btn btn-info" onclick="trackOrder('<%= order._id %>')">Track</button>
-                                                      <% } else if (order.orderStatus === 'Delivered') { %>
-                                                          <button class="btn btn-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
-                                                      <% } else if (order.orderStatus === 'Cancel-Requested') { %>
-                                                          <button class="btn btn-secondary" disabled>Cancel Requested</button>
-                                                      <% } else if (order.orderStatus === 'Cancelled') { %>
-                                                          <button class="btn btn-dark" disabled>Order Cancelled</button>
-                                                      <% } else if (order.orderStatus === 'Return-Requested') { %>
-                                                          <button class="btn btn-secondary" disabled>Return Requested</button>
-                                                      <% } else if (order.orderStatus === 'Returned') { %>
-                                                          <button class="btn btn-success" disabled>Returned</button>
-                                                      <% } %>
+                                                    
+                                                     
                                                   </td>
               
                                               </div>

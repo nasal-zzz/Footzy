@@ -126,7 +126,7 @@ const addNewAddress = async (req,res) => {
 
 
 const generateOrderId = () => {
-    const randomNum = Math.floor(1000 + Math.random() * 9000);  // Random number between 1000 and 9999
+    const randomNum = Math.floor(1000 + Math.random() * 9000);  
     return `ORD${randomNum}`;
   };
 
@@ -186,7 +186,7 @@ const getOrderDetails = async (req,res) => {
              }); 
 
              const sizeIndex = product.sizes.findIndex(size => size.size === item.size);
-
+                product.purchaseCount += item.quantity; 
                 product.sizes[sizeIndex].stock -= item.quantity;  
             await product.save();
           }

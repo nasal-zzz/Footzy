@@ -95,37 +95,78 @@ res.redirect('/notFound')
 }
 
 
-const editInfo = async (req,res) => {
-try {
+// const editInfo = async (req,res) => {
+// try {
 
-    const id = req.session.user;
-    console.log(" user_id..../infoo",id);
+//     const id = req.session.user;
+//     console.log(" user_id..../infoo",id);
 
-    const {username,dob,phone} = req.body;
-    console.log('bodyy..',req.body);
+//     const {username,dob,phone} = req.body;
+//     console.log('bodyy..',req.body);
     
 
-    // const user = await userSchema.findOne({email}
-    // console.log('find user',user);
+//     // const user = await userSchema.findOne({email}
+//     // console.log('find user',user);
+
+// const existPhone = await userSchema.findOne({phone:phone})
+// console.log('exist!!',existPhone);
+
     
 
-await userSchema.findByIdAndUpdate(id,{
-    username:username,
-    dob:dob,
-    phone:phone
-})
+// await userSchema.findByIdAndUpdate(id,{
+//     username:username,
+//     dob:dob,
+//     phone:phone
+// })
 
-console.log('updated.../');
+// console.log('updated.../');
 
-    console.log('reech..');
-    res.redirect('/userProfile')
+//     console.log('reech..');
+//     res.redirect('/userProfile')
     
-} catch (error) {
-    res.redirect('/notFound')
+// } catch (error) {
+//     res.redirect('/notFound')
 
-}
+// }
    
+// }
+
+const editInfo = async (req, res) => {
+    try {
+        const id = req.session.user;
+        const { username, dob, phone } = req.body;
+
+        console.log("User ID: ", id);
+        console.log('Request Body: ', req.body);
+        
+
+        const existPhone = await userSchema.findOne({ phone: phone, _id: { $ne: id } });
+        if (existPhone) {
+            console.log('Phone number already in use: ', existPhone);
+            return res.status(400).json({ error: "Phone number already in use." });
+        }
+
+        const updatedUser = await userSchema.findByIdAndUpdate(id, {
+            username,
+            dob,
+            phone
+        }, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        console.log('User updated successfully: ', updatedUser);
+
+        // Send success response
+        res.status(200).json({ message: "Profile updated successfully!" });
+
+    } catch (error) {
+        console.error('Error updating profile: ', error);
+        res.status(500).json({ error: "An error occurred. Please try again later." });
+    }
 }
+
 
 
 const addAddress = async (req,res) => {
@@ -164,7 +205,6 @@ const addAddress = async (req,res) => {
             userAddress.address.push(newAddress);
             await userAddress.save();
         } else {
-            // If no document exists, create a new one
             userAddress = new addressSchema({
                 userId,
                 address: [newAddress]
@@ -296,49 +336,13 @@ const dltAddress = async (req,res) => {
 }
 
 
-// const setDefaultAddress = async (req,res) => {
-    
-// try {
 
-//     const userId = req.session.user;
-//     console.log('usssr,,./',userId);
-
-//  const addresssId = req.query.address;
-//     console.log('adrs',addresssId)
-
-
-//     await addressSchema.findOneAndUpdate(
-//         {userId:userId,"address._id":addresssId},
-//         {$set:{"address.$.isDefault":true}}
-//     )
-//     console.log('address set as default...!');
-    
-//     await addressSchema.updateMany(
-//         {userId:userId,"address._id":{$ne:addresssId}},
-//         {$set:{"address.$[].isDefault":false}}
-//     )
-//     console.log('others set as not default...!');
-
-//     console.log("success....!!");
-    
-
-//     res.redirect('/address');
-
-
-    
-// } catch (error) {
-//     console.log('error',error);
-//         res.redirect('/notFound')
-// }
-
-// }
 
 const setDefaultAddress = async (req, res) => {
     try {
         const userId = req.session.user;
-        const addressId = req.query.address; // Corrected typo
+        const addressId = req.query.address; 
 
-        // Atomic update in a single operation
         await addressSchema.updateMany(
             { userId: userId },
             { 
@@ -348,7 +352,6 @@ const setDefaultAddress = async (req, res) => {
             },
             { 
                 arrayFilters: [{ "elem._id": { $ne: addressId } }],
-                // multi: true 
             }
         );
 
