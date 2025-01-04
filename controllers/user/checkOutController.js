@@ -199,9 +199,14 @@ const getOrderDetails = async (req,res) => {
           console.log('cart updated');
 
 
+        //   res.redirect('/placeOrder')
+          res.status(200).json({success:true})
+
+
+
     } catch (error) {
 
-        console.log('err',error.message);
+        console.log('err===',error.message);
         
         res.redirect('/notFound')
         

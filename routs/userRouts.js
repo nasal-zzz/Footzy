@@ -7,6 +7,8 @@ const profileController = require('../controllers/user/profileController');
 const cartController  = require('../controllers/user/cartController');
 const checkoutController  = require('../controllers/user/checkOutController');
 const orderController  = require('../controllers/user/orderController');
+const paymentController = require('../controllers/user/razorPayController');
+
 const passport = require('passport');
 
 
@@ -113,6 +115,14 @@ router.get('/orderDetails',userAuth.checkSession,orderController.orderDetails)
 
 // cancel order
 router.post('/cancelOrder',userAuth.checkSession,orderController.cancelOrder)
+
+
+
+// Route to create an order
+router.post('/create-order', paymentController.createOrder);
+
+// Route to verify payment
+router.post('/verify-payment', paymentController.verifyPayment);
 
 
 

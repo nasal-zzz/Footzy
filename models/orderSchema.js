@@ -74,9 +74,13 @@ address:{
 },
 paymentMethod: {
     type: String,
-    enum: ['Cash on Delivery (COD)', 'Card', 'UPI'],
+    enum: ['Cash on Delivery (COD)', 'Payment With RazorPAy'],
     required: true
   },
+paymentId: {
+type:String,  
+default:null
+},
 invoiceDate:{
     type:Date,
     default: Date.now

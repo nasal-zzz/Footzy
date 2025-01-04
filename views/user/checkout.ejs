@@ -264,7 +264,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <i class="fas fa-credit-card me-2"></i>
-                                    Credit/Debit Card
+                                    Payment With RazorPAy
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="payment">
@@ -276,7 +276,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <i class="fas fa-wallet me-2"></i>
-                                    UPI Payment
+                                    Card
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="payment">
@@ -324,13 +324,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        Total <span>₹ <%=finalPaice %> .00</span>
+                    <a href="#" >
+                        Total <span id="amount"><%=finalPaice %></span>
                     </a>
                 </li>
             </ul>
         
-            <a class="primary-btn" href="/placeOrder" onclick="placeOrder();">Place Order</a>
+            <a class="primary-btn" onclick="placeOrder();">Place Order</a>
         </div>
     </div>
 </div>
@@ -526,69 +526,103 @@
         });
     });
     
-    // Place order function
-    // function placeOrder() {
-    //     // Get the selected address ID based on view state
-    //     let addressId;
-    //     const allAddressesVisible = document.querySelector('.all-addresses').classList.contains('show');
-        
-    //     if (allAddressesVisible && currentSelectedCard) {
-    //         addressId = currentSelectedCard.querySelector('.address-id').textContent;
-    //     } else {
-    //         const selectedAddressCard = document.querySelector('.selected-address .address-card');
-    //         addressId = selectedAddressCard.querySelector('.address-id').textContent;
-    //     }
-        
-    //     // Get selected payment method
-    //     const selectedPayment = document.querySelector('.payment-method.selected');
-    //     const paymentMethod = selectedPayment.textContent.trim();
+  
 
-    //     if(!addressId || addressId === null){
-    //         alert('please add a address')
-    //     }
-        
-    //     // Create the data object to send
-    //     const orderData = {
-    //         addressId: addressId,
-    //         paymentMethod: paymentMethod
-    //     };
-        
-    //     // Send the data using fetch
-    //     fetch('/placeOrder', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(orderData)
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if(data.success) {
-    //             Swal.fire({
-    //                 title: 'Order Placed Successfully!',
-    //                 icon: 'success',
-    //                 confirmButtonText: 'OK',
-    //                 timer: 2000
-    //             }).then(() => {
-    //                 window.location.href = `/placeOrder`;  //?data=${encodeURIComponent(JSON.stringify(orderData))}
-    //             });
-    //         }
-    //     })
-    //     .catch(error => {
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Error',
-    //             text: 'Something went wrong!',
-    //         });
-    //     });
-    // }
+//     function placeOrder() {
+//     let addressId = null;
+//     const allAddressesVisible = document.querySelector('.all-addresses')?.classList.contains('show');
+    
+//     if (allAddressesVisible && currentSelectedCard) {
+//         const addressElement = currentSelectedCard.querySelector('.address-id');
+//         if (addressElement) {
+//             addressId = addressElement.textContent.trim();
+//         }
+//     } else {
+//         const selectedAddressCard = document.querySelector('.selected-address .address-card');
+//         if (selectedAddressCard) {
+//             const addressElement = selectedAddressCard.querySelector('.address-id');
+//             if (addressElement) {
+//                 addressId = addressElement.textContent.trim();
+//             }
+//         }
+//     }
+
+//     // Show Swal if address is missing
+//     if (!addressId) {
+//         Swal.fire({
+//             icon: 'warning',
+//             title: 'No Address Selected',
+//             text: 'Please select or add an address to proceed with your order.',
+//             confirmButtonText: 'Go to Checkout',
+//             timer:15000
+//         }).then(() => {
+//             setTimeout(() => {
+//                 window.location.href = '/checkOut';
+//             }, 115000);
+//                 });
+//         return;  // Stop the function if no address is found
+//     }
+
+//     // Get selected payment method
+//     const selectedPayment = document.querySelector('.payment-method.selected');
+//     const paymentMethod = selectedPayment ? selectedPayment.textContent.trim() : null;
+
+//     if (!paymentMethod) {
+//         Swal.fire({
+//             icon: 'warning',
+//             title: 'Payment Method Missing',
+//             text: 'Please select a payment method.',
+//             confirmButtonText: 'OK'
+//         });
+//         return;
+//     }
+
+//     // Create the data object to send
+//     const orderData = {
+//         addressId: addressId,
+//         paymentMethod: paymentMethod
+//     };
+
+//     // Send the data using fetch
+//     fetch('/placeOrder', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(orderData)
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//             Swal.fire({
+//                 title: 'Order Placed Successfully!',
+//                 icon: 'success',
+//                 confirmButtonText: 'OK',
+//                 timer: 2000
+//             }).then(() => {
+//                 window.location.href = `/placeOrder`;
+//             });
+//         }
+//     })
+//     .catch(error => {
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Error',
+//             text: 'Something went wrong. Please try again!',
+//         });
+//     });
+// }
 
 
 
-    function placeOrder() {
+
+function placeOrder() {
     let addressId = null;
     const allAddressesVisible = document.querySelector('.all-addresses')?.classList.contains('show');
-    
+     const amount = document.querySelector('#amount').textContent.trim() 
+
+
+
     if (allAddressesVisible && currentSelectedCard) {
         const addressElement = currentSelectedCard.querySelector('.address-id');
         if (addressElement) {
@@ -611,13 +645,13 @@
             title: 'No Address Selected',
             text: 'Please select or add an address to proceed with your order.',
             confirmButtonText: 'Go to Checkout',
-            timer:15000
+            timer: 15000
         }).then(() => {
             setTimeout(() => {
                 window.location.href = '/checkOut';
             }, 115000);
-                });
-        return;  // Stop the function if no address is found
+        });
+        return;
     }
 
     // Get selected payment method
@@ -634,13 +668,18 @@
         return;
     }
 
-    // Create the data object to send
+    // If Razorpay is selected
+    if (paymentMethod === 'Payment With RazorPAy') {
+        startRazorpayPayment(addressId,amount);
+        return;  // Stop normal order flow
+    }
+
+    // Normal order flow for COD or other methods
     const orderData = {
         addressId: addressId,
         paymentMethod: paymentMethod
     };
 
-    // Send the data using fetch
     fetch('/placeOrder', {
         method: 'POST',
         headers: {
@@ -656,7 +695,8 @@
                 icon: 'success',
                 confirmButtonText: 'OK',
                 timer: 2000
-            }).then(() => {
+            })
+            .then(() => {
                 window.location.href = `/placeOrder`;
             });
         }
@@ -666,6 +706,75 @@
             icon: 'error',
             title: 'Error',
             text: 'Something went wrong. Please try again!',
+        });
+    });
+}
+
+
+
+// Razorpay Payment Flow
+function startRazorpayPayment(addressId,amount) {
+    fetch('/create-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ addressId: addressId, amount:amount})  // Example amount
+    })
+    .then(response => response.json())
+    .then(order => {
+        const options = {
+            key: 'rzp_test_HkpSnyo3ftClLw',  // Use your Razorpay Test Key
+            amount: order.amount,
+            currency: order.currency,
+            order_id: order.id,
+            handler: function (response) {
+                fetch('/verify-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        addressId: addressId,
+        
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Payment Successful!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = `/placeOrder`;
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Payment Verification Failed!',
+                            icon: 'error',
+                            text: 'Please try again.',
+                        });
+                    }
+                });
+            },
+            // prefill: {
+            //     name: 'Nasal Arshid',
+            //     email: 'nasal@example.com',
+            //     contact: '9876543210'
+            // }
+        };
+        const rzp = new Razorpay(options);
+        rzp.open();
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Unable to initiate payment. Please try again!',
         });
     });
 }
