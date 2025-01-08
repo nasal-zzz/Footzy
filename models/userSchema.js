@@ -21,7 +21,7 @@ phone:{
 googleId: {
     type: String,
     unique: true,
-    sparse: true  // Ensures unique constraint only on non-null values
+    sparse: true 
 },
 password:{
     type:String,

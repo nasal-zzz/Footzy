@@ -3,6 +3,7 @@ const categorySchema = require('../../models/categorySchema');
 const userSchema = require('../../models/userSchema')
 const orderSchema = require('../../models/orderSchema')
 const addressSchema = require('../../models/addressSchema')
+const walletSchema = require('../../models/walletSchema')
 
 
 
@@ -94,6 +95,9 @@ const orderDetails = async (req,res) => {
 
 const updateOrderStatus = async (req, res) => {
     try {
+
+const userId = req.session.user;
+
       const { orderId, newStatus } = req.body; 
   
       const order = await orderSchema.findOne({orderId:orderId});
@@ -124,6 +128,136 @@ const updateOrderStatus = async (req, res) => {
         }
 
         console.log('cancelled.............');
+
+
+    }else if(newStatus === 'Returned'){
+
+      
+
+        for (let item of order.orderedItems) {
+            await productSchema.findOneAndUpdate(
+                { 
+                    _id: item.productId._id, 
+                    'sizes.size': item.size 
+                },
+                { 
+                    $inc: { 'sizes.$.stock': item.quantity } 
+                },
+                { new: true }
+            );
+        }
+
+        const wallet = await walletSchema.findOne({userId:userId})
+
+
+        if(wallet){
+            
+            console.log('walletil user undddd');
+        
+            // wallet.transactions.push({
+            //     amount:order.finalAmount,
+            //     type:'credit',
+            //     orderId:orderId,
+            //     description:`Refund - Order #${orderId}`
+            // })            
+
+            // wallet.balance += order.finalAmount;
+            // await wallet.save();
+
+
+            const transaction = {
+                amount: order.finalAmount,
+                type: 'credit',
+                orderId: orderId,
+                description: `Refund - Order #${orderId}`
+            };
+    
+            const updatedWallet = await walletSchema.findOneAndUpdate(
+                { userId }, 
+                {
+                    $inc: { balance: order.finalAmount }, 
+                    $push: { transactions: transaction },  
+                    $set: { lastUpdated: new Date() } 
+                },
+                { new: true, upsert: true } 
+            );
+    
+            console.log('Wallet updated:', updatedWallet);
+
+
+
+            await orderSchema.findOneAndUpdate({ orderId: orderId }, { $set: { orderStatus: 'Returned' } });
+
+            res.status(200).json({ message: 'Order status updated successfully', order });
+    
+            console.log('Order Returned successfully............../');
+
+
+        }else{
+            const newWallet = new walletSchema({
+                userId:userId,
+                balance:0,
+                transactions:[{
+                    amount:order.finalAmount,
+                    type:'credit',
+                    orderId:orderId,
+                    description:`Refund - Order #${orderId}`
+
+                }]
+            })
+            newWallet.balance += order.finalAmount;
+
+            await newWallet.save();
+
+
+
+
+
+
+
+console.log("newal",newWallet);
+
+
+
+
+
+            // const newOrder = new orderSchema ({
+            //     orderId: generateOrderId(),
+            //     userId,
+            //     orderedItems: [],
+            //     totalPrice:orderItems.finalPrice,
+            //     discount:0,
+            //     finalAmount:0,
+            //     address:addressId,
+            //     paymentMethod,
+            //     invoiceDate:Date.now(),
+            //     orderStatus:'Pending'
+            //   })
+        
+            //   console.log();
+              
+        
+            //   orderItems.items.forEach(item => {
+            //     newOrder.orderedItems.push({
+            //         productId: item.productId,
+            //         productName: item.productName,
+            //         productImage: item.productImage,
+            //         size:item.size,
+            //         price: item.price,
+            //         quantity: item.quantity,
+            //         total: item.totalPrice
+            //     });
+            //     })
+            //     newOrder.finalAmount = newOrder.totalPrice - newOrder.discount
+            //     await newOrder.save();
+        
+
+            
+        }
+
+
+        
+
 
       }else{
 

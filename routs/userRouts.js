@@ -116,6 +116,10 @@ router.get('/orderDetails',userAuth.checkSession,orderController.orderDetails)
 // cancel order
 router.post('/cancelOrder',userAuth.checkSession,orderController.cancelOrder)
 
+// return order
+router.post('/returnOrder',userAuth.checkSession,orderController.returnOrder)
+
+
 
 
 // Route to create an order
@@ -123,6 +127,12 @@ router.post('/create-order', paymentController.createOrder);
 
 // Route to verify payment
 router.post('/verify-payment', paymentController.verifyPayment);
+
+
+
+// wallet
+router.get('/wallet',userAuth.checkSession,orderController.loadWallet)
+
 
 
 

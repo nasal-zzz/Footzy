@@ -16,7 +16,7 @@ const orderDetails = async (req,res) => {
         const orderId = req.query.orderId;
 
         const order = await orderSchema.findOne({orderId:orderId})
-        console.log(order,'orderrrr.');
+        // console.log(order,'orderrrr.');
         const orderedItems = order.orderedItems;
 
         const itemDetails = await Promise.all(
@@ -34,7 +34,7 @@ const orderDetails = async (req,res) => {
 console.log('ad id==',order.address);
 
 
-        console.log('adress==',address);
+        // console.log('adress==',address);
         
             res.render('orderDetails',{
             title:'Order Details',
@@ -96,6 +96,66 @@ const cancelOrder = async (req, res) => {
 }
 
 
+const returnOrder = async (req,res) => {
+    
+
+try {
+console.log('......................................................//////////////////////////////////////////////////////////////////////////////////////////////////////');
+
+    const { orderId } = req.body;  
+    console.log("ord iddd====", orderId);
+
+    const order = await orderSchema.findOne({ orderId: orderId });
+
+    console.log('orddddrrrrrr==',order);
+    
+
+    if (!order) {
+        return res.status(404).json({ message: 'Order not found.' });
+    }
+    console.log('heiiiiiiiiiiiiiiiy');
+    
+
+    if (order.orderStatus !== 'Delivered') {
+        return res.status(400).json({ message: 'Order cannot be canceled at this stage.' });
+    }
+
+    await orderSchema.findOneAndUpdate({ orderId: orderId }, { $set: { orderStatus: 'Return-Requested'} });
+
+    console.log('newww==',);
+    
+
+    res.json({ message: 'Order Return Requested' });
+    console.log('Order Return Requested successfully............../');
+
+    
+} catch (error) {
+
+    console.error(error);
+        res.status(500).json({ message: 'Server error. Please try again.' });
+    
+}
+
+}
+
+
+
+const loadWallet = async (req,res) => {
+    try {
+
+        res.render('wallet',{
+            title:'Wallet'
+        })
+        
+    } catch (error) {
+        
+    }
+}
+
+
+
+
+
 
 
 
@@ -107,5 +167,7 @@ const cancelOrder = async (req, res) => {
 
 module.exports = {
     orderDetails,
-    cancelOrder
+    cancelOrder,
+    returnOrder,
+    loadWallet
 }

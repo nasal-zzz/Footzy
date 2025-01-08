@@ -263,9 +263,9 @@
                                         <% } else if (order.orderStatus === 'Processing') { %>
                                             <button class="btn btn-secondary" disabled>Processing...</button>
                                         <% } else if (order.orderStatus === 'Shipped') { %>
-                                            <button class="btn btn-info" onclick="trackOrder('<%= order._id %>')">Track</button>
+                                            <button class="btn btn-info" onclick="trackOrder('<%= order._id %>')"disabled>Shipped</button>
                                         <% } else if (order.orderStatus === 'Delivered') { %>
-                                            <button class="btn btn-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
+                                            <button class="btn btn-warning" onclick="returnOrder('<%= order.orderId %>')">Return</button>
                                         <% } else if (order.orderStatus === 'Cancel-Requested') { %>
                                             <button class="btn btn-secondary" disabled>Cancel Requested</button>
                                         <% } else if (order.orderStatus === 'Cancelled') { %>
@@ -436,6 +436,44 @@ function cancelOrder(orderId) {
                 Swal.fire(
                     'Error!',
                     'Failed to cancel the order. Try again.',
+                    'error'
+                );
+            });
+        }
+    });
+}
+
+function returnOrder(orderId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to return this order?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Return it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/returnOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orderId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire(
+                    'Returned!',
+                    data.message,
+                    'success'
+                );
+                location.reload();
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error!',
+                    'Failed to return the order. Try again.',
                     'error'
                 );
             });
