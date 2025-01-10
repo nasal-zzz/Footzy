@@ -10,6 +10,8 @@ const addressSchema =  require('../../models/addressSchema')
 
 const orderSchema =  require('../../models/orderSchema')
 
+const walletSchema =  require('../../models/walletSchema')
+
 
 const orderDetails = async (req,res) => {
     try {
@@ -140,11 +142,19 @@ console.log('....................................................../////////////
 
 
 
+
+
 const loadWallet = async (req,res) => {
     try {
 
+        const userId = req.session.user;
+
+        const wallet = await walletSchema.findOne({userId:userId})
+
         res.render('wallet',{
-            title:'Wallet'
+            title:'Wallet',
+            wallet:wallet,
+            transactions:  wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date))
         })
         
     } catch (error) {

@@ -154,17 +154,7 @@ const userId = req.session.user;
             
             console.log('walletil user undddd');
         
-            // wallet.transactions.push({
-            //     amount:order.finalAmount,
-            //     type:'credit',
-            //     orderId:orderId,
-            //     description:`Refund - Order #${orderId}`
-            // })            
-
-            // wallet.balance += order.finalAmount;
-            // await wallet.save();
-
-
+           
             const transaction = {
                 amount: order.finalAmount,
                 type: 'credit',
@@ -209,55 +199,9 @@ const userId = req.session.user;
 
             await newWallet.save();
 
-
-
-
-
-
-
 console.log("newal",newWallet);
-
-
-
-
-
-            // const newOrder = new orderSchema ({
-            //     orderId: generateOrderId(),
-            //     userId,
-            //     orderedItems: [],
-            //     totalPrice:orderItems.finalPrice,
-            //     discount:0,
-            //     finalAmount:0,
-            //     address:addressId,
-            //     paymentMethod,
-            //     invoiceDate:Date.now(),
-            //     orderStatus:'Pending'
-            //   })
-        
-            //   console.log();
-              
-        
-            //   orderItems.items.forEach(item => {
-            //     newOrder.orderedItems.push({
-            //         productId: item.productId,
-            //         productName: item.productName,
-            //         productImage: item.productImage,
-            //         size:item.size,
-            //         price: item.price,
-            //         quantity: item.quantity,
-            //         total: item.totalPrice
-            //     });
-            //     })
-            //     newOrder.finalAmount = newOrder.totalPrice - newOrder.discount
-            //     await newOrder.save();
-        
-
             
         }
-
-
-        
-
 
       }else{
 

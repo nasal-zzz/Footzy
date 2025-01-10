@@ -50,6 +50,8 @@ const addToCart = async (req, res) => {
   try {
     const userId = req.session.user;
     const { productId, size, qty } = req.body;
+    console.log('sizeeeeeeeeeeee',size);
+    
 
     console.log('User:', userId, 'Product:', productId, 'Body:', req.body);
 
@@ -178,7 +180,7 @@ const addToCart = async (req, res) => {
     // Save the cart
     await cart.save();
     console.log('Cart updated:', cart);
-
+   
     res.redirect(`/productDetails?id=${productId}`);
 
 

@@ -8,6 +8,7 @@ const cartController  = require('../controllers/user/cartController');
 const checkoutController  = require('../controllers/user/checkOutController');
 const orderController  = require('../controllers/user/orderController');
 const paymentController = require('../controllers/user/razorPayController');
+const wishListController = require('../controllers/user/wishListController');
 
 const passport = require('passport');
 
@@ -132,6 +133,15 @@ router.post('/verify-payment', paymentController.verifyPayment);
 
 // wallet
 router.get('/wallet',userAuth.checkSession,orderController.loadWallet)
+
+
+// wishList
+router.get('/wishlist',userAuth.checkSession,wishListController.loadWIshlist)
+router.post('/addToWishlist',userAuth.checkSession,wishListController.addToWishlist)
+router.post('/wishListToCart',userAuth.checkSession,wishListController.wishListToCart)
+router.delete('/removeWishlisttProduct',userAuth.checkSession,wishListController.removeWishlisttProduct)
+
+
 
 
 
