@@ -35,6 +35,10 @@ const wishlistSchema = new Schema({
                 type: Number, 
                 required: true 
             },
+            addedOn:{
+                type: Date, 
+                default: Date.now 
+            }
            
         }
     ],

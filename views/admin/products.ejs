@@ -46,6 +46,7 @@
                             <th>Product</th>
                             <th>Name</th>
                             <th>Regular Price</th>
+                            <!-- <th>Discount <small>(%)</small></th> -->
                             <th>Sale Price</th>
                             <th>Category</th>
                             <th>Stock</th>
@@ -66,16 +67,18 @@
                             <td><img src="/uploads/product-images/<%=item.productImage[0]%>" alt="" class="product-cell-img rounded" width="70px" height="50px"></td>
                             <td><a href="#" class="text-dark"><%=item.productName%></a></td>
                             <td><%=item.regularPrice%></td>
+                            <!-- <td><%=item.discount%></td> -->
                             <td><%=item.salePrice%></td>
                             <td><%=item.category.name%></td>
                            
-                            <% 
+                            <%
                             const totalstocks = item.sizes 
-                                ? item.sizes.reduce((sum, sizeObj) => sum + sizeObj.stock, 0)
+                                ? item.sizes.reduce((sum, sizeObj) => {
+                                    return sizeObj && sizeObj.stock ? sum + sizeObj.stock : sum;
+                                  }, 0)
                                 : 0;
-                        %>
-                        <td><%= totalstocks %></td>
-                        
+                            %>
+                            <td><%= totalstocks %></td>
                        
                         <td>
                             <% if(item.status === 'Available' && totalstocks > 0){ %>

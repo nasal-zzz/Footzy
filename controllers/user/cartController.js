@@ -29,7 +29,7 @@ try {
 
 
 res.render('cart',{
- item:Usercart.items,
+ item:Usercart.items.sort((a, b) => new Date(b.addedOn) - new Date(a.addedOn)),
  title:'Cart',
  subTotal : Usercart.finalPrice,
  suser:userId

@@ -40,6 +40,10 @@ const cartSchema = new Schema({
             totalPrice: { 
                 type: Number, 
                 default: 0 
+            },
+            addedOn:{
+                type: Date, 
+                default: Date.now 
             }
         }
     ],

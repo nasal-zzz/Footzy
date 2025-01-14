@@ -121,6 +121,15 @@ const addProduct = async (req, res) => {
             return res.status(400).send("Invalid category name.");
         }
 
+        
+
+    
+
+        // const discountedPrice = product.regularPrice * (1 - product.discount / 100);
+
+        
+
+
         const images = req.files?.map((file) => file.filename) || [];
        
         const newProduct = new productSchema({
@@ -128,6 +137,7 @@ const addProduct = async (req, res) => {
             description: product.productDescription,
             category: categoryId._id,
             regularPrice: product.regularPrice,
+            discount:product.discount,
             salePrice: product.salePrice,
             sizes: product.sizes.map(size => ({
                 size: size.size,
@@ -407,6 +417,23 @@ const editProduct = async (req, res) => {
   
       const data = req.body;
       console.log('Incoming Data:', data);
+
+      const sizes = data.sizes;
+      const size = data.size;
+      const stock = data.stock;
+
+      if(size && stock){
+
+      const newSizes = size.map((s, index) => ({
+        size: s,
+        stock: stock[index],
+      }));
+      
+      // Push the new sizes into the sizes array
+      sizes.push(...newSizes);
+      
+      console.log('pushedd!!!!!!!!!! zzz',sizes);
+    }
   
       // Check if another product exists with the same name
       const existingProduct = await productSchema.findOne({
@@ -427,6 +454,8 @@ const editProduct = async (req, res) => {
         images = [...images, ...newImages]; // Combine existing and new images
       }
       console.log('Final Images:', images);
+
+
   
       // Prepare update fields
       const updateFields = {
@@ -434,8 +463,9 @@ const editProduct = async (req, res) => {
         description: data.productDescription,
         category: data.category,
         regularPrice: data.regularPrice,
+        discount:data.discount,
         salePrice: data.salePrice,
-        sizes: data.sizes,
+        sizes: sizes,
         status: data.status,
         isBlocked: data.isBlocked,
         productImage: images,

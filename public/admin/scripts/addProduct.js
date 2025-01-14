@@ -167,229 +167,96 @@ function handleFileSelect(event){
 
 
 
-// document.getElementById("addProductForm").addEventListener('submit',(e)=>{
+
+
+// document.getElementById("addProductForm").addEventListener('submit', async function (e) {
+//     // e.preventDefault();
 
 //     const name = document.getElementById('productName').value.trim();
 //     const description = document.getElementById('productDescription').value.trim();
 //     const regularPrice = document.getElementById('regularPrice').value;
 //     const salePrice = document.getElementById('salePrice').value;
-//     const status = document.getElementById('status').value;
-//     const category = document.getElementById('category').value;
+//     const discount = document.getElementById('dicount').value;
 //     const sizeInputs = document.querySelectorAll('#size-container div');
-   
-//     if (name.trim() === "") {
-//         e.preventDefault()
-//         document.getElementById('name-error').innerText = "Please enter a product name...!"
-  
-//         setTimeout(function() {
-//             document.getElementById('name-error').style.display = 'none';
-//         }, 5000);
+//     const imageInputs = document.getElementsByClassName('.imageTag');
 
-//     // } else
-//     // if(!/^[a-zA-Z\s]+$/.test(name)){
-//     //     e.preventDefault()
 
-//     //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic charecters..!"
-
-//     //     setTimeout(function() {
-//     //         document.getElementById('name-error').style.display = 'none';
-//     //     }, 5000);
-
-//     }else if(description.trim() === ""){
-//         e.preventDefault()
-
-//         document.getElementById('description-error').innerText = "PPlease enter the product description...!"
-
-//         setTimeout(function() {
-//             document.getElementById('description-error').style.display = 'none';
-//         }, 5000);
-
-//     // }else if(!/^[a-zA-Z\s]{10,}$/.test(description)){
-//     //     e.preventDefault()
-
-//     //     document.getElementById('description-error').innerText = "Product description should contain only alphabetic charecters and must 10 charecters length..!"
-
-//     //     setTimeout(function() {
-//     //         document.getElementById('description-error').style.display = 'none';
-//     //     }, 5000);
-   
-//     }else if(!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0){
-//         e.preventDefault()
-
-//         document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price...!"
-
-//         setTimeout(function() {
-//             document.getElementById('regularPrice-error').style.display = 'none';
-//         }, 5000);
-
-//     }else if(!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0){
-//         e.preventDefault()
-
-//         document.getElementById('salePrice-error').innerText = "Please enter a valid non-negative sale price...!"
-
-//         setTimeout(function() {
-//             document.getElementById('salePrice-error').style.display = 'none';
-//         }, 5000);
-
-//     }else if (parseFloat(regularPrice) <= parseFloat(salePrice)){
-//         e.preventDefault()
-
-//         document.getElementById('salePrice-error').innerText = "Regular price must be greater than sale price...!"
-        
-//         setTimeout(function() {
-//             document.getElementById('salePrice-error').style.display = 'none';
-//         }, 5000);
-
-// }else if( sizeInputs.forEach((input, index) => {
-//     const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
-//     const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
-
-//     if(!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0){
-//         e.preventDefault()
-
-//         document.getElementById('stock-error').innerText = "Please enter a valid non-negative stock...!"
-
-//         setTimeout(function() {
-//             document.getElementById('stock-error').style.display = 'none';
-//         }, 3000);
-
-//     }else if(!/^(?:[0-9]|1[0-2])$/.test(size) || parseFloat(size) < 0){
-//         e.preventDefault()
-    
-//         document.getElementById('size-error').innerText = "Please enter a valid  size between 0 to 12...!"
-    
-//         setTimeout(function() {
-//             document.getElementById('size-error').style.display = 'none';
-//         }, 3000);
+//     // Validate Product Name
+//     if (name === "") {
+//         e.preventDefault();
+//         document.getElementById('name-error').innerText = "Please enter a product name!";
+//         document.getElementById('name-error').style.display = 'block';
+     
+//     } else {
+//         document.getElementById('name-error').style.display = 'none';
 //     }
-//   })
-// )
 
-//     return;
-// })
+//     // Validate Description
+//     if (description === "") {
+//         document.getElementById('description-error').innerText = "Please enter the product description!";
+//         document.getElementById('description-error').style.display = 'block';
+//         e.preventDefault();
+       
+//     } else {
+//         document.getElementById('description-error').style.display = 'none';
+//     }
+
+//     // Validate Prices
+//     if (!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0) {
+//         document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price!";
+//         document.getElementById('regularPrice-error').style.display = 'block';
+//         e.preventDefault();
+//     } else {
+//         document.getElementById('regularPrice-error').style.display = 'none';
+//     }
+
+
+//     if (!/^(100|[1-9]?[0-9])$/.test(discount)){
+//         document.getElementById('discount-error').innerText = "Please enter a valid Discount between 0 and 100 ...!";
+//         document.getElementById('discount-error').style.display = 'block';
+//         e.preventDefault();
+//     } else {
+//         document.getElementById('discount-error').style.display = 'none';
+//     }
 
 
 
-document.getElementById("addProductForm").addEventListener('submit', async function (e) {
+//     if (!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0 || parseFloat(regularPrice) <= parseFloat(salePrice)) {
+//         document.getElementById('salePrice-error').innerText = "Sale price must be less than regular price and non-negative!";
+//         document.getElementById('salePrice-error').style.display = 'block';
+//         e.preventDefault();
+//     } else {
+//         document.getElementById('salePrice-error').style.display = 'none';
+//     }
 
-    const name = document.getElementById('productName').value.trim();
-    const description = document.getElementById('productDescription').value.trim();
-    const regularPrice = document.getElementById('regularPrice').value;
-    const salePrice = document.getElementById('salePrice').value;
-    const sizeInputs = document.querySelectorAll('#size-container div');
-    const imageInputs = document.getElementsByClassName('.imageTag');
+//     // Validate Sizes
+//     sizeInputs.forEach((input, index) => {
+//         const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
+//         const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
 
+//         if (!/^(?:[0-9]|1[0-2])$/.test(size)) {
+//             document.getElementById('size-error').innerText = "Size must be between 0 and 12!";
+//             document.getElementById('size-error').style.display = 'block';
+//             e.preventDefault();
+//         } else {
+//             document.getElementById('size-error').style.display = 'none';
+//         }
 
-    // Validate Product Name
-    if (name === "") {
-        document.getElementById('name-error').innerText = "Please enter a product name!";
-        document.getElementById('name-error').style.display = 'block';
-        e.preventDefault();
-        // } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-    //     document.getElementById('name-error').innerText = "Product name should contain only alphabetic characters!";
-    //     document.getElementById('name-error').style.display = 'block';
-    //     isValid = false;
-    } else {
-        document.getElementById('name-error').style.display = 'none';
-    }
-
-    // Validate Description
-    if (description === "") {
-        document.getElementById('description-error').innerText = "Please enter the product description!";
-        document.getElementById('description-error').style.display = 'block';
-        e.preventDefault();
-        // } else if (!/^[a-zA-Z\s]{10,}$/.test(description)) {
-    //     document.getElementById('description-error').innerText = "Description should be at least 10 characters long!";
-    //     document.getElementById('description-error').style.display = 'block';
-    //     isValid = false;
-    } else {
-        document.getElementById('description-error').style.display = 'none';
-    }
-
-    // Validate Prices
-    if (!/^\d+(\.\d{1,2})?$/.test(regularPrice) || parseFloat(regularPrice) <= 0) {
-        document.getElementById('regularPrice-error').innerText = "Please enter a valid non-negative regular price!";
-        document.getElementById('regularPrice-error').style.display = 'block';
-        e.preventDefault();
-    } else {
-        document.getElementById('regularPrice-error').style.display = 'none';
-    }
-
-    if (!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0 || parseFloat(regularPrice) <= parseFloat(salePrice)) {
-        document.getElementById('salePrice-error').innerText = "Sale price must be less than regular price and non-negative!";
-        document.getElementById('salePrice-error').style.display = 'block';
-        e.preventDefault();
-    } else {
-        document.getElementById('salePrice-error').style.display = 'none';
-    }
-
-    // Validate Sizes
-    sizeInputs.forEach((input, index) => {
-        const size = input.querySelector(`input[name="sizes[${index}][size]"]`).value;
-        const stock = input.querySelector(`input[name="sizes[${index}][stock]"]`).value;
-
-        if (!/^(?:[0-9]|1[0-2])$/.test(size)) {
-            document.getElementById('size-error').innerText = "Size must be between 0 and 12!";
-            document.getElementById('size-error').style.display = 'block';
-            e.preventDefault();
-        } else {
-            document.getElementById('size-error').style.display = 'none';
-        }
-
-        if (!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0) {
-            document.getElementById('stock-error').innerText = "Stock must be a non-negative number!";
-            document.getElementById('stock-error').style.display = 'block';
-            e.preventDefault();
-        } else {
-            document.getElementById('stock-error').style.display = 'none';
-        }
-    });
+//         if (!/^\d+(\.\d{1,2})?$/.test(stock) || parseFloat(stock) < 0) {
+//             document.getElementById('stock-error').innerText = "Stock must be a non-negative number!";
+//             document.getElementById('stock-error').style.display = 'block';
+//             e.preventDefault();
+//         } else {
+//             document.getElementById('stock-error').style.display = 'none';
+//         }
+//     });
 
    
 
 
 
-   return;
-});
-
-
-
-let sizeIndex = 1;
-      
-document.getElementById('add-size').addEventListener('click', () => {
-  const container = document.getElementById('size-container');
-  const sizeInput = `
-    <div>
-      <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size (e.g., 6)"><br><br>
-        <div id="size-error" class="error-message text-danger"></div>
-      <input type="number" name="sizes[${sizeIndex}][stock]" placeholder="Stock for this size"><br><br>
-      <div id="stock-error" class="error-message text-danger"></div>
-      <button type="button" class="remove-size" style="display: inline-block;">Remove Size</button>
-    </div>
-  `;
-  container.insertAdjacentHTML('beforeend', sizeInput);
-  sizeIndex++;
-});
-
-document.getElementById('size-container').addEventListener('click', (event) => {
-  if (event.target.classList.contains('remove-size')) {
-    const sizeInputs = document.querySelectorAll('#size-container > div');
-    if (sizeInputs.length > 1) {
-      event.target.closest('div').remove();
-    } else {
-      alert('You must have at least one size input');
-    }
-  }
-});
-
-
-setTimeout(() => {
-    const alertElement = document.getElementById('alertMessage');
-    if (alertElement) {
-        alertElement.style.display = 'none';
-    }
-}, 3000);
-
+//    return;
+// });
 
 
 // document.addEventListener('DOMContentLoaded', function() {
@@ -450,3 +317,209 @@ setTimeout(() => {
 //         imageIndex++;
 //     });
 // });
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('addProductForm');
+    
+    // Utility function to show error
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
+    }
+
+    // Clear all errors
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        errorElements.forEach(element => element.textContent = '');
+    }
+
+    // Validate product name
+    function validateProductName() {
+        const productName = document.getElementById('productName').value.trim();
+        if (!productName) {
+            showError('name-error', 'Product name is required');
+            return false;
+        }
+        if (productName.length < 3) {
+            showError('name-error', 'Product name must be at least 3 characters long');
+            return false;
+        }
+        return true;
+    }
+
+    // Validate description
+    function validateDescription() {
+        const description = document.getElementById('productDescription').value.trim();
+        if (!description) {
+            showError('description-error', 'Product description is required');
+            return false;
+        }
+        if (description.length < 10) {
+            showError('description-error', 'Description must be at least 10 characters long');
+            return false;
+        }
+        return true;
+    }
+
+    // Validate price
+    function validatePrice() {
+        const price = document.getElementById('regularPrice').value;
+        if (!price) {
+            showError('regularPrice-error', 'Regular price is required');
+            return false;
+        }
+        if (!/^\d+(\.\d{1,2})?$/.test(price) || parseFloat(price) <= 0) {
+            showError('regularPrice-error', 'Price must be greater than 0');
+            return false;
+        }
+        return true;
+    }
+
+    // Validate price
+    function validatesalePrice() {
+        const price = document.getElementById('regularPrice').value;
+        const salePrice = document.getElementById('salePrice').value;
+        if (!salePrice) {
+            showError('salePrice-error', 'Sale price is required');
+            return false;
+        }
+        if (!/^\d+(\.\d{1,2})?$/.test(salePrice) || parseFloat(salePrice) <= 0 || parseFloat(price) <= parseFloat(salePrice)) {
+            showError('salePrice-error', 'Sale price must be less than regular price and non-negative...!');
+            return false;
+        }
+        return true;
+    }
+
+    // // Validate discount
+    // function validateDiscount() {
+    //     const discount = document.getElementById('discount').value;
+
+    //     // if (!discount) {
+    //     //     showError('discount-error', 'Discount is required');
+    //     //     return false;
+    //     // }
+
+    //     if (discount) {
+    //         if (discount < 0 || discount > 99) {
+    //             showError('discount-error', 'Discount must be between 0 and 99');
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
+    // Validate sizes and stock
+    function validateSizesAndStock() {
+        const sizeInputs = document.querySelectorAll('input[name^="sizes"][name$="[size]"]');
+        const stockInputs = document.querySelectorAll('input[name^="sizes"][name$="[stock]"]');
+        
+        if (sizeInputs.length === 0) {
+            showError('size-error', 'At least one size is required');
+            return false;
+        }
+
+        for (let i = 0; i < sizeInputs.length; i++) {
+            const size = sizeInputs[i].value.trim();
+            const stock = stockInputs[i].value.trim();
+
+            if (!size) {
+                showError('size-error', 'Size cannot be empty');
+                return false;
+            }
+
+            if (!stock || stock < 0) {
+                showError('stock-error', 'Stock must be a positive number');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Validate images
+    function validateImages() {
+        const imageInputs = [
+            document.getElementById('input1'),
+            document.getElementById('input2'),
+            document.getElementById('input3')
+        ];
+
+        let imageCount = 0;
+        for (const input of imageInputs) {
+            if (input.files && input.files.length > 0) {
+                imageCount++;
+                const file = input.files[0];
+                
+                // Check file type
+                if (!file.type.match(/^image\/(jpeg|png)$/)) {
+                    showError('img-errorr', 'Only JPG and PNG images are allowed');
+                    return false;
+                }
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showError('img-errorr', 'Image size should not exceed 5MB');
+                    return false;
+                }
+            }
+        }
+
+        if (imageCount === 0) {
+            showError('img-errorr', 'At least one product image is required');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Add size button functionality
+    const addSizeBtn = document.getElementById('add-size');
+    const sizeContainer = document.getElementById('size-container');
+    let sizeCount = 1;
+
+    addSizeBtn.addEventListener('click', function() {
+        const newSizeDiv = document.createElement('div');
+        newSizeDiv.innerHTML = `
+            <div>
+                <input type="text" name="sizes[${sizeCount}][size]" placeholder="Size (e.g., 6)" style="width: 400px;padding: 8px;margin-bottom: 10px;border: 1px solid #ddd;border-radius: 4px;">
+                <input type="number" name="sizes[${sizeCount}][stock]" placeholder="Stock for this size" style="width: 400px;padding: 8px;margin-bottom: 10px;border: 1px solid #ddd;border-radius: 4px;">
+                <button type="button" class="remove-size">Remove Size</button>
+            </div>
+        `;
+        sizeContainer.appendChild(newSizeDiv);
+        sizeCount++;
+        
+        // Add remove button functionality
+        const removeBtn = newSizeDiv.querySelector('.remove-size');
+        removeBtn.addEventListener('click', function() {
+            newSizeDiv.remove();
+        });
+    });
+
+    // Form submission handler
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearErrors();
+
+        // Run all validations
+        const isValid = 
+            validateProductName() &&
+            validateDescription() &&
+            validatePrice() &&
+            // validateDiscount() &&
+            validatesalePrice() &&
+            validateSizesAndStock() &&
+            validateImages();
+
+        if (isValid) {
+            form.submit();
+        }
+    });
+});

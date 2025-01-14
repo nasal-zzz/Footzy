@@ -62,7 +62,7 @@ const addCategory = async (req, res) => {
         // Create a new category
         const newCategory = new categorySchema({
             name: name.trim(),
-            description: description.trim(),
+            description:description,
             isListed: isListed,
         });
 

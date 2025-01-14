@@ -118,7 +118,7 @@
 
 <section class="content-main">
     <div class="row align-items-start">
-        <form method="post" action="/admin/editProduct/<%= product._id %>"  enctype="multipart/form-data" id="addProductForm">
+        <form method="post" action="/admin/editProduct/<%= product._id %>"  enctype="multipart/form-data" id="editProductForm">
             <div class="col-9">
                 <div class="content-header">
                     <h2 class="content-title">Edit Product</h2>
@@ -156,6 +156,15 @@
                                     <div id="regularPrice-error" class="error-message text-danger"></div>
                                 </div>
                             </div>
+
+                            <!-- <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Discount <small>(%)</small></label>
+                                    <input placeholder="%" type="number" id="discount" name="discount" class="form-control" value="<%=product.discount %>">
+                                    <div id="discount-error" class="discount-message text-danger"></div>
+                                </div>
+                            </div> -->
+
                             <div class="col-lg-6">
                                 <div class="mb-4">
                                     <label class="form-label">Sale price</label>
@@ -237,7 +246,7 @@
                               <input type="number" name="sizes[<%= index %>][stock]" placeholder="Stock for this size" value="<%=sizeObj.stock%>"><br><br>
                               <div id="stock-error" class="error-message text-danger"></div>
 
-                              <button type="button" class="remove-size" style="">Remove Size</button>
+                              <button type="button" class="remove-size">Remove Size</button>
                             </div>
                             <% }) %>
                             <% } else { %>
